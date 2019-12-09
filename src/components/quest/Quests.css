@@ -1,0 +1,32 @@
+.quest-container {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  background-color: olivedrab
+}
+
+.log-sidebar {
+  background-color: steelblue;
+  margin: 0;
+  padding: 0;
+}
+
+.quest-display {
+  padding: 0;
+  margin: 0;
+}
+
+.quest-list-container {
+  height: 100%;
+}
+
+.quest-card-header {
+  /* background-color: gray;
+  color: white;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  text-align: center; */
+}
+
+.quest-card {}
