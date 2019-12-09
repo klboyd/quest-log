@@ -1,1 +1,134 @@
-{}
+{
+  "quests": [
+    {
+      "id": 1,
+      "creatorId": 1,
+      "name": "In the Beginning . . .",
+      "difficultyId": 1,
+      "description": "First things first. We've got to get this printed to the site. Display the data.",
+      "instructionId": 1,
+      "isStepsHidden": false,
+      "creationDate": "2019-12-09T10:03:08Z",
+      "completionDate": "2019-12-09T16:00:00Z",
+      "recurInDays": 0,
+      "rewards": "Serotonin",
+      "isComplete": false,
+      "parentQuestId": null
+    }
+  ],
+  "characters": [
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "Kendork the Foolhardy",
+      "description": "This Bard has a habit of getting in over his head. Although, through sheer dumb luck, he always ends up unscathed. Unfortunately, he learns nothing in the process and continues his reckless behavior.",
+      "level": 1,
+      "health": 100,
+      "experience": 0,
+      "questsComplete": 0,
+      "questsFailed": 0,
+      "questsAbandoned": 0,
+      "creationDate": "2019-12-09T10:03:08Z"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "klb",
+      "email": "klb@email.com",
+      "password": 123
+    }
+  ],
+  "assignees": [
+    {
+      "id": 1,
+      "characterId": 1,
+      "questId": 1,
+      "charStartDate": "2019-12-09T10:03:08Z"
+    }
+  ],
+  "difficulties": [
+    {
+      "id": 1,
+      "type": "Common",
+      "expAwarded": 3
+    },
+    {
+      "id": 2,
+      "type": "Rare",
+      "expAwarded": 5
+    },
+    {
+      "id": 3,
+      "type": "Epic",
+      "expAwarded": 10
+    }
+  ],
+  "rewards": [
+    {
+      "id": 1,
+      "questId": 1,
+      "itemId": 1
+    }
+  ],
+  "items": [
+    {
+      "id": 1,
+      "name": "Flagon of ale",
+      "qty": 1
+    }
+  ],
+  "treasuries": [
+    {
+      "id": 1,
+      "itemId": 1,
+      "characterId": 1
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "description": "This is the way.",
+      "timePosted": "2019-12-09T10:03:08Z",
+      "questId": 1,
+      "characterId": 1
+    }
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "name": "Build out the basic database.json with template data."
+    },
+    {
+      "id": 2,
+      "name": "Build out the Quest component enough to render."
+    },
+    {
+      "id": 3,
+      "name": "Make sure the data displays correctly."
+    }
+  ],
+  "instructions": [
+    {
+      "id": 1,
+      "questId": 1,
+      "stepId": 1,
+      "nextInstructionId": 2,
+      "isComplete": false
+    },
+    {
+      "id": 2,
+      "questId": 1,
+      "stepId": 2,
+      "nextInstructionId": 3,
+      "isComplete": false
+    },
+    {
+      "id": 3,
+      "questId": 1,
+      "stepId": 3,
+      "nextInstructionId": null,
+      "isComplete": false
+    }
+  ]
+}
