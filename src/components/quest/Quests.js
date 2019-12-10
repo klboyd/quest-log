@@ -5,6 +5,7 @@ import Log from "../log/Log";
 import Character from "../characters/Character";
 import ActionBar from "../actionbar/ActionBar";
 import QuestList from "./QuestList";
+import QuestDetail from "./QuestDetail";
 
 const styles = {
   questContainer: {
@@ -30,7 +31,11 @@ export default class Quests extends Component {
           </Col>
           <Col className="quest-display" lg={8}>
             <Card style={{ height: "100%", padding: 0 }}>
-              <QuestList />
+              {this.props.questId ? (
+                <QuestDetail questId={this.props.questId} />
+              ) : (
+                <QuestList {...this.props} />
+              )}
               <ActionBar />
             </Card>
           </Col>
