@@ -19,6 +19,21 @@ export default class Character extends Component {
     isEditMode: false,
     loadingStatus: true
   };
+  async getCharacterDetails() {
+    const results = await APIManager.get(`users/${localStorage["userId"]}`);
+    if (results.characterId) {
+      const character = await APIManager.get(
+        `characters/${results.characterId}`
+      );
+      this.setState({
+        ...character,
+        loadingStatus: false,
+        isEditMode: false
+      });
+    } else {
+      this.props.history.push("character/new");
+    }
+  }
   confirmNewDetails = async newDetails => {
     this.setState({ loadingStatus: true });
     await APIManager.update(`characters`, {
@@ -33,20 +48,10 @@ export default class Character extends Component {
       questsAbandoned: this.state.questsAbandoned,
       creationDate: this.state.creationDate
     });
-    const results = await APIManager.get(
-      `users/${localStorage["userId"]}?_expand=character`
-    );
-    this.setState({
-      ...results.character,
-      loadingStatus: false,
-      isEditMode: false
-    });
+    this.getCharacterDetails();
   };
   async componentDidMount() {
-    const results = await APIManager.get(
-      `users/${localStorage["userId"]}?_expand=character`
-    );
-    this.setState({ ...results.character, loadingStatus: false });
+    this.getCharacterDetails();
   }
   render() {
     return (
@@ -60,7 +65,9 @@ export default class Character extends Component {
             disabled={this.state.loadingStatus}
             className="character-edit-button"
             onClick={() => {
-              this.setState({ isEditMode: !this.state.isEditMode });
+              this.setState({
+                isEditMode: !this.state.isEditMode
+              });
             }}>
             {this.state.isEditMode ? "x" : "✎"}
           </Button>

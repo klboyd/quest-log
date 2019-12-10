@@ -4,12 +4,17 @@ import APIManager from "../modules/APIManager";
 import QuestCard from "./QuestCard";
 
 export default class QuestList extends Component {
+  _isMounted = false;
   state = {
     quests: []
   };
   async componentDidMount() {
-    const quests = await APIManager.get(`quests`);
-    this.setState({ quests: quests });
+    this._isMounted = true;
+    const quests = this._isMounted && (await APIManager.get(`quests`));
+    this._isMounted && this.setState({ quests: quests });
+  }
+  async componentWillUnmount() {
+    this._isMounted = false;
   }
   render() {
     return (

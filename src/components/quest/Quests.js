@@ -14,12 +14,18 @@ const styles = {
 };
 
 export default class Quests extends Component {
+  state = {
+    loadingStatus: true
+  };
+  componentDidMount() {
+    this.setState({ loadingStatus: false });
+  }
   render() {
     return (
       <Container style={styles.questContainer}>
         <Row className="quest-container">
           <Col className="log-sidebar" lg={4}>
-            <Character />
+            <Character {...this.props} />
             <Log />
           </Col>
           <Col className="quest-display" lg={8}>

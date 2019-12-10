@@ -30,5 +30,15 @@ export default {
       body: JSON.stringify(editedItem)
     });
     return results.json();
+  },
+  async patch(route, editedItem) {
+    const results = await fetch(`${remoteURL}/${route}/${editedItem.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(editedItem)
+    });
+    return results.json();
   }
 };
