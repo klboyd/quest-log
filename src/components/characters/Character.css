@@ -1,3 +1,13 @@
 .char-sheet-container {
   height: 50%
 }
+
+.character-sheet-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.character-edit-button {
+  padding: 3px;
+  align-self: flex-end;
+}

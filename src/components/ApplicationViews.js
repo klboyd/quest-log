@@ -8,6 +8,7 @@ export default class ApplicationViews extends Component {
       <>
         <Route exact path="/" render={props => <Quests />} />
         <Route path="/quests" render={props => <Quests />} />
+        {/* <Route path="/guild" render={props => <Guild />} /> */}
       </>
     );
   }
