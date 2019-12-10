@@ -16,7 +16,11 @@
   margin: 0;
 }
 
-.quest-list-container {
+.quest-list-container, .quest-details-container {
+  height: 100%;
+}
+
+.quest-details-body, .quest-list-body {
   height: 100%;
 }
 
