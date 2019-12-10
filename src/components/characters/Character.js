@@ -7,7 +7,6 @@ import CharacterForm from "./CharacterForm";
 export default class Character extends Component {
   state = {
     id: "",
-    userId: "",
     name: "",
     description: "",
     level: "",
@@ -24,7 +23,6 @@ export default class Character extends Component {
     this.setState({ loadingStatus: true });
     await APIManager.update(`characters`, {
       id: this.state.id,
-      userId: this.state.userId,
       name: newDetails.name,
       description: newDetails.description,
       level: this.state.level,
@@ -35,16 +33,20 @@ export default class Character extends Component {
       questsAbandoned: this.state.questsAbandoned,
       creationDate: this.state.creationDate
     });
-    const character = await APIManager.get(
-      `characters?userId=${localStorage["userId"]}`
+    const results = await APIManager.get(
+      `users/${localStorage["userId"]}?_expand=character`
     );
-    this.setState({ ...character[0], loadingStatus: false, isEditMode: false });
+    this.setState({
+      ...results.character,
+      loadingStatus: false,
+      isEditMode: false
+    });
   };
   async componentDidMount() {
-    const character = await APIManager.get(
-      `characters?userId=${localStorage["userId"]}`
+    const results = await APIManager.get(
+      `users/${localStorage["userId"]}?_expand=character`
     );
-    this.setState({ ...character[0], loadingStatus: false });
+    this.setState({ ...results.character, loadingStatus: false });
   }
   render() {
     return (
