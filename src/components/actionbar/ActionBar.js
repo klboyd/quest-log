@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Route } from "react-router-dom";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./ActionBar.css";
@@ -14,9 +15,14 @@ export default class ActionBar extends Component {
             </Col>
             <Col lg={8}></Col>
             <Col lg={2}>
-              <Link to={"/quests/new"}>
-                <Button>New</Button>
-              </Link>
+              <Route exact path="/quests">
+                <Link to={"/quests/new"}>
+                  <Button>New</Button>
+                </Link>
+              </Route>
+              <Route path="/quests/new">
+                <Button>Create</Button>
+              </Route>
             </Col>
           </Row>
         </Container>
