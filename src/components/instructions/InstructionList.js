@@ -24,12 +24,13 @@ export default class InstructionList extends Component {
       `instructions?questId=${this.props.questId}&_expand=step`
     );
 
-    let nextStep = this.props.firstInstructionId;
     const orderedSteps = [];
-
-    for (let i = 0; i < steps.length && nextStep !== null; i++) {
+    for (
+      let i = 0, nextStep = this.props.firstInstructionId;
+      i < steps.length && nextStep !== null;
+      nextStep = orderedSteps[i].nextInstructionId, i++
+    ) {
       orderedSteps.push(steps.find(step => nextStep === step.id));
-      nextStep = orderedSteps[i].nextInstructionId;
     }
     this.setState({ instructions: orderedSteps });
 
