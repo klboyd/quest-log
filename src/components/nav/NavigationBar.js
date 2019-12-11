@@ -6,7 +6,7 @@ export default class NavigationBar extends Component {
     return (
       <Navbar bg="dark" variant="dark">
         <Navbar.Brand href="/">Logo</Navbar.Brand>
-        <Nav.Link href="quests">Quests</Nav.Link>
+        <Nav.Link href="/quests">Quests</Nav.Link>
       </Navbar>
     );
   }

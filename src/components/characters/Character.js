@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card, Button } from "react-bootstrap";
 import "./Character.css";
 import APIManager from "../modules/APIManager";
-import CharacterForm from "./CharacterForm";
+import CharacterEditForm from "./CharacterEditForm";
 
 export default class Character extends Component {
   state = {
@@ -72,7 +72,7 @@ export default class Character extends Component {
             {this.state.isEditMode ? "x" : "✎"}
           </Button>
           {this.state.isEditMode ? (
-            <CharacterForm
+            <CharacterEditForm
               name={this.state.name}
               description={this.state.description}
               confirmNewDetails={this.confirmNewDetails}

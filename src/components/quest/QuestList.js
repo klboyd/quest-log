@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { Card, Container } from "react-bootstrap";
 import APIManager from "../modules/APIManager";
 import QuestCard from "./QuestCard";
 import { Link } from "react-router-dom";
@@ -22,21 +22,22 @@ export default class QuestList extends Component {
       <Card className="quest-list-container">
         <Card.Header className="quest-card-header">Quest List</Card.Header>
         <Card.Body className="quest-list-body">
-          <Container>
-            <Row>
-              <Col lg={6}>
-                {this.state.quests.map(quest => {
-                  return (
-                    <Link
-                      style={{ textDecoration: "none", color: "black" }}
-                      key={quest.id}
-                      to={`/quests/${quest.id}`}>
-                      <QuestCard quest={quest} />
-                    </Link>
-                  );
-                })}
-              </Col>
-            </Row>
+          <Container style={{ display: "flex", flexFlow: "row wrap" }}>
+            {this.state.quests.map(quest => {
+              return (
+                <Link
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                    flex: "0 0 45%",
+                    margin: "5px"
+                  }}
+                  key={quest.id}
+                  to={`/quests/${quest.id}`}>
+                  <QuestCard quest={quest} />
+                </Link>
+              );
+            })}
           </Container>
         </Card.Body>
       </Card>

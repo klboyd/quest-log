@@ -32,9 +32,7 @@ export default class InstructionList extends Component {
     ) {
       orderedSteps.push(steps.find(step => nextStep === step.id));
     }
-    this.setState({ instructions: orderedSteps });
-
-    this.setState({ loadingStatus: false });
+    this.setState({ instructions: orderedSteps, loadingStatus: false });
   }
   render() {
     return (
