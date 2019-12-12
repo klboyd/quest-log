@@ -6,6 +6,8 @@ import Character from "../characters/Character";
 import ActionBar from "../actionbar/ActionBar";
 import QuestList from "./QuestList";
 import QuestDetail from "./QuestDetail";
+import { Route } from "react-router-dom";
+import QuestForm from "./QuestForm";
 
 const styles = {
   questContainer: {
@@ -31,11 +33,31 @@ export default class Quests extends Component {
           </Col>
           <Col className="quest-display" lg={8}>
             <Card style={{ height: "100%", padding: 0 }}>
-              {this.props.questId ? (
-                <QuestDetail questId={this.props.questId} />
-              ) : (
-                <QuestList {...this.props} />
-              )}
+              {
+                <>
+                  <Route
+                    exact
+                    path="/quests"
+                    render={props => {
+                      return <QuestList {...this.props} />;
+                    }}
+                  />
+                  <Route
+                    path="/quests/:questId(\d+)"
+                    render={props => (
+                      <QuestDetail
+                        questId={parseInt(props.match.params.questId)}
+                        {...props}
+                      />
+                    )}
+                  />
+
+                  <Route
+                    path="/quests/new"
+                    render={props => <QuestForm {...props} />}
+                  />
+                </>
+              }
               <ActionBar />
             </Card>
           </Col>

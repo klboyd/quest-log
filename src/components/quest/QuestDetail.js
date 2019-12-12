@@ -12,7 +12,6 @@ export default class QuestDetail extends Component {
     difficultyId: "",
     difficulty: {},
     description: "",
-    instructionId: "",
     isStepsHidden: false,
     creationDate: "",
     completionDate: "",
@@ -50,13 +49,7 @@ export default class QuestDetail extends Component {
           <Card.Text>Created on {this.state.creationDate}</Card.Text>
           <Card.Text>Finish by {this.state.completionDate}</Card.Text>
           <Card.Text>Difficulty: {this.state.difficulty.type}</Card.Text>
-          {this.state.instructionId ? (
-            <InstructionList
-              questId={this.props.questId}
-              firstInstructionId={this.state.instructionId}
-            />
-          ) : null}
-
+          <InstructionList questId={this.props.questId} />
           <h5>Rewards: </h5>
           {this.state.rewards}
         </Card.Body>

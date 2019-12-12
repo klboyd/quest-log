@@ -14,28 +14,28 @@ export default class InstructionList extends Component {
       id: id,
       isComplete: true
     });
-    const newInstructions = await APIManager.get(
-      `instructions?questId=${this.props.questId}&_expand=step`
-    );
-    this.setState({ instructions: newInstructions, loadingStatus: false });
+    await this.getOrderedSteps();
   };
-  async componentDidMount() {
+  async getOrderedSteps() {
     const steps = await APIManager.get(
       `instructions?questId=${this.props.questId}&_expand=step`
     );
+    const orderedSteps = [steps.find(step => step.isFirstStep)];
 
-    let nextStep = this.props.firstInstructionId;
-    const orderedSteps = [];
-
-    for (let i = 0; i < steps.length && nextStep !== null; i++) {
+    for (
+      let i = 1, nextStep = orderedSteps[i - 1].nextInstructionId;
+      i < steps.length && nextStep !== null;
+      nextStep = orderedSteps[i].nextInstructionId, i++
+    ) {
       orderedSteps.push(steps.find(step => nextStep === step.id));
-      nextStep = orderedSteps[i].nextInstructionId;
     }
-    this.setState({ instructions: orderedSteps });
-
-    this.setState({ loadingStatus: false });
+    this.setState({ instructions: orderedSteps, loadingStatus: false });
+  }
+  async componentDidMount() {
+    await this.getOrderedSteps();
   }
   render() {
+    console.log("instructions", this.state.instructions);
     return (
       <>
         <h5>Steps:</h5>
