@@ -25,6 +25,7 @@
 
 .quest-list-container, .quest-details-container, .quest-form-container {
   height: 100%;
+  overflow: hidden;
 }
 
 .quest-details-body, .quest-list-body, .quest-form-body {
@@ -41,3 +42,12 @@
 }
 
 .quest-card {}
+
+hr {
+  border: 1;
+  clear: both;
+  display: block;
+  width: 96%;
+  color: #FFFF00;
+  height: 1px;
+}

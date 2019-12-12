@@ -21,7 +21,6 @@ export default class InstructionForm extends Component {
     stateToChange["typeaheadStep"] = {};
     stateToChange["newName"] = step;
     this.setState(stateToChange);
-    console.log(step);
   };
   handleTypeaheadSelection = step => {
     const stateToChange = {};
@@ -29,7 +28,6 @@ export default class InstructionForm extends Component {
       stateToChange["typedName"] = "";
       stateToChange["typeaheadStep"] = step[0];
       this.setState(stateToChange);
-      console.log(step[0]);
     } else {
       stateToChange["typedName"] = "";
       stateToChange["typeaheadStep"] = {};
@@ -37,13 +35,12 @@ export default class InstructionForm extends Component {
     }
   };
   handleStepSubmit = async () => {
-    console.log(this.refs["typeahead-steps"].getInstance().getInput().name);
     if (this.state.newName !== "") {
       this.setState({ loadingStatus: true });
       const newStep = await APIManager.post("steps", {
         name: this.state.newName
       });
-      this.state.instructions.push(newStep);
+      this.props.addInstruction(newStep);
       const updatedSteps = await APIManager.get("steps");
       this.setState({
         steps: updatedSteps,
@@ -53,14 +50,14 @@ export default class InstructionForm extends Component {
       });
     } else if (this.state.typeaheadStep !== {}) {
       this.setState({ loadingStatus: true });
-      this.state.instructions.push(this.state.typeaheadStep);
+      this.props.addInstruction(this.state.typeaheadStep);
       this.setState({
         newName: "",
         typeaheadStep: {},
         loadingStatus: false
       });
     } else {
-      console.log("empty step");
+      return null;
     }
     this.refs["typeahead-steps"].getInstance().clear();
   };
@@ -72,12 +69,11 @@ export default class InstructionForm extends Component {
     });
   }
   render() {
-    console.log(this.state);
     return (
       <Form.Group>
         <Form.Label>Steps</Form.Label>
         <ListGroup>
-          {this.state.instructions.map(instruction => (
+          {this.props.instructions.map(instruction => (
             <ListGroup.Item key={instruction.id}>
               {instruction.name}
             </ListGroup.Item>
@@ -92,11 +88,7 @@ export default class InstructionForm extends Component {
             placeholder="What's the next step?"
             options={this.state.steps}
             onInputChange={this.handleTypingChange}
-            onChange={this.handleTypeaheadSelection}>
-            {/* {this.state.difficulties.map(difficulty => (
-                  <Button key={difficulty.id}>{difficulty.type}</Button>
-                ))} */}
-          </Typeahead>
+            onChange={this.handleTypeaheadSelection}></Typeahead>
           <InputGroup.Append>
             <Button
               disabled={

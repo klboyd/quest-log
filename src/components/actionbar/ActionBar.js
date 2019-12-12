@@ -10,9 +10,7 @@ export default class ActionBar extends Component {
       <Card.Footer className="actionbar-container">
         <Container>
           <Row lg={12}>
-            <Col lg={2}>
-              <Button>Remove</Button>
-            </Col>
+            <Col lg={2}></Col>
             <Col lg={8}></Col>
             <Col lg={2}>
               <Route exact path="/quests">
