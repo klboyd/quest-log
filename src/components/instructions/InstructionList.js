@@ -35,7 +35,6 @@ export default class InstructionList extends Component {
     await this.getOrderedSteps();
   }
   render() {
-    console.log("instructions", this.state.instructions);
     return (
       <>
         <h5>Steps:</h5>

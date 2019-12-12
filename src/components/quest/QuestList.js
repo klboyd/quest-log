@@ -11,8 +11,8 @@ export default class QuestList extends Component {
   };
   async componentDidMount() {
     this._isMounted = true;
-    const quests = this._isMounted && (await APIManager.get(`quests`));
-    this._isMounted && this.setState({ quests: quests });
+    // const quests = this._isMounted && (await APIManager.get(`quests`));
+    // this._isMounted && this.setState({ quests: quests });
   }
   async componentWillUnmount() {
     this._isMounted = false;
@@ -23,7 +23,7 @@ export default class QuestList extends Component {
         <Card.Header className="quest-card-header">Quest List</Card.Header>
         <Card.Body className="quest-list-body">
           <Container style={{ display: "flex", flexFlow: "row wrap" }}>
-            {this.state.quests.map(quest => {
+            {this.props.quests.map(quest => {
               return (
                 <Link
                   style={{

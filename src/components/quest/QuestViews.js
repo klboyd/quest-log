@@ -8,6 +8,7 @@ import QuestList from "./QuestList";
 import QuestDetail from "./QuestDetail";
 import { Route } from "react-router-dom";
 import QuestForm from "./QuestForm";
+import APIManager from "../modules/APIManager";
 
 const styles = {
   questContainer: {
@@ -18,10 +19,12 @@ const styles = {
 
 export default class Quests extends Component {
   state = {
+    quests: [],
     loadingStatus: true
   };
-  componentDidMount() {
-    this.setState({ loadingStatus: false });
+  async componentDidMount() {
+    const quests = await APIManager.get("quests");
+    this.setState({ quests: quests, loadingStatus: false });
   }
   render() {
     return (
@@ -29,7 +32,7 @@ export default class Quests extends Component {
         <Row className="quest-container">
           <Col className="log-sidebar" lg={4}>
             <Character {...this.props} />
-            <Log />
+            <Log quests={this.state.quests} {...this.props} />
           </Col>
           <Col className="quest-display" lg={8}>
             <Card style={{ height: "100%", padding: 0 }}>
@@ -39,7 +42,9 @@ export default class Quests extends Component {
                     exact
                     path="/quests"
                     render={props => {
-                      return <QuestList {...this.props} />;
+                      return (
+                        <QuestList quests={this.state.quests} {...this.props} />
+                      );
                     }}
                   />
                   <Route
