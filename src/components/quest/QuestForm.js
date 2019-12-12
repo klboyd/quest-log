@@ -8,11 +8,10 @@ import InstructionForm from "../instructions/InstructionForm";
 
 export default class QuestForm extends Component {
   state = {
-    creatorId: localStorage["userId"],
+    creatorId: Number(localStorage["userId"]),
     name: "",
     difficultyId: "",
     description: "",
-    instructionId: "",
     isStepsHidden: false,
     creationDate: "",
     completionDate: new Date(),
@@ -41,7 +40,7 @@ export default class QuestForm extends Component {
     });
   };
   addInstruction = step => {
-    this.state.instructions === []
+    this.state.instructions.length === 0
       ? this.state.instructions.push({ ...step, isFirstStep: true })
       : this.state.instructions.push({ ...step, isFirstStep: false });
   };
@@ -58,7 +57,6 @@ export default class QuestForm extends Component {
         name: this.state.name,
         difficultyId: this.state.difficultyId,
         description: this.state.description,
-        instructionId: this.state.instructions[0].id,
         isStepsHidden: this.state.isStepsHidden,
         creationDate: new Date().toISOString(),
         completionDate: this.state.completionDate,
@@ -67,9 +65,7 @@ export default class QuestForm extends Component {
         isComplete: this.state.isComplete,
         parentQuestId: this.state.parentQuestId
       };
-      console.log(this.state.instructions);
       const newQuest = await APIManager.post("quests", newQuestDetails);
-      console.log("newQuest", newQuest);
       if (newQuest) {
         for (
           let i = this.state.instructions.length - 1, nextId = null;
@@ -79,12 +75,12 @@ export default class QuestForm extends Component {
           const instructionResponse = await APIManager.post("instructions", {
             questId: newQuest.id,
             stepId: this.state.instructions[i].id,
+            isFirstStep: this.state.instructions[i].isFirstStep,
             nextInstructionId: nextId,
             isComplete: false
           });
           nextId = instructionResponse.id;
         }
-        console.log("newQuest", newQuest);
         this.props.history.push("/quests");
       } else {
         window.alert("Something went wrong");
@@ -95,7 +91,7 @@ export default class QuestForm extends Component {
     const difficulties = await APIManager.get("difficulties");
     const steps = await APIManager.get("steps");
     this.setState({
-      difficultyId: difficulties[0],
+      difficultyId: difficulties[0].id,
       difficulties: difficulties,
       steps: steps,
       loadingStatus: false
