@@ -58,7 +58,7 @@ export default class QuestForm extends Component {
         difficultyId: this.state.difficultyId,
         description: this.state.description,
         isStepsHidden: this.state.isStepsHidden,
-        creationDate: new Date().toISOString(),
+        creationDate: new Date().toISOString().split("T")[0],
         completionDate: this.state.completionDate,
         recurInDays: this.state.recurInDays,
         rewards: this.state.rewards,
@@ -214,7 +214,9 @@ export default class QuestForm extends Component {
               <Form.Label>Rewards</Form.Label>
               <Form.Control
                 type="text"
+                id="rewards"
                 placeholder="The payment for victory. . ."
+                onChange={this.handleFieldChange}
               />
             </Form.Group>
           </Form>
