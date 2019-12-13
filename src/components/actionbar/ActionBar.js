@@ -7,7 +7,7 @@ import "./ActionBar.css";
 export default class ActionBar extends Component {
   render() {
     return (
-      <Card.Footer className="actionbar-container">
+      <Card.Footer className="fixed-bottom actionbar-container">
         <Container>
           <Row lg={12}>
             <Col lg={2}></Col>
@@ -18,8 +18,14 @@ export default class ActionBar extends Component {
                   <Button>New</Button>
                 </Link>
               </Route>
+              {}
+              <Route path="/quests/:questId(\d+)">
+                <Button onClick={this.props.handleCompleteQuest}>
+                  Complete
+                </Button>
+              </Route>
               <Route path="/quests/new">
-                <Button>Create</Button>
+                <Button onClick={this.props.handleSubmitForm}>Create</Button>
               </Route>
             </Col>
           </Row>

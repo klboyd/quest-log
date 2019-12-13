@@ -1,3 +1,11 @@
 .log-display {
   height: 50%
 }
+
+.log-item {
+  cursor: pointer;
+}
+
+.log-item:hover {
+  background-color: pink;
+}

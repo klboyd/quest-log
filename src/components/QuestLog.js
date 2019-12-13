@@ -4,7 +4,7 @@ import ApplicationViews from "./ApplicationViews";
 import "./QuestLog.css";
 
 localStorage.setItem("userId", 1);
-
+localStorage.setItem("characterId", 1);
 class QuestLog extends Component {
   render() {
     return (
