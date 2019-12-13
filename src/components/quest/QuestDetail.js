@@ -22,17 +22,6 @@ export default class QuestDetail extends Component {
     instructions: [],
     loadingStatus: true
   };
-  handleCompleteQuest = async () => {
-    if (this.state.instructions.find(step => !step.isComplete)) {
-      window.alert("Please complete all tasks first");
-    } else {
-      await APIManager.patch(`quests`, {
-        id: this.props.questId,
-        isComplete: true
-      });
-      this.props.history.push(`/quests`);
-    }
-  };
   setInstructions = newInstructions => {
     this.setState({ instructions: newInstructions });
   };
@@ -44,6 +33,7 @@ export default class QuestDetail extends Component {
       `steps/?questId=${this.props.questId}`
     );
     this.setState({ ...quest, ...instructions, loadingStatus: false });
+    console.log("questDetail", this.state);
   }
   render() {
     return (
@@ -73,7 +63,11 @@ export default class QuestDetail extends Component {
             {this.state.rewards}
           </Card.Body>
         </Card>
-        <ActionBar handleCompleteQuest={this.handleCompleteQuest} />
+        <ActionBar
+          instructions={this.state.instructions}
+          questId={this.props.questId}
+          handleCompleteQuest={this.props.handleCompleteQuest}
+        />
       </>
     );
   }

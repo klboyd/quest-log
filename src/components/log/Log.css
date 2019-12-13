@@ -9,3 +9,10 @@
 .log-item:hover {
   background-color: pink;
 }
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.accordion-quest-count {}

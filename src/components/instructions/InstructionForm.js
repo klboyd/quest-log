@@ -68,6 +68,7 @@ export default class InstructionForm extends Component {
       steps: steps,
       loadingStatus: false
     });
+    console.log("instructionForm", this.state);
   }
   render() {
     return (

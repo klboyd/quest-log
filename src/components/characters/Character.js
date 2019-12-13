@@ -48,10 +48,11 @@ export default class Character extends Component {
       questsAbandoned: this.state.questsAbandoned,
       creationDate: this.state.creationDate
     });
-    this.getCharacterDetails();
+    await this.getCharacterDetails();
   };
   async componentDidMount() {
-    this.getCharacterDetails();
+    await this.getCharacterDetails();
+    console.log("character", this.state);
   }
   render() {
     return (

@@ -20,9 +20,16 @@ export default class ActionBar extends Component {
               </Route>
               {}
               <Route path="/quests/:questId(\d+)">
-                <Button onClick={this.props.handleCompleteQuest}>
-                  Complete
-                </Button>
+                <Link
+                  onClick={() => {
+                    this.props.handleCompleteQuest(
+                      this.props.questId,
+                      this.props.instructions
+                    );
+                  }}
+                  to={"/quests"}>
+                  <Button>Complete</Button>
+                </Link>
               </Route>
               <Route path="/quests/new">
                 <Button onClick={this.props.handleSubmitForm}>Create</Button>
