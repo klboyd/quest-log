@@ -1,3 +1,6 @@
 .actionbar-container {
-  /* min-height: 10%; */
+  /* clear: both; */
+  position: sticky;
+  height: 50;
+  margin-top: -50;
 }

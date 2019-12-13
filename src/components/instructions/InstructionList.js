@@ -4,10 +4,8 @@ import APIManager from "../modules/APIManager";
 
 export default class InstructionList extends Component {
   state = {
-    instructions: [],
     loadingStatus: true
   };
-
   completeInstruction = async id => {
     this.setState({ loadingStatus: true });
     await APIManager.patch(`instructions`, {
@@ -15,6 +13,7 @@ export default class InstructionList extends Component {
       isComplete: true
     });
     await this.getOrderedSteps();
+    this.setState({ loadingStatus: false });
   };
   async getOrderedSteps() {
     const steps = await APIManager.get(
@@ -29,18 +28,31 @@ export default class InstructionList extends Component {
     ) {
       orderedSteps.push(steps.find(step => nextStep === step.id));
     }
-    this.setState({ instructions: orderedSteps, loadingStatus: false });
+    // console.log("isStepsHidden", this.props.isStepsHidden);
+    // if (this.props.isStepsHidden) {
+    //   for (let i = 0; i < orderedSteps.length; i++) {
+    //     if (!orderedSteps[i].isComplete) {
+    //       orderedSteps[i].isHidden = false;
+    //     } else {
+    //       orderedSteps[i].isHidden = true;
+    //     }
+    //   }
+    // }
+    this.props.setInstructions(orderedSteps);
+    // console.log("orderedSteps isHidden", orderedSteps[0].isHidden);
   }
   async componentDidMount() {
+    this.setState({ loadingStatus: true });
+
     await this.getOrderedSteps();
+    this.setState({ loadingStatus: false });
   }
   render() {
-    console.log("instructions", this.state.instructions);
     return (
       <>
         <h5>Steps:</h5>
         <ListGroup>
-          {this.state.instructions.map(instruction => (
+          {this.props.instructions.map(instruction => (
             <ListGroup.Item key={instruction.id}>
               <Form.Check
                 type="checkbox"
@@ -51,7 +63,9 @@ export default class InstructionList extends Component {
                   this.completeInstruction(instruction.id);
                 }}
               />
-              {instruction.step.name}
+              <span className={instruction.isComplete ? "text-muted" : null}>
+                {instruction.step.name}
+              </span>
             </ListGroup.Item>
           ))}
         </ListGroup>

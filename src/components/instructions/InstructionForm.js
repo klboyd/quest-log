@@ -25,11 +25,12 @@ export default class InstructionForm extends Component {
   handleTypeaheadSelection = step => {
     const stateToChange = {};
     if (step[0]) {
-      stateToChange["typedName"] = "";
+      console.log(step[0]);
+      stateToChange["newName"] = "";
       stateToChange["typeaheadStep"] = step[0];
       this.setState(stateToChange);
     } else {
-      stateToChange["typedName"] = "";
+      stateToChange["newName"] = "";
       stateToChange["typeaheadStep"] = {};
       this.setState(stateToChange);
     }
@@ -48,7 +49,7 @@ export default class InstructionForm extends Component {
         newName: "",
         typeaheadStep: {}
       });
-    } else if (this.state.typeaheadStep !== {}) {
+    } else if (Object.keys(this.state.typeaheadStep).length > 0) {
       this.setState({ loadingStatus: true });
       this.props.addInstruction(this.state.typeaheadStep);
       this.setState({
@@ -67,6 +68,7 @@ export default class InstructionForm extends Component {
       steps: steps,
       loadingStatus: false
     });
+    console.log("instructionForm", this.state);
   }
   render() {
     return (

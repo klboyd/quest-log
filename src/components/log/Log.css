@@ -1,3 +1,18 @@
 .log-display {
   height: 50%
 }
+
+.log-item {
+  cursor: pointer;
+}
+
+.log-item:hover {
+  background-color: pink;
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.accordion-quest-count {}
