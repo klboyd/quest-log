@@ -29,14 +29,12 @@ export default class Quests extends Component {
     return assignedQuests.map(user => user.quest);
   }
   async getAllQuests() {
-    return await APIManager.get(`quests`);
+    return await APIManager.get(`quests?_embed=assignees`);
   }
   async componentDidMount() {
-    const quests = await this.getAllQuests();
-    const assignedQuests = await this.getAssignedQuests();
     this.setState({
-      quests: quests,
-      assignedQuests: assignedQuests,
+      assignedQuests: await this.getAssignedQuests(),
+      quests: await this.getAllQuests(),
       loadingStatus: false
     });
     console.log("questViews", this.state);
@@ -45,11 +43,17 @@ export default class Quests extends Component {
     if (instructions.find(step => !step.isComplete)) {
       window.alert("Please complete all tasks first");
     } else {
+      this.setState({ loadingStatus: true });
       await APIManager.patch(`quests`, {
         id: questId,
         isComplete: true
       });
-      this.props.history.push(`/`);
+      this.setState({
+        assignedQuests: await this.getAssignedQuests(),
+        quests: await this.getAllQuests(),
+        loadingStatus: false
+      });
+      this.props.history.push(`/quests`);
     }
   };
   render() {
