@@ -82,6 +82,8 @@ export default class QuestForm extends Component {
           });
           nextId = instructionResponse.id;
         }
+        await this.props.setUpdatedQuests();
+
         this.props.history.push("/quests");
       } else {
         window.alert("Something went wrong");

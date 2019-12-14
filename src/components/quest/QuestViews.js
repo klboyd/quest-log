@@ -31,6 +31,14 @@ export default class Quests extends Component {
   async getAllQuests() {
     return await APIManager.get(`quests?_embed=assignees`);
   }
+  setUpdatedQuests = async () => {
+    this.setState({ loadingStatus: true });
+    this.setState({
+      assignedQuests: await this.getAssignedQuests(),
+      quests: await this.getAllQuests(),
+      loadingStatus: false
+    });
+  };
   async componentDidMount() {
     this.setState({
       assignedQuests: await this.getAssignedQuests(),
@@ -82,6 +90,7 @@ export default class Quests extends Component {
                     render={props => (
                       <QuestDetail
                         handleCompleteQuest={this.handleCompleteQuest}
+                        setUpdatedQuests={this.setUpdatedQuests}
                         questId={parseInt(props.match.params.questId)}
                         {...props}
                       />
@@ -90,7 +99,12 @@ export default class Quests extends Component {
 
                   <Route
                     path="/quests/new"
-                    render={props => <QuestForm {...props} />}
+                    render={props => (
+                      <QuestForm
+                        setUpdatedQuests={this.setUpdatedQuests}
+                        {...props}
+                      />
+                    )}
                   />
                 </>
               }

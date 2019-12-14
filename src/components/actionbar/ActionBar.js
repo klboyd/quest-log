@@ -6,11 +6,24 @@ import "./ActionBar.css";
 
 export default class ActionBar extends Component {
   render() {
+    console.log("actionBar", this.props);
     return (
       <Card.Footer className="fixed-bottom actionbar-container">
         <Container>
           <Row lg={12}>
-            <Col lg={2}></Col>
+            <Col lg={2}>
+              {this.props.isAssigned &&
+              !this.props.isComplete &&
+              this.props.instructions.find(
+                instruction => !instruction.isComplete
+              ) ? (
+                <Route path="/quests/:questId(\d+)">
+                  <Button onClick={this.props.handleAbandonQuest}>
+                    Abandon
+                  </Button>
+                </Route>
+              ) : null}
+            </Col>
             <Col lg={8}></Col>
             <Col lg={2}>
               <Route exact path="/quests">
@@ -18,22 +31,36 @@ export default class ActionBar extends Component {
                   <Button>New</Button>
                 </Link>
               </Route>
-              {}
-              <Route path="/quests/:questId(\d+)">
-                <Link
-                  onClick={() => {
-                    this.props.handleCompleteQuest(
-                      this.props.questId,
-                      this.props.instructions
-                    );
-                  }}
-                  to={"/quests"}>
-                  <Button>Complete</Button>
-                </Link>
-              </Route>
-              <Route path="/quests/new">
-                <Button onClick={this.props.handleSubmitForm}>Create</Button>
-              </Route>
+              {!this.props.isQuestComplete ? (
+                <>
+                  <Route path="/quests/:questId(\d+)">
+                    {this.props.isAssigned ? (
+                      this.props.instructions.find(
+                        instruction => !instruction.isComplete
+                      ) ? null : (
+                        <Button
+                          onClick={() => {
+                            this.props.handleCompleteQuest(
+                              this.props.questId,
+                              this.props.instructions
+                            );
+                          }}>
+                          Complete
+                        </Button>
+                      )
+                    ) : (
+                      <Button onClick={this.props.handleAcceptQuest}>
+                        Accept
+                      </Button>
+                    )}
+                  </Route>
+                  <Route path="/quests/new">
+                    <Button onClick={this.props.handleSubmitForm}>
+                      Create
+                    </Button>
+                  </Route>
+                </>
+              ) : null}
             </Col>
           </Row>
         </Container>
