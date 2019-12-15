@@ -42,8 +42,19 @@ export default class QuestDetail extends Component {
     this.setAssignees(assignees);
     await this.props.setUpdatedQuests();
   };
-  handleAssignQuest = async characterIdArray => {
-    console.log("handleAssignQuest", characterIdArray);
+  /*
+
+  start right with these
+handleRemoveQuest
+*/
+
+  handleAssignQuest = async () => {
+    console.log("handleAssignQuest");
+  };
+  handleRemoveQuest = async () => {
+    await APIManager.delete(`quests/${this.props.questId}`);
+    await this.props.setUpdatedQuests();
+    this.props.history.push("/quests");
   };
   handleAbandonQuest = async () => {
     const assignee = this.state.assignees.find(
@@ -111,8 +122,13 @@ export default class QuestDetail extends Component {
           questId={this.props.questId}
           handleCompleteQuest={this.props.handleCompleteQuest}
           handleAcceptQuest={this.handleAcceptQuest}
+          handleAssignQuest={this.handleAssignQuest}
           handleAbandonQuest={this.handleAbandonQuest}
+          handleRemoveQuest={this.handleRemoveQuest}
           isQuestComplete={this.state.isComplete}
+          isCreator={
+            Number(this.state.creatorId) === Number(localStorage["characterId"])
+          }
           isAssigned={this.state.assignees.find(
             assignee =>
               Number(assignee.characterId) ===

@@ -12,6 +12,11 @@ export default class ActionBar extends Component {
         <Container>
           <Row lg={12}>
             <Col lg={2}>
+              {this.props.isCreator ? (
+                <Button onClick={this.props.handleRemoveQuest}>Remove</Button>
+              ) : null}
+            </Col>
+            <Col lg={2}>
               {this.props.isAssigned &&
               !this.props.isComplete &&
               this.props.instructions.find(
@@ -24,7 +29,14 @@ export default class ActionBar extends Component {
                 </Route>
               ) : null}
             </Col>
-            <Col lg={8}></Col>
+            <Col lg={4}></Col>
+            <Col lg={2}>
+              {!this.props.isQuestComplete ? (
+                <Button onClick={this.props.handleAssignQuest}>
+                  {this.props.isAssigned ? "Share" : "Assign"}
+                </Button>
+              ) : null}
+            </Col>
             <Col lg={2}>
               <Route exact path="/quests">
                 <Link to={"/quests/new"}>

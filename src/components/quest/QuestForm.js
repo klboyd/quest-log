@@ -60,7 +60,7 @@ export default class QuestForm extends Component {
         description: this.state.description,
         isStepsHidden: this.state.isStepsHidden,
         creationDate: new Date().toISOString().split("T")[0],
-        completionDate: this.state.completionDate,
+        completionDate: this.state.completionDate.toISOString().split("T")[0],
         recurInDays: this.state.recurInDays,
         rewards: this.state.rewards,
         isComplete: this.state.isComplete,
