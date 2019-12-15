@@ -1,0 +1,208 @@
+import React, { Component } from "react";
+import { Form, Button, InputGroup, ListGroup } from "react-bootstrap";
+import APIManager from "../modules/APIManager";
+import { Typeahead } from "react-bootstrap-typeahead";
+
+export default class InstructionEditForm extends Component {
+  state = {
+    creatorId: localStorage["userId"],
+    name: "",
+    instructionId: "",
+    isComplete: false,
+    parentQuestId: null,
+    steps: [],
+    newName: "",
+    typeaheadStep: {},
+    loadingStatus: true
+  };
+  handleTypingChange = step => {
+    const stateToChange = {};
+    stateToChange["typeaheadStep"] = {};
+    stateToChange["newName"] = step;
+    this.setState(stateToChange);
+  };
+  handleTypeaheadSelection = step => {
+    const stateToChange = {};
+    if (step[0]) {
+      console.log(step[0]);
+      stateToChange["newName"] = "";
+      stateToChange["typeaheadStep"] = step[0];
+      this.setState(stateToChange);
+    } else {
+      stateToChange["newName"] = "";
+      stateToChange["typeaheadStep"] = {};
+      this.setState(stateToChange);
+    }
+  };
+  handleStepSubmit = async () => {
+    if (this.state.newName !== "") {
+      this.setState({ loadingStatus: true });
+      const newStep = await APIManager.post("steps", {
+        name: this.state.newName
+      });
+      this.props.setEditedInstructions(newStep);
+      const updatedSteps = await APIManager.get("steps");
+      this.setState({
+        steps: updatedSteps,
+        loadingStatus: false,
+        newName: "",
+        typeaheadStep: {}
+      });
+    } else if (Object.keys(this.state.typeaheadStep).length > 0) {
+      this.setState({ loadingStatus: true });
+      this.props.setEditedInstructions(this.state.typeaheadStep);
+      this.setState({
+        newName: "",
+        typeaheadStep: {},
+        loadingStatus: false
+      });
+    } else {
+      return null;
+    }
+    this.refs["typeahead-steps"].getInstance().clear();
+  };
+  async getOrderedSteps() {
+    this.setState({ loadingStatus: true });
+
+    const steps = await APIManager.get(
+      `instructions?questId=${this.props.questId}&_expand=step`
+    );
+    console.log("steps length", steps.length);
+    if (steps.length !== 0) {
+      const orderedSteps = [steps.find(step => step.isFirstStep)];
+
+      for (
+        let i = 1, nextStep = orderedSteps[i - 1].nextInstructionId;
+        i < steps.length && nextStep !== null;
+        nextStep = orderedSteps[i].nextInstructionId, i++
+      ) {
+        orderedSteps.push(steps.find(step => nextStep === step.id));
+      }
+      console.log("orderedSteps", orderedSteps);
+      this.props.setEditedInstructions(orderedSteps);
+    } else {
+      this.props.setEditedInstructions([]);
+    }
+    this.setState({ loadingStatus: false });
+  }
+  removeStep = async id => {
+    this.setState({ loadingStatus: true });
+    console.log("removeStep", id);
+    const editedInstructions = this.props.instructions;
+
+    if (
+      editedInstructions.find(instruction => instruction.id === id).isFirstStep
+    ) {
+      if (
+        editedInstructions.find(instruction => instruction.id === id)
+          .nextInstructionId
+      ) {
+        const nextInstruction = await APIManager.get(
+          `instructions/${
+            editedInstructions.find(instruction => instruction.id === id)
+              .nextInstructionId
+          }`
+        );
+        await APIManager.update("instructions", {
+          id: nextInstruction.id,
+          isFirstStep: true,
+          isComplete: nextInstruction.isComplete,
+          nextInstructionId: nextInstruction.nextInstructionId,
+          questId: nextInstruction.questId,
+          stepId: nextInstruction.stepId
+        });
+      }
+      await APIManager.delete(`instructions/${id}`);
+      await this.getOrderedSteps();
+    } else {
+      const previousInstruction = await APIManager.get(
+        `instructions/${
+          editedInstructions.find(
+            instruction => instruction.nextInstructionId === id
+          ).id
+        }`
+      );
+      const nextInstruction = await APIManager.get(
+        `instructions/${
+          editedInstructions.find(instruction => instruction.id === id)
+            .nextInstructionId
+        }`
+      );
+      console.log("previousInstructionId", previousInstruction);
+      console.log("nextInstructionId", nextInstruction);
+      await APIManager.update("instructions", {
+        id: previousInstruction.id,
+        isFirstStep: previousInstruction.isFirstStep,
+        isComplete: previousInstruction.isComplete,
+        nextInstructionId: nextInstruction.id || null,
+        questId: previousInstruction.questId,
+        stepId: previousInstruction.stepId
+      });
+      await APIManager.delete(`instructions/${id}`);
+      await this.getOrderedSteps();
+    }
+    this.setState({ loadingStatus: false });
+  };
+  async componentDidMount() {
+    const steps = await APIManager.get("steps");
+    this.setState({
+      steps: steps
+    });
+    await this.getOrderedSteps();
+  }
+  render() {
+    console.log("instructionEditForm", this.props);
+    return (
+      <Form.Group>
+        <Form.Label>Steps</Form.Label>
+        <ListGroup>
+          {this.props.instructions.map(instruction => (
+            <ListGroup.Item
+              style={{ display: "flex", justifyContent: "space-between" }}
+              variant={instruction.isComplete ? "success" : null}
+              key={instruction.step.id}>
+              <div>{instruction.step.name}</div>
+              <div>
+                <Button
+                  onClick={() => this.removeStep(instruction.id)}
+                  size="sm"
+                  variant="danger"
+                  disabled={this.state.loadingStatus}>
+                  x
+                </Button>
+              </div>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+        <InputGroup>
+          <Typeahead
+            ref="typeahead-steps"
+            id="name"
+            labelKey="name"
+            defaultInputValue=""
+            placeholder="What's the next step?"
+            options={this.state.steps}
+            filterBy={(option, props) => {
+              return this.props.instructions.find(
+                instruction => instruction.id === option.id
+              )
+                ? null
+                : option;
+            }}
+            onInputChange={this.handleTypingChange}
+            onChange={this.handleTypeaheadSelection}></Typeahead>
+          <InputGroup.Append>
+            <Button
+              disabled={
+                !this.state.newName &&
+                Object.keys(this.state.typeaheadStep).length === 0
+              }
+              onClick={this.handleStepSubmit}>
+              +
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
+      </Form.Group>
+    );
+  }
+}

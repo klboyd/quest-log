@@ -28,18 +28,7 @@ export default class InstructionList extends Component {
     ) {
       orderedSteps.push(steps.find(step => nextStep === step.id));
     }
-    // console.log("isStepsHidden", this.props.isStepsHidden);
-    // if (this.props.isStepsHidden) {
-    //   for (let i = 0; i < orderedSteps.length; i++) {
-    //     if (!orderedSteps[i].isComplete) {
-    //       orderedSteps[i].isHidden = false;
-    //     } else {
-    //       orderedSteps[i].isHidden = true;
-    //     }
-    //   }
-    // }
     this.props.setInstructions(orderedSteps);
-    // console.log("orderedSteps isHidden", orderedSteps[0].isHidden);
   }
   async componentDidMount() {
     this.setState({ loadingStatus: true });
@@ -54,7 +43,9 @@ export default class InstructionList extends Component {
         <h5>Steps:</h5>
         <ListGroup>
           {this.props.instructions.map(instruction => (
-            <ListGroup.Item key={instruction.id}>
+            <ListGroup.Item
+              key={instruction.id}
+              variant={instruction.isComplete ? "success" : null}>
               <Form.Check
                 type="checkbox"
                 disabled={
