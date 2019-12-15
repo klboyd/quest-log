@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./ActionBar.css";
+import AssigneeForm from "../assignees/AssigneeForm";
 
 export default class ActionBar extends Component {
   render() {
@@ -32,9 +33,14 @@ export default class ActionBar extends Component {
             <Col lg={4}></Col>
             <Col lg={2}>
               {!this.props.isQuestComplete ? (
-                <Button onClick={this.props.handleAssignQuest}>
-                  {this.props.isAssigned ? "Share" : "Assign"}
-                </Button>
+                <Route path="/quests/:questId(\d+)">
+                  <AssigneeForm
+                    assignees={this.props.assignees}
+                    isAssigned={this.props.isAssigned}
+                    setAssignees={this.props.setAssignees}
+                    handleAssignQuest={this.props.handleAssignQuest}
+                  />
+                </Route>
               ) : null}
             </Col>
             <Col lg={2}>

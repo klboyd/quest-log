@@ -42,14 +42,18 @@ export default class QuestDetail extends Component {
     this.setAssignees(assignees);
     await this.props.setUpdatedQuests();
   };
-  /*
-
-  start right with these
-handleRemoveQuest
-*/
-
-  handleAssignQuest = async () => {
-    console.log("handleAssignQuest");
+  handleAssignQuest = async id => {
+    console.log("handleAssignQuest", id);
+    await APIManager.post("assignees", {
+      characterId: Number(id),
+      questId: Number(this.props.questId),
+      charStartDate: new Date().toISOString().split("T")[0]
+    });
+    const assignees = await APIManager.get(
+      `assignees/?questId=${this.props.questId}&_expand=character`
+    );
+    this.setAssignees(assignees);
+    await this.props.setUpdatedQuests();
   };
   handleRemoveQuest = async () => {
     await APIManager.delete(`quests/${this.props.questId}`);
@@ -118,6 +122,8 @@ handleRemoveQuest
           </Card.Body>
         </Card>
         <ActionBar
+          setAssignees={this.setAssignees}
+          assignees={this.state.assignees}
           instructions={this.state.instructions}
           questId={this.props.questId}
           handleCompleteQuest={this.props.handleCompleteQuest}
@@ -127,7 +133,7 @@ handleRemoveQuest
           handleRemoveQuest={this.handleRemoveQuest}
           isQuestComplete={this.state.isComplete}
           isCreator={
-            Number(this.state.creatorId) === Number(localStorage["characterId"])
+            Number(this.state.creatorId) === Number(localStorage["userId"])
           }
           isAssigned={this.state.assignees.find(
             assignee =>
