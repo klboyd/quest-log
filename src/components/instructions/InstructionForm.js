@@ -10,7 +10,6 @@ export default class InstructionForm extends Component {
     instructionId: "",
     isComplete: false,
     parentQuestId: null,
-    instructions: [],
     steps: [],
     newName: "",
     typeaheadStep: {},
@@ -68,9 +67,9 @@ export default class InstructionForm extends Component {
       steps: steps,
       loadingStatus: false
     });
-    console.log("instructionForm", this.state);
   }
   render() {
+    console.log("instructionForm", this.props);
     return (
       <Form.Group>
         <Form.Label>Steps</Form.Label>
@@ -89,6 +88,13 @@ export default class InstructionForm extends Component {
             defaultInputValue=""
             placeholder="What's the next step?"
             options={this.state.steps}
+            filterBy={(option, props) => {
+              return this.props.instructions.find(
+                instruction => instruction.id === option.id
+              )
+                ? null
+                : option;
+            }}
             onInputChange={this.handleTypingChange}
             onChange={this.handleTypeaheadSelection}></Typeahead>
           <InputGroup.Append>

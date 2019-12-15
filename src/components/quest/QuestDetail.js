@@ -112,7 +112,7 @@ export default class QuestDetail extends Component {
           handleCompleteQuest={this.props.handleCompleteQuest}
           handleAcceptQuest={this.handleAcceptQuest}
           handleAbandonQuest={this.handleAbandonQuest}
-          isComplete={this.state.isComplete}
+          isQuestComplete={this.state.isComplete}
           isAssigned={this.state.assignees.find(
             assignee =>
               Number(assignee.characterId) ===
