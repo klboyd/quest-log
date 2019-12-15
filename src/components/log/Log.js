@@ -133,7 +133,7 @@ export default class Log extends Component {
                   .filter(quest => quest.isComplete)
                   .map(quest => (
                     <ListGroup.Item
-                      className="log-item"
+                      className="log-item text-muted"
                       as={Card.Header}
                       key={quest.id}
                       onClick={() => {

@@ -46,6 +46,7 @@ export default class InstructionList extends Component {
 
     await this.getOrderedSteps();
     this.setState({ loadingStatus: false });
+    console.log("instructionList", this.props);
   }
   render() {
     return (
@@ -56,7 +57,9 @@ export default class InstructionList extends Component {
             <ListGroup.Item key={instruction.id}>
               <Form.Check
                 type="checkbox"
-                disabled={instruction.isComplete}
+                disabled={
+                  instruction.isComplete || this.props.isAssigned === undefined
+                }
                 defaultChecked={instruction.isComplete}
                 inline
                 onChange={() => {
