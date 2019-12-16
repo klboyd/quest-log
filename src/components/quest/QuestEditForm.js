@@ -59,7 +59,10 @@ export default class QuestEditForm extends Component {
       if (instructions[0]) {
         instructions[0].isFirstStep = true;
       }
-      this.setState({ instructions: instructions, loadingStatus: false });
+      this.setState({
+        instructions: instructions,
+        loadingStatus: false
+      });
     } else {
       this.setState({
         instructions: this.state.instructions.filter(
@@ -90,8 +93,38 @@ export default class QuestEditForm extends Component {
       });
     } else {
       console.log("editedInstructions", editedInstructions);
-      this.setState({ instructions: editedInstructions, loadingStatus: false });
+      this.setState({
+        instructions: editedInstructions,
+        loadingStatus: false
+      });
     }
+  };
+  removeQuestInstructions = async () => {
+    const oldInstructions = await APIManager.get(
+      `instructions?questId=${this.props.questId}`
+    );
+    for (const instruction of oldInstructions) {
+      await APIManager.delete(`instructions/${instruction.id}`);
+    }
+    console.log("oldInstructions", oldInstructions);
+  };
+  addNewInstructions = async () => {
+    console.log("starting addNewInstructions");
+    const reversedInstructions = this.state.instructions.reverse();
+    let nextId = null;
+    for (const instruction of reversedInstructions) {
+      console.log("\n\n\nnextId", nextId);
+      const response = await APIManager.post("instructions", {
+        questId: this.props.questId,
+        stepId: instruction.id,
+        isFirstStep: instruction.isFirstStep,
+        nextInstructionId: nextId,
+        isComplete: instruction.isComplete
+      });
+      nextId = response.id;
+    }
+
+    await this.props.setUpdatedQuests();
   };
   handleEditSaveForm = async () => {
     this.setState({ loadingStatus: true });
@@ -111,9 +144,7 @@ export default class QuestEditForm extends Component {
         description: this.state.description,
         isStepsHidden: this.state.isStepsHidden,
         creationDate: this.state.creationDate,
-        completionDate: new Date(this.state.completionDate)
-          .toISOString()
-          .split("T")[0],
+        completionDate: new Date(this.state.completionDate).toISOString(),
         recurInDays: this.state.recurInDays,
         rewards: this.state.rewards,
         isComplete: this.state.isComplete,
@@ -121,30 +152,8 @@ export default class QuestEditForm extends Component {
       };
       const editedQuest = await APIManager.update("quests", editedQuestDetails);
       if (editedQuest) {
-        const oldInstructions = await APIManager.get(
-          `instructions?questId=${this.props.questId}`
-        );
-        oldInstructions.forEach(
-          async instruction =>
-            await APIManager.delete(`instructions/${instruction.id}`)
-        );
-        console.log("oldInstructions", oldInstructions);
-        for (
-          let i = this.state.instructions.length - 1, nextId = null;
-          i >= 0;
-          i--
-        ) {
-          console.log("i", i);
-          const instructionResponse = await APIManager.post("instructions", {
-            questId: editedQuest.id,
-            stepId: this.state.instructions[i].id,
-            isFirstStep: this.state.instructions[i].isFirstStep,
-            nextInstructionId: nextId,
-            isComplete: this.state.instructions[i].isComplete
-          });
-          nextId = instructionResponse.id;
-        }
-        await this.props.setUpdatedQuests();
+        await this.removeQuestInstructions();
+        await this.addNewInstructions();
 
         this.setState({ loadingStatus: false });
         this.props.history.push(`/quests/${this.props.questId}`);
