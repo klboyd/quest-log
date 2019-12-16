@@ -51,7 +51,7 @@ export default class Log extends Component {
                   ))}
               </ListGroup>
             </Accordion.Collapse>
-            <Accordion.Toggle
+            {/* <Accordion.Toggle
               className="accordion-header"
               as={Card.Header}
               variant="link"
@@ -116,7 +116,7 @@ export default class Log extends Component {
                     </ListGroup.Item>
                   ))}
               </ListGroup>
-            </Accordion.Collapse>
+            </Accordion.Collapse> */}
             <Accordion.Toggle
               className="accordion-header"
               as={Card.Header}

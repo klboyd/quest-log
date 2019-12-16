@@ -4,9 +4,11 @@ import APIManager from "../modules/APIManager";
 
 export default class AssigneeForm extends Component {
   state = {
-    eligibleCharacters: []
+    eligibleCharacters: [],
+    loadingStatus: true
   };
   async setEligibleCharacters() {
+    this.setState({ loadingStatus: true });
     const characters = await APIManager.get("characters");
 
     const assignedCharacters = this.props.assignees.map(
@@ -20,13 +22,18 @@ export default class AssigneeForm extends Component {
           assignedCharacters.find(assigned => assigned.id === character.id)
         )
     );
-    this.setState({ eligibleCharacters: eligibleCharacters });
+    this.setState({
+      eligibleCharacters: eligibleCharacters,
+      loadingStatus: false
+    });
   }
   handleAssignCharacter = async id => {
+    this.setState({ loadingStatus: true });
     console.log("handleAssignCharacter", id);
     await this.props.handleAssignQuest(id);
 
     await this.setEligibleCharacters();
+    this.setState({ loadingStatus: false });
   };
   async componentDidMount() {
     await this.setEligibleCharacters();
