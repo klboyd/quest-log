@@ -29,7 +29,13 @@ export default class QuestEditForm extends Component {
     stateToChange[evt.target.id] = evt.target.value;
     this.setState(stateToChange);
   };
+  handleDayPickerClick = day => {
+    this.setState({
+      completionDate: day
+    });
+  };
   addInstruction = step => {
+    this.setState({ loadingStatus: true });
     this.state.instructions.length === 0
       ? this.state.instructions.push({
           ...step,
@@ -41,8 +47,11 @@ export default class QuestEditForm extends Component {
           isFirstStep: false,
           isComplete: false
         });
+    this.setState({ loadingStatus: false });
   };
   removeInstruction = id => {
+    this.setState({ loadingStatus: true });
+
     if (this.state.instructions[id].isFirstStep) {
       const instructions = this.state.instructions.filter(
         (step, index) => id !== index
@@ -50,16 +59,19 @@ export default class QuestEditForm extends Component {
       if (instructions[0]) {
         instructions[0].isFirstStep = true;
       }
-      this.setState({ instructions: instructions });
+      this.setState({ instructions: instructions, loadingStatus: false });
     } else {
       this.setState({
         instructions: this.state.instructions.filter(
           (step, index) => id !== index
-        )
+        ),
+        loadingStatus: false
       });
     }
   };
   setInstructions = editedInstructions => {
+    this.setState({ loadingStatus: true });
+
     if (!editedInstructions[0].isFirstStep) {
       const switchedFirstStepInstructions = editedInstructions.map(
         instruction => {
@@ -72,18 +84,23 @@ export default class QuestEditForm extends Component {
         switchedFirstStepInstructions
       );
 
-      this.setState({ instructions: switchedFirstStepInstructions });
+      this.setState({
+        instructions: switchedFirstStepInstructions,
+        loadingStatus: false
+      });
     } else {
       console.log("editedInstructions", editedInstructions);
-      this.setState({ instructions: editedInstructions });
+      this.setState({ instructions: editedInstructions, loadingStatus: false });
     }
   };
   handleEditSaveForm = async () => {
+    this.setState({ loadingStatus: true });
     if (
       !this.state.instructions[0] ||
       !this.state.name ||
       !this.state.description
     ) {
+      this.setState({ loadingStatus: false });
       window.alert("Please fill out all fields");
     } else {
       const editedQuestDetails = {
@@ -129,8 +146,10 @@ export default class QuestEditForm extends Component {
         }
         await this.props.setUpdatedQuests();
 
+        this.setState({ loadingStatus: false });
         this.props.history.push(`/quests/${this.props.questId}`);
       } else {
+        this.setState({ loadingStatus: false });
         window.alert("Something went wrong");
       }
     }

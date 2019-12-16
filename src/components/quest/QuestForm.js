@@ -41,6 +41,7 @@ export default class QuestForm extends Component {
     });
   };
   addInstruction = step => {
+    this.setState({ loadingStatus: true });
     this.state.instructions.length === 0
       ? this.state.instructions.push({
           ...step,
@@ -52,23 +53,27 @@ export default class QuestForm extends Component {
           isFirstStep: false,
           isComplete: false
         });
+    this.setState({ loadingStatus: false });
   };
   removeInstruction = id => {
+    this.setState({ loadingStatus: true });
     if (this.state.instructions[id].isFirstStep) {
       const instructions = this.state.instructions.filter(
         (step, index) => id !== index
       );
       instructions[0].isFirstStep = true;
-      this.setState({ instructions: instructions });
+      this.setState({ instructions: instructions, loadingStatus: false });
     } else {
       this.setState({
         instructions: this.state.instructions.filter(
           (step, index) => id !== index
-        )
+        ),
+        loadingStatus: false
       });
     }
   };
   setInstructions = editedInstructions => {
+    this.setState({ loadingStatus: true });
     if (!editedInstructions[0].isFirstStep) {
       const switchedFirstStepInstructions = editedInstructions.map(
         instruction => {
@@ -81,17 +86,22 @@ export default class QuestForm extends Component {
         switchedFirstStepInstructions
       );
 
-      this.setState({ instructions: switchedFirstStepInstructions });
+      this.setState({
+        instructions: switchedFirstStepInstructions,
+        loadingStatus: false
+      });
     } else {
-      this.setState({ instructions: editedInstructions });
+      this.setState({ instructions: editedInstructions, loadingStatus: false });
     }
   };
   handleSubmitForm = async () => {
+    this.setState({ loadingStatus: true });
     if (
       !this.state.instructions[0] ||
       !this.state.name ||
       !this.state.description
     ) {
+      this.setState({ loadingStatus: false });
       window.alert("Please fill out all fields");
     } else {
       const newQuestDetails = {
@@ -124,9 +134,10 @@ export default class QuestForm extends Component {
           nextId = instructionResponse.id;
         }
         await this.props.setUpdatedQuests();
-
+        this.setState({ loadingStatus: false });
         this.props.history.push("/quests");
       } else {
+        this.setState({ loadingStatus: false });
         window.alert("Something went wrong");
       }
     }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Button, InputGroup, ListGroup } from "react-bootstrap";
 import APIManager from "../modules/APIManager";
 import { Typeahead } from "react-bootstrap-typeahead";
+import "./Instruction.css";
 
 export default class InstructionEditForm extends Component {
   state = {
@@ -35,8 +36,8 @@ export default class InstructionEditForm extends Component {
     }
   };
   handleStepSubmit = async () => {
+    this.setState({ loadingStatus: true });
     if (this.state.newName !== "") {
-      this.setState({ loadingStatus: true });
       const newStep = await APIManager.post("steps", {
         name: this.state.newName
       });
@@ -49,7 +50,6 @@ export default class InstructionEditForm extends Component {
         typeaheadStep: {}
       });
     } else if (Object.keys(this.state.typeaheadStep).length > 0) {
-      this.setState({ loadingStatus: true });
       this.props.addInstruction(this.state.typeaheadStep);
       this.setState({
         newName: "",
@@ -57,6 +57,7 @@ export default class InstructionEditForm extends Component {
         loadingStatus: false
       });
     } else {
+      this.setState({ loadingStatus: false });
       return null;
     }
     this.refs["typeahead-steps"].getInstance().clear();
@@ -104,6 +105,7 @@ export default class InstructionEditForm extends Component {
     // console.log(evt.target ? evt.target : null);
   };
   onDrop = (evt, position) => {
+    this.setState({ loadingStatus: true });
     const index = evt.dataTransfer.getData("index");
     console.log("onDrop index", index);
     console.log("onDrop position", position);
@@ -113,6 +115,7 @@ export default class InstructionEditForm extends Component {
       console.log(rearrangedSteps);
       this.props.setInstructions(rearrangedSteps);
     }
+    this.setState({ loadingStatus: false });
   };
   async componentDidMount() {
     const steps = await APIManager.get("steps");
@@ -130,7 +133,7 @@ export default class InstructionEditForm extends Component {
         <ListGroup onDragOver={this.onDragOver}>
           {this.props.instructions.map((instruction, index) => (
             <ListGroup.Item
-              className={`step-${index}`}
+              className={`step-${index} step-draggable`}
               onDrop={evt => {
                 this.onDrop(evt, index);
               }}
@@ -138,7 +141,8 @@ export default class InstructionEditForm extends Component {
               onDragStart={evt => this.onDragStart(evt, index)}
               style={{
                 display: "flex",
-                justifyContent: "space-between"
+                justifyContent: "space-between",
+                cursor: "move"
               }}
               variant={instruction.isComplete ? "success" : null}
               key={index}>
