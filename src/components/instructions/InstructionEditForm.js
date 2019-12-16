@@ -95,64 +95,6 @@ export default class InstructionEditForm extends Component {
     }
     this.setState({ loadingStatus: false });
   }
-  // removeStep = async id => {
-  //   this.setState({ loadingStatus: true });
-  //   console.log("removeStep", id);
-  //   const editedInstructions = this.props.instructions;
-
-  //   if (
-  //     editedInstructions.find(instruction => instruction.id === id).isFirstStep
-  //   ) {
-  //     if (
-  //       editedInstructions.find(instruction => instruction.id === id)
-  //         .nextInstructionId
-  //     ) {
-  //       const nextInstruction = await APIManager.get(
-  //         `instructions/${
-  //           editedInstructions.find(instruction => instruction.id === id)
-  //             .nextInstructionId
-  //         }`
-  //       );
-  //       await APIManager.update("instructions", {
-  //         id: nextInstruction.id,
-  //         isFirstStep: true,
-  //         isComplete: nextInstruction.isComplete,
-  //         nextInstructionId: nextInstruction.nextInstructionId,
-  //         questId: nextInstruction.questId,
-  //         stepId: nextInstruction.stepId
-  //       });
-  //     }
-  //     await APIManager.delete(`instructions/${id}`);
-  //     await this.getOrderedSteps();
-  //   } else {
-  //     const previousInstruction = await APIManager.get(
-  //       `instructions/${
-  //         editedInstructions.find(
-  //           instruction => instruction.nextInstructionId === id
-  //         ).id
-  //       }`
-  //     );
-  //     const nextInstruction = await APIManager.get(
-  //       `instructions/${
-  //         editedInstructions.find(instruction => instruction.id === id)
-  //           .nextInstructionId
-  //       }`
-  //     );
-  //     console.log("previousInstructionId", previousInstruction);
-  //     console.log("nextInstructionId", nextInstruction);
-  //     await APIManager.update("instructions", {
-  //       id: previousInstruction.id,
-  //       isFirstStep: previousInstruction.isFirstStep,
-  //       isComplete: previousInstruction.isComplete,
-  //       nextInstructionId: nextInstruction.id || null,
-  //       questId: previousInstruction.questId,
-  //       stepId: previousInstruction.stepId
-  //     });
-  //     await APIManager.delete(`instructions/${id}`);
-  //     await this.getOrderedSteps();
-  //   }
-  //   this.setState({ loadingStatus: false });
-  // };
   async componentDidMount() {
     const steps = await APIManager.get("steps");
     this.setState({

@@ -53,6 +53,39 @@ export default class QuestForm extends Component {
           isComplete: false
         });
   };
+  removeInstruction = id => {
+    if (this.state.instructions[id].isFirstStep) {
+      const instructions = this.state.instructions.filter(
+        (step, index) => id !== index
+      );
+      instructions[0].isFirstStep = true;
+      this.setState({ instructions: instructions });
+    } else {
+      this.setState({
+        instructions: this.state.instructions.filter(
+          (step, index) => id !== index
+        )
+      });
+    }
+  };
+  setInstructions = editedInstructions => {
+    if (!editedInstructions[0].isFirstStep) {
+      const switchedFirstStepInstructions = editedInstructions.map(
+        instruction => {
+          return { ...instruction, isFirstStep: false };
+        }
+      );
+      switchedFirstStepInstructions[0].isFirstStep = true;
+      console.log(
+        "switchedFirstStepInstructions",
+        switchedFirstStepInstructions
+      );
+
+      this.setState({ instructions: switchedFirstStepInstructions });
+    } else {
+      this.setState({ instructions: editedInstructions });
+    }
+  };
   handleSubmitForm = async () => {
     if (
       !this.state.instructions[0] ||
@@ -151,6 +184,8 @@ export default class QuestForm extends Component {
                 <InstructionForm
                   instructions={this.state.instructions}
                   addInstruction={this.addInstruction}
+                  removeInstruction={this.removeInstruction}
+                  setInstructions={this.setInstructions}
                 />
                 <Form.Check
                   disabled={this.state.loadingStatus}
@@ -173,7 +208,9 @@ export default class QuestForm extends Component {
                       key={difficulty.id}
                       id="difficultyId"
                       onClick={() => {
-                        this.setState({ difficultyId: difficulty.id });
+                        this.setState({
+                          difficultyId: difficulty.id
+                        });
                       }}>
                       {difficulty.type}
                     </Button>

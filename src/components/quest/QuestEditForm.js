@@ -47,7 +47,9 @@ export default class QuestEditForm extends Component {
       const instructions = this.state.instructions.filter(
         (step, index) => id !== index
       );
-      instructions[0].isFirstStep = true;
+      if (instructions[0]) {
+        instructions[0].isFirstStep = true;
+      }
       this.setState({ instructions: instructions });
     } else {
       this.setState({
@@ -58,6 +60,9 @@ export default class QuestEditForm extends Component {
     }
   };
   setInstructions = editedInstructions => {
+    if (!editedInstructions[0].isFirstStep) {
+      // find which step has isFirstStep === true and switch it with the first one
+    }
     this.setState({ instructions: editedInstructions });
   };
   handleEditSaveForm = async () => {

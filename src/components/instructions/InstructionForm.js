@@ -61,6 +61,25 @@ export default class InstructionForm extends Component {
     }
     this.refs["typeahead-steps"].getInstance().clear();
   };
+  onDragStart = (evt, index) => {
+    console.log("onDragStart:", index);
+    evt.dataTransfer.setData("index", index);
+  };
+  onDragOver = evt => {
+    evt.preventDefault();
+    // console.log(evt.target ? evt.target : null);
+  };
+  onDrop = (evt, position) => {
+    const index = evt.dataTransfer.getData("index");
+    console.log("onDrop index", index);
+    console.log("onDrop position", position);
+    if (index !== position) {
+      const rearrangedSteps = this.props.instructions;
+      rearrangedSteps.splice(position, 0, rearrangedSteps.splice(index, 1)[0]);
+      console.log(rearrangedSteps);
+      this.props.setInstructions(rearrangedSteps);
+    }
+  };
   async componentDidMount() {
     const steps = await APIManager.get("steps");
     this.setState({
@@ -73,10 +92,31 @@ export default class InstructionForm extends Component {
     return (
       <Form.Group>
         <Form.Label>Steps</Form.Label>
-        <ListGroup>
-          {this.props.instructions.map(instruction => (
-            <ListGroup.Item key={instruction.id}>
-              {instruction.name}
+        <ListGroup onDragOver={this.onDragOver}>
+          {this.props.instructions.map((instruction, index) => (
+            <ListGroup.Item
+              className={`step-${index}`}
+              onDrop={evt => {
+                this.onDrop(evt, index);
+              }}
+              draggable
+              onDragStart={evt => this.onDragStart(evt, index)}
+              style={{
+                display: "flex",
+                justifyContent: "space-between"
+              }}
+              variant={instruction.isComplete ? "success" : null}
+              key={index}>
+              <div>{instruction.name}</div>
+              <div>
+                <Button
+                  onClick={() => this.props.removeInstruction(index)}
+                  size="sm"
+                  variant="danger"
+                  disabled={this.state.loadingStatus}>
+                  x
+                </Button>
+              </div>
             </ListGroup.Item>
           ))}
         </ListGroup>
