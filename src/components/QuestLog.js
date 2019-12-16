@@ -3,14 +3,13 @@ import NavigationBar from "./nav/NavigationBar";
 import ApplicationViews from "./ApplicationViews";
 import "./QuestLog.css";
 
-localStorage.setItem("userId", 1);
-localStorage.setItem("characterId", 1);
 class QuestLog extends Component {
+  isAuthenticated = () => localStorage["userId"] !== undefined;
   render() {
     return (
       <React.Fragment>
         <NavigationBar />
-        <ApplicationViews />
+        <ApplicationViews isAuthenticated={this.isAuthenticated} />
       </React.Fragment>
     );
   }

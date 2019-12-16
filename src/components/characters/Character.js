@@ -25,6 +25,7 @@ export default class Character extends Component {
       const character = await APIManager.get(
         `characters/${results.characterId}`
       );
+      localStorage.setItem("characterId", character.id);
       this.setState({
         ...character,
         loadingStatus: false,
