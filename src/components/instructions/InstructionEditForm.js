@@ -3,7 +3,7 @@ import { Form, Button, InputGroup, ListGroup } from "react-bootstrap";
 import APIManager from "../modules/APIManager";
 import { Typeahead } from "react-bootstrap-typeahead";
 
-export default class InstructionForm extends Component {
+export default class InstructionEditForm extends Component {
   state = {
     creatorId: localStorage["userId"],
     name: "",
@@ -61,50 +61,57 @@ export default class InstructionForm extends Component {
     }
     this.refs["typeahead-steps"].getInstance().clear();
   };
-  onDragStart = (evt, index) => {
-    console.log("onDragStart:", index);
-    evt.dataTransfer.setData("index", index);
-  };
-  onDragOver = evt => {
-    evt.preventDefault();
-    // console.log(evt.target ? evt.target : null);
-  };
-  onDrop = (evt, position) => {
-    const index = evt.dataTransfer.getData("index");
-    console.log("onDrop index", index);
-    console.log("onDrop position", position);
-    if (index !== position) {
-      const rearrangedSteps = this.props.instructions;
-      rearrangedSteps.splice(position, 0, rearrangedSteps.splice(index, 1)[0]);
-      console.log(rearrangedSteps);
-      this.props.setInstructions(rearrangedSteps);
+  async getOrderedSteps() {
+    this.setState({ loadingStatus: true });
+
+    const steps = await APIManager.get(
+      `instructions?questId=${this.props.questId}&_expand=step`
+    );
+    console.log("steps length", steps.length);
+    if (steps.length !== 0) {
+      const orderedSteps = [steps.find(step => step.isFirstStep)];
+
+      for (
+        let i = 1, nextStep = orderedSteps[i - 1].nextInstructionId;
+        i < steps.length && nextStep !== null;
+        nextStep = orderedSteps[i].nextInstructionId, i++
+      ) {
+        orderedSteps.push(steps.find(step => nextStep === step.id));
+      }
+      console.log("orderedSteps", orderedSteps);
+
+      this.props.setInstructions(
+        orderedSteps.map(step => {
+          return {
+            isComplete: step.isComplete,
+            isFirstStep: step.isFirstStep,
+            id: step.step.id,
+            name: step.step.name
+          };
+        })
+      );
+    } else {
+      this.props.setInstructions([]);
     }
-  };
+    this.setState({ loadingStatus: false });
+  }
   async componentDidMount() {
     const steps = await APIManager.get("steps");
     this.setState({
-      steps: steps,
-      loadingStatus: false
+      steps: steps
     });
+    await this.getOrderedSteps();
   }
   render() {
-    console.log("instructionForm", this.props);
+    console.log("instructionEditForm state", this.state);
+    console.log("instructionEditForm props", this.props);
     return (
       <Form.Group>
         <Form.Label>Steps</Form.Label>
-        <ListGroup onDragOver={this.onDragOver}>
+        <ListGroup>
           {this.props.instructions.map((instruction, index) => (
             <ListGroup.Item
-              className={`step-${index}`}
-              onDrop={evt => {
-                this.onDrop(evt, index);
-              }}
-              draggable
-              onDragStart={evt => this.onDragStart(evt, index)}
-              style={{
-                display: "flex",
-                justifyContent: "space-between"
-              }}
+              style={{ display: "flex", justifyContent: "space-between" }}
               variant={instruction.isComplete ? "success" : null}
               key={index}>
               <div>{instruction.name}</div>

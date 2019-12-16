@@ -8,6 +8,7 @@ import QuestDetail from "./QuestDetail";
 import { Route } from "react-router-dom";
 import QuestForm from "./QuestForm";
 import APIManager from "../modules/APIManager";
+import QuestEditForm from "./QuestEditForm";
 
 const styles = {
   questContainer: {
@@ -86,10 +87,22 @@ export default class Quests extends Component {
                     }}
                   />
                   <Route
+                    exact
                     path="/quests/:questId(\d+)"
                     render={props => (
                       <QuestDetail
                         handleCompleteQuest={this.handleCompleteQuest}
+                        setUpdatedQuests={this.setUpdatedQuests}
+                        questId={parseInt(props.match.params.questId)}
+                        {...props}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/quests/:questId(\d+)/edit"
+                    render={props => (
+                      <QuestEditForm
                         setUpdatedQuests={this.setUpdatedQuests}
                         questId={parseInt(props.match.params.questId)}
                         {...props}

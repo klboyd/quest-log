@@ -23,17 +23,24 @@ export default class ActionBar extends Component {
               this.props.instructions.find(
                 instruction => !instruction.isComplete
               ) ? (
-                <Route path="/quests/:questId(\d+)">
+                <Route exact path="/quests/:questId(\d+)">
                   <Button onClick={this.props.handleAbandonQuest}>
                     Abandon
                   </Button>
                 </Route>
               ) : null}
             </Col>
-            <Col lg={4}></Col>
+            <Col lg={2}>
+              <Route exact path="/quests/:questId(\d+)">
+                <Link to={`/quests/${this.props.questId}/edit`}>
+                  <Button>Edit</Button>
+                </Link>
+              </Route>{" "}
+            </Col>
+            <Col lg={2}></Col>
             <Col lg={2}>
               {!this.props.isQuestComplete ? (
-                <Route path="/quests/:questId(\d+)">
+                <Route exact path="/quests/:questId(\d+)">
                   <AssigneeForm
                     assignees={this.props.assignees}
                     isAssigned={this.props.isAssigned}
@@ -51,7 +58,7 @@ export default class ActionBar extends Component {
               </Route>
               {!this.props.isQuestComplete ? (
                 <>
-                  <Route path="/quests/:questId(\d+)">
+                  <Route exact path="/quests/:questId(\d+)">
                     {this.props.isAssigned ? (
                       this.props.instructions.find(
                         instruction => !instruction.isComplete
@@ -75,6 +82,11 @@ export default class ActionBar extends Component {
                   <Route path="/quests/new">
                     <Button onClick={this.props.handleSubmitForm}>
                       Create
+                    </Button>
+                  </Route>
+                  <Route exact path="/quests/:questId(\d+)/edit">
+                    <Button onClick={this.props.handleEditSaveForm}>
+                      Save
                     </Button>
                   </Route>
                 </>

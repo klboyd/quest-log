@@ -1,44 +1,33 @@
 import React, { Component } from "react";
-import { Form, Card, Button, ButtonGroup } from "react-bootstrap";
+import { Card, Button, Form, ButtonGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import DayPicker from "react-day-picker";
-import "react-day-picker/lib/style.css";
-import APIManager from "../modules/APIManager";
-import InstructionForm from "../instructions/InstructionForm";
 import ActionBar from "../actionbar/ActionBar";
+import DayPicker from "react-day-picker";
+import APIManager from "../modules/APIManager";
+import InstructionEditForm from "../instructions/InstructionEditForm";
 
-export default class QuestForm extends Component {
+export default class QuestEditForm extends Component {
   state = {
-    creatorId: Number(localStorage["userId"]),
+    creatorId: "",
     name: "",
     difficultyId: "",
+    difficulties: [],
     description: "",
     isStepsHidden: false,
     creationDate: "",
-    completionDate: new Date(),
-    recurInDays: 0,
+    completionDate: "",
+    recurInDays: "",
     rewards: "",
     isComplete: false,
     parentQuestId: null,
-    difficulties: [],
     instructions: [],
-    steps: [],
+    assignees: [],
     loadingStatus: true
   };
   handleFieldChange = evt => {
     const stateToChange = {};
     stateToChange[evt.target.id] = evt.target.value;
     this.setState(stateToChange);
-  };
-  handleCheckBox = evt => {
-    const stateToChange = {};
-    stateToChange[evt.target.name] = evt.target.checked;
-    this.setState(stateToChange);
-  };
-  handleDayPickerClick = day => {
-    this.setState({
-      completionDate: day
-    });
   };
   addInstruction = step => {
     this.state.instructions.length === 0
@@ -58,7 +47,9 @@ export default class QuestForm extends Component {
       const instructions = this.state.instructions.filter(
         (step, index) => id !== index
       );
-      instructions[0].isFirstStep = true;
+      if (instructions[0]) {
+        instructions[0].isFirstStep = true;
+      }
       this.setState({ instructions: instructions });
     } else {
       this.setState({
@@ -70,23 +61,11 @@ export default class QuestForm extends Component {
   };
   setInstructions = editedInstructions => {
     if (!editedInstructions[0].isFirstStep) {
-      const switchedFirstStepInstructions = editedInstructions.map(
-        instruction => {
-          return { ...instruction, isFirstStep: false };
-        }
-      );
-      switchedFirstStepInstructions[0].isFirstStep = true;
-      console.log(
-        "switchedFirstStepInstructions",
-        switchedFirstStepInstructions
-      );
-
-      this.setState({ instructions: switchedFirstStepInstructions });
-    } else {
-      this.setState({ instructions: editedInstructions });
+      // find which step has isFirstStep === true and switch it with the first one
     }
+    this.setState({ instructions: editedInstructions });
   };
-  handleSubmitForm = async () => {
+  handleEditSaveForm = async () => {
     if (
       !this.state.instructions[0] ||
       !this.state.name ||
@@ -94,28 +73,40 @@ export default class QuestForm extends Component {
     ) {
       window.alert("Please fill out all fields");
     } else {
-      const newQuestDetails = {
+      const editedQuestDetails = {
+        id: this.props.questId,
         creatorId: this.state.creatorId,
         name: this.state.name,
         difficultyId: this.state.difficultyId,
         description: this.state.description,
         isStepsHidden: this.state.isStepsHidden,
-        creationDate: new Date().toISOString().split("T")[0],
-        completionDate: this.state.completionDate.toISOString().split("T")[0],
+        creationDate: this.state.creationDate,
+        completionDate: new Date(this.state.completionDate)
+          .toISOString()
+          .split("T")[0],
         recurInDays: this.state.recurInDays,
         rewards: this.state.rewards,
         isComplete: this.state.isComplete,
         parentQuestId: this.state.parentQuestId
       };
-      const newQuest = await APIManager.post("quests", newQuestDetails);
-      if (newQuest) {
+      const editedQuest = await APIManager.update("quests", editedQuestDetails);
+      if (editedQuest) {
+        const oldInstructions = await APIManager.get(
+          `instructions?questId=${this.props.questId}`
+        );
+        oldInstructions.forEach(
+          async instruction =>
+            await APIManager.delete(`instructions/${instruction.id}`)
+        );
+        console.log("oldInstructions", oldInstructions);
         for (
           let i = this.state.instructions.length - 1, nextId = null;
           i >= 0;
           i--
         ) {
+          console.log("i", i);
           const instructionResponse = await APIManager.post("instructions", {
-            questId: newQuest.id,
+            questId: editedQuest.id,
             stepId: this.state.instructions[i].id,
             isFirstStep: this.state.instructions[i].isFirstStep,
             nextInstructionId: nextId,
@@ -125,23 +116,27 @@ export default class QuestForm extends Component {
         }
         await this.props.setUpdatedQuests();
 
-        this.props.history.push("/quests");
+        this.props.history.push(`/quests/${this.props.questId}`);
       } else {
         window.alert("Something went wrong");
       }
     }
   };
   async componentDidMount() {
+    const quest = await APIManager.get(`quests/${this.props.questId}`);
     const difficulties = await APIManager.get("difficulties");
+
     const steps = await APIManager.get("steps");
     this.setState({
-      difficultyId: difficulties[0].id,
+      ...quest,
       difficulties: difficulties,
       steps: steps,
       loadingStatus: false
     });
   }
   render() {
+    console.log("questEditForm state", this.state);
+    console.log("questEditForm props", this.props);
     return (
       <>
         <Card className="quest-form-container">
@@ -151,7 +146,7 @@ export default class QuestForm extends Component {
                 <Button>{"<"}</Button>
               </Link>
             </span>
-            Quest Creation
+            Quest Edit
           </Card.Header>
           <Card.Body className="quest-form-body">
             <Form>
@@ -161,6 +156,7 @@ export default class QuestForm extends Component {
                   type="text"
                   id="name"
                   placeholder="Slay the dragon!"
+                  defaultValue={this.state.name}
                   onChange={this.handleFieldChange}
                 />
                 <Form.Text className="text-muted">
@@ -174,6 +170,7 @@ export default class QuestForm extends Component {
                   as="textarea"
                   rows={6}
                   id="description"
+                  defaultValue={this.state.description}
                   onChange={this.handleFieldChange}
                   placeholder="Here's what's happening. . ."
                 />
@@ -181,11 +178,12 @@ export default class QuestForm extends Component {
               </Form.Group>
               <hr />
               <Form.Group>
-                <InstructionForm
+                <InstructionEditForm
+                  questId={this.props.questId}
                   instructions={this.state.instructions}
+                  setInstructions={this.setInstructions}
                   addInstruction={this.addInstruction}
                   removeInstruction={this.removeInstruction}
-                  setInstructions={this.setInstructions}
                 />
                 <Form.Check
                   disabled={this.state.loadingStatus}
@@ -256,7 +254,7 @@ export default class QuestForm extends Component {
               <Form.Group>
                 {/* <Form.Label>Finish by</Form.Label> */}
                 <DayPicker
-                  selectedDays={this.state.completionDate}
+                  selectedDays={new Date(this.state.completionDate)}
                   id="completionDate"
                   onDayClick={this.handleDayPickerClick}
                 />
@@ -270,6 +268,7 @@ export default class QuestForm extends Component {
                 <Form.Control
                   type="text"
                   id="rewards"
+                  defaultValue={this.state.rewards}
                   placeholder="The payment for victory. . ."
                   onChange={this.handleFieldChange}
                 />
@@ -277,7 +276,7 @@ export default class QuestForm extends Component {
             </Form>
           </Card.Body>
         </Card>
-        <ActionBar handleSubmitForm={this.handleSubmitForm} />
+        <ActionBar handleEditSaveForm={this.handleEditSaveForm} />
       </>
     );
   }
