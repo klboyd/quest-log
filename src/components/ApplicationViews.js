@@ -9,12 +9,25 @@ export default class ApplicationViews extends Component {
     console.log("applicationViews props", this.props);
     return (
       <>
-        <Route exact path="/login" render={props => <Login {...props} />} />
+        <Route
+          exact
+          path="/login"
+          render={props =>
+            !this.props.isLoggedIn ? (
+              <Login
+                setLoggedInStatus={this.props.setLoggedInStatus}
+                {...props}
+              />
+            ) : (
+              <Redirect to="/quests" />
+            )
+          }
+        />
         <Route
           exact
           path="/"
           render={props =>
-            this.props.isAuthenticated() ? (
+            this.props.isLoggedIn ? (
               <Redirect to="/quests" />
             ) : (
               <Redirect to="/login" />
@@ -25,7 +38,7 @@ export default class ApplicationViews extends Component {
         <Route
           path="/quests"
           render={props =>
-            this.props.isAuthenticated() ? (
+            this.props.isLoggedIn ? (
               <QuestViews {...props} />
             ) : (
               <Redirect to="/login" />
@@ -37,7 +50,7 @@ export default class ApplicationViews extends Component {
           exact
           path="/character/new"
           render={props =>
-            this.props.isAuthenticated() ? (
+            this.props.isLoggedIn ? (
               <CharacterForm {...props} />
             ) : (
               <Redirect to="/login" />

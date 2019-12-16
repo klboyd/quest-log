@@ -25,6 +25,7 @@ export default class Login extends Component {
           "characterId",
           JSON.stringify(user[0].characterId)
         );
+      this.props.setLoggedInStatus();
       this.props.history.push("/quests");
     } else {
       window.alert("Your email or password was incorrect.");
