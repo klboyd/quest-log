@@ -47,7 +47,7 @@ export default class QuestDetail extends Component {
     await APIManager.post("assignees", {
       characterId: Number(id),
       questId: Number(this.props.questId),
-      charStartDate: new Date().toISOString().split("T")[0]
+      charStartDate: new Date().toISOString()
     });
     const assignees = await APIManager.get(
       `assignees/?questId=${this.props.questId}&_expand=character`

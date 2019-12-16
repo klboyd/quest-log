@@ -62,7 +62,10 @@ export default class QuestForm extends Component {
         (step, index) => id !== index
       );
       instructions[0].isFirstStep = true;
-      this.setState({ instructions: instructions, loadingStatus: false });
+      this.setState({
+        instructions: instructions,
+        loadingStatus: false
+      });
     } else {
       this.setState({
         instructions: this.state.instructions.filter(
@@ -91,8 +94,29 @@ export default class QuestForm extends Component {
         loadingStatus: false
       });
     } else {
-      this.setState({ instructions: editedInstructions, loadingStatus: false });
+      this.setState({
+        instructions: editedInstructions,
+        loadingStatus: false
+      });
     }
+  };
+  addNewInstructions = async questId => {
+    console.log("starting addNewInstructions");
+    const reversedInstructions = this.state.instructions.reverse();
+    let nextId = null;
+    for (const instruction of reversedInstructions) {
+      console.log("\n\n\nnextId", nextId);
+      const response = await APIManager.post("instructions", {
+        questId: questId,
+        stepId: instruction.id,
+        isFirstStep: instruction.isFirstStep,
+        nextInstructionId: nextId,
+        isComplete: instruction.isComplete
+      });
+      nextId = response.id;
+    }
+
+    await this.props.setUpdatedQuests();
   };
   handleSubmitForm = async () => {
     this.setState({ loadingStatus: true });
@@ -110,8 +134,8 @@ export default class QuestForm extends Component {
         difficultyId: this.state.difficultyId,
         description: this.state.description,
         isStepsHidden: this.state.isStepsHidden,
-        creationDate: new Date().toISOString().split("T")[0],
-        completionDate: this.state.completionDate.toISOString().split("T")[0],
+        creationDate: new Date().toISOString(),
+        completionDate: this.state.completionDate.toISOString(),
         recurInDays: this.state.recurInDays,
         rewards: this.state.rewards,
         isComplete: this.state.isComplete,
@@ -119,21 +143,7 @@ export default class QuestForm extends Component {
       };
       const newQuest = await APIManager.post("quests", newQuestDetails);
       if (newQuest) {
-        for (
-          let i = this.state.instructions.length - 1, nextId = null;
-          i >= 0;
-          i--
-        ) {
-          const instructionResponse = await APIManager.post("instructions", {
-            questId: newQuest.id,
-            stepId: this.state.instructions[i].id,
-            isFirstStep: this.state.instructions[i].isFirstStep,
-            nextInstructionId: nextId,
-            isComplete: this.state.instructions[i].isComplete
-          });
-          nextId = instructionResponse.id;
-        }
-        await this.props.setUpdatedQuests();
+        this.addNewInstructions(newQuest.id);
         this.setState({ loadingStatus: false });
         this.props.history.push("/quests");
       } else {

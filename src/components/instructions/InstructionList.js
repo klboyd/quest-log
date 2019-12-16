@@ -21,15 +21,17 @@ export default class InstructionList extends Component {
       `instructions?questId=${this.props.questId}&_expand=step`
     );
     const orderedSteps = [steps.find(step => step.isFirstStep)];
-
-    for (
-      let i = 1, nextStep = orderedSteps[i - 1].nextInstructionId;
-      i < steps.length && nextStep !== null;
-      nextStep = orderedSteps[i].nextInstructionId, i++
-    ) {
-      orderedSteps.push(steps.find(step => nextStep === step.id));
+    console.log("orderedSteps", orderedSteps[0]);
+    if (orderedSteps[0] !== undefined) {
+      for (
+        let i = 1, nextStep = orderedSteps[i - 1].nextInstructionId;
+        i < steps.length && nextStep !== null;
+        nextStep = orderedSteps[i].nextInstructionId, i++
+      ) {
+        orderedSteps.push(steps.find(step => nextStep === step.id));
+      }
+      this.props.setInstructions(orderedSteps);
     }
-    this.props.setInstructions(orderedSteps);
   }
   async componentDidMount() {
     this.setState({ loadingStatus: true });

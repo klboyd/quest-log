@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Nav, Navbar, Row, Col, Button } from "react-bootstrap";
+import { Nav, Navbar, Row, Col } from "react-bootstrap";
 
 export default class NavigationBar extends Component {
   handleLogout = () => {
