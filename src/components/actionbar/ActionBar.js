@@ -85,7 +85,7 @@ export default class ActionBar extends Component {
                     </Button>
                   </Route>
                   <Route exact path="/quests/:questId(\d+)/edit">
-                    <Button onClick={this.props.handleEditSubmitForm}>
+                    <Button onClick={this.props.handleEditSaveForm}>
                       Save
                     </Button>
                   </Route>

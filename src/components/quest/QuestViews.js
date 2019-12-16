@@ -103,6 +103,7 @@ export default class Quests extends Component {
                     path="/quests/:questId(\d+)/edit"
                     render={props => (
                       <QuestEditForm
+                        setUpdatedQuests={this.setUpdatedQuests}
                         questId={parseInt(props.match.params.questId)}
                         {...props}
                       />

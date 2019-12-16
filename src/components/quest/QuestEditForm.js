@@ -29,18 +29,93 @@ export default class QuestEditForm extends Component {
     stateToChange[evt.target.id] = evt.target.value;
     this.setState(stateToChange);
   };
-  setEditedInstructions = editedInstructions => {
+  addInstruction = step => {
+    this.state.instructions.length === 0
+      ? this.state.instructions.push({
+          ...step,
+          isFirstStep: true,
+          isComplete: false
+        })
+      : this.state.instructions.push({
+          ...step,
+          isFirstStep: false,
+          isComplete: false
+        });
+  };
+  removeInstruction = id => {
+    if (this.state.instructions[id].isFirstStep) {
+      const instructions = this.state.instructions.filter(
+        (step, index) => id !== index
+      );
+      instructions[0].isFirstStep = true;
+      this.setState({ instructions: instructions });
+    } else {
+      this.setState({
+        instructions: this.state.instructions.filter(
+          (step, index) => id !== index
+        )
+      });
+    }
+  };
+  setInstructions = editedInstructions => {
     this.setState({ instructions: editedInstructions });
   };
-  handleEditSubmitForm = async () => {
+  handleEditSaveForm = async () => {
     if (
       !this.state.instructions[0] ||
       !this.state.name ||
       !this.state.description
     ) {
       window.alert("Please fill out all fields");
+    } else {
+      const editedQuestDetails = {
+        id: this.props.questId,
+        creatorId: this.state.creatorId,
+        name: this.state.name,
+        difficultyId: this.state.difficultyId,
+        description: this.state.description,
+        isStepsHidden: this.state.isStepsHidden,
+        creationDate: this.state.creationDate,
+        completionDate: new Date(this.state.completionDate)
+          .toISOString()
+          .split("T")[0],
+        recurInDays: this.state.recurInDays,
+        rewards: this.state.rewards,
+        isComplete: this.state.isComplete,
+        parentQuestId: this.state.parentQuestId
+      };
+      const editedQuest = await APIManager.update("quests", editedQuestDetails);
+      if (editedQuest) {
+        const oldInstructions = await APIManager.get(
+          `instructions?questId=${this.props.questId}`
+        );
+        oldInstructions.forEach(
+          async instruction =>
+            await APIManager.delete(`instructions/${instruction.id}`)
+        );
+        console.log("oldInstructions", oldInstructions);
+        for (
+          let i = this.state.instructions.length - 1, nextId = null;
+          i >= 0;
+          i--
+        ) {
+          console.log("i", i);
+          const instructionResponse = await APIManager.post("instructions", {
+            questId: editedQuest.id,
+            stepId: this.state.instructions[i].id,
+            isFirstStep: this.state.instructions[i].isFirstStep,
+            nextInstructionId: nextId,
+            isComplete: this.state.instructions[i].isComplete
+          });
+          nextId = instructionResponse.id;
+        }
+        await this.props.setUpdatedQuests();
+
+        this.props.history.push(`/quests/${this.props.questId}`);
+      } else {
+        window.alert("Something went wrong");
+      }
     }
-    console.log("handleEditSubmitForm");
   };
   async componentDidMount() {
     const quest = await APIManager.get(`quests/${this.props.questId}`);
@@ -101,7 +176,9 @@ export default class QuestEditForm extends Component {
                 <InstructionEditForm
                   questId={this.props.questId}
                   instructions={this.state.instructions}
-                  setEditedInstructions={this.setEditedInstructions}
+                  setInstructions={this.setInstructions}
+                  addInstruction={this.addInstruction}
+                  removeInstruction={this.removeInstruction}
                 />
                 <Form.Check
                   disabled={this.state.loadingStatus}
@@ -194,7 +271,7 @@ export default class QuestEditForm extends Component {
             </Form>
           </Card.Body>
         </Card>
-        <ActionBar handleEditSubmitForm={this.handleEditSubmitForm} />
+        <ActionBar handleEditSaveForm={this.handleEditSaveForm} />
       </>
     );
   }

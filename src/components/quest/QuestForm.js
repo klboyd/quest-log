@@ -42,8 +42,16 @@ export default class QuestForm extends Component {
   };
   addInstruction = step => {
     this.state.instructions.length === 0
-      ? this.state.instructions.push({ ...step, isFirstStep: true })
-      : this.state.instructions.push({ ...step, isFirstStep: false });
+      ? this.state.instructions.push({
+          ...step,
+          isFirstStep: true,
+          isComplete: false
+        })
+      : this.state.instructions.push({
+          ...step,
+          isFirstStep: false,
+          isComplete: false
+        });
   };
   handleSubmitForm = async () => {
     if (
@@ -78,7 +86,7 @@ export default class QuestForm extends Component {
             stepId: this.state.instructions[i].id,
             isFirstStep: this.state.instructions[i].isFirstStep,
             nextInstructionId: nextId,
-            isComplete: false
+            isComplete: this.state.instructions[i].isComplete
           });
           nextId = instructionResponse.id;
         }

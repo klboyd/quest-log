@@ -40,7 +40,7 @@ export default class InstructionEditForm extends Component {
       const newStep = await APIManager.post("steps", {
         name: this.state.newName
       });
-      this.props.setEditedInstructions(newStep);
+      this.props.addInstruction(newStep);
       const updatedSteps = await APIManager.get("steps");
       this.setState({
         steps: updatedSteps,
@@ -50,7 +50,7 @@ export default class InstructionEditForm extends Component {
       });
     } else if (Object.keys(this.state.typeaheadStep).length > 0) {
       this.setState({ loadingStatus: true });
-      this.props.setEditedInstructions(this.state.typeaheadStep);
+      this.props.addInstruction(this.state.typeaheadStep);
       this.setState({
         newName: "",
         typeaheadStep: {},
@@ -79,70 +79,80 @@ export default class InstructionEditForm extends Component {
         orderedSteps.push(steps.find(step => nextStep === step.id));
       }
       console.log("orderedSteps", orderedSteps);
-      this.props.setEditedInstructions(orderedSteps);
+
+      this.props.setInstructions(
+        orderedSteps.map(step => {
+          return {
+            isComplete: step.isComplete,
+            isFirstStep: step.isFirstStep,
+            id: step.step.id,
+            name: step.step.name
+          };
+        })
+      );
     } else {
-      this.props.setEditedInstructions([]);
+      this.props.setInstructions([]);
     }
     this.setState({ loadingStatus: false });
   }
-  removeStep = async id => {
-    this.setState({ loadingStatus: true });
-    console.log("removeStep", id);
-    const editedInstructions = this.props.instructions;
+  // removeStep = async id => {
+  //   this.setState({ loadingStatus: true });
+  //   console.log("removeStep", id);
+  //   const editedInstructions = this.props.instructions;
 
-    if (
-      editedInstructions.find(instruction => instruction.id === id).isFirstStep
-    ) {
-      if (
-        editedInstructions.find(instruction => instruction.id === id)
-          .nextInstructionId
-      ) {
-        const nextInstruction = await APIManager.get(
-          `instructions/${
-            editedInstructions.find(instruction => instruction.id === id)
-              .nextInstructionId
-          }`
-        );
-        await APIManager.update("instructions", {
-          id: nextInstruction.id,
-          isFirstStep: true,
-          isComplete: nextInstruction.isComplete,
-          nextInstructionId: nextInstruction.nextInstructionId,
-          questId: nextInstruction.questId,
-          stepId: nextInstruction.stepId
-        });
-      }
-      await APIManager.delete(`instructions/${id}`);
-      await this.getOrderedSteps();
-    } else {
-      const previousInstruction = await APIManager.get(
-        `instructions/${
-          editedInstructions.find(
-            instruction => instruction.nextInstructionId === id
-          ).id
-        }`
-      );
-      const nextInstruction = await APIManager.get(
-        `instructions/${
-          editedInstructions.find(instruction => instruction.id === id)
-            .nextInstructionId
-        }`
-      );
-      console.log("previousInstructionId", previousInstruction);
-      console.log("nextInstructionId", nextInstruction);
-      await APIManager.update("instructions", {
-        id: previousInstruction.id,
-        isFirstStep: previousInstruction.isFirstStep,
-        isComplete: previousInstruction.isComplete,
-        nextInstructionId: nextInstruction.id || null,
-        questId: previousInstruction.questId,
-        stepId: previousInstruction.stepId
-      });
-      await APIManager.delete(`instructions/${id}`);
-      await this.getOrderedSteps();
-    }
-    this.setState({ loadingStatus: false });
-  };
+  //   if (
+  //     editedInstructions.find(instruction => instruction.id === id).isFirstStep
+  //   ) {
+  //     if (
+  //       editedInstructions.find(instruction => instruction.id === id)
+  //         .nextInstructionId
+  //     ) {
+  //       const nextInstruction = await APIManager.get(
+  //         `instructions/${
+  //           editedInstructions.find(instruction => instruction.id === id)
+  //             .nextInstructionId
+  //         }`
+  //       );
+  //       await APIManager.update("instructions", {
+  //         id: nextInstruction.id,
+  //         isFirstStep: true,
+  //         isComplete: nextInstruction.isComplete,
+  //         nextInstructionId: nextInstruction.nextInstructionId,
+  //         questId: nextInstruction.questId,
+  //         stepId: nextInstruction.stepId
+  //       });
+  //     }
+  //     await APIManager.delete(`instructions/${id}`);
+  //     await this.getOrderedSteps();
+  //   } else {
+  //     const previousInstruction = await APIManager.get(
+  //       `instructions/${
+  //         editedInstructions.find(
+  //           instruction => instruction.nextInstructionId === id
+  //         ).id
+  //       }`
+  //     );
+  //     const nextInstruction = await APIManager.get(
+  //       `instructions/${
+  //         editedInstructions.find(instruction => instruction.id === id)
+  //           .nextInstructionId
+  //       }`
+  //     );
+  //     console.log("previousInstructionId", previousInstruction);
+  //     console.log("nextInstructionId", nextInstruction);
+  //     await APIManager.update("instructions", {
+  //       id: previousInstruction.id,
+  //       isFirstStep: previousInstruction.isFirstStep,
+  //       isComplete: previousInstruction.isComplete,
+  //       nextInstructionId: nextInstruction.id || null,
+  //       questId: previousInstruction.questId,
+  //       stepId: previousInstruction.stepId
+  //     });
+  //     await APIManager.delete(`instructions/${id}`);
+  //     await this.getOrderedSteps();
+  //   }
+  //   this.setState({ loadingStatus: false });
+  // };
   async componentDidMount() {
     const steps = await APIManager.get("steps");
     this.setState({
@@ -151,20 +161,21 @@ export default class InstructionEditForm extends Component {
     await this.getOrderedSteps();
   }
   render() {
-    console.log("instructionEditForm", this.props);
+    console.log("instructionEditForm state", this.state);
+    console.log("instructionEditForm props", this.props);
     return (
       <Form.Group>
         <Form.Label>Steps</Form.Label>
         <ListGroup>
-          {this.props.instructions.map(instruction => (
+          {this.props.instructions.map((instruction, index) => (
             <ListGroup.Item
               style={{ display: "flex", justifyContent: "space-between" }}
               variant={instruction.isComplete ? "success" : null}
-              key={instruction.step.id}>
-              <div>{instruction.step.name}</div>
+              key={index}>
+              <div>{instruction.name}</div>
               <div>
                 <Button
-                  onClick={() => this.removeStep(instruction.id)}
+                  onClick={() => this.props.removeInstruction(index)}
                   size="sm"
                   variant="danger"
                   disabled={this.state.loadingStatus}>
