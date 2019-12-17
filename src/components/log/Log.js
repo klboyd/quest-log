@@ -42,9 +42,8 @@ export default class Log extends Component {
                       as={Card.Header}
                       key={quest.id}
                       onClick={() => {
-                        this.props.location.pathname.match(/^\/quests\/\d+$/)
-                          ? this.props.history.push(`/quests`)
-                          : this.props.history.push(`/quests/${quest.id}`);
+                        this.props.location.pathname.match(/^\/quests\/\d+$/);
+                        this.props.history.push(`/quests/${quest.id}`);
                       }}>
                       {quest.name}
                     </ListGroup.Item>
@@ -137,9 +136,11 @@ export default class Log extends Component {
                       as={Card.Header}
                       key={quest.id}
                       onClick={() => {
-                        this.props.location.pathname.match(/^\/quests\/\d+$/)
-                          ? this.props.history.push(`/quests`)
-                          : this.props.history.push(`/quests/${quest.id}`);
+                        this.props.location.pathname.match(/^\/quests\/\d+$/);
+                        this.props.history.push(`/quests/${quest.id}`);
+
+                        // ? this.props.history.push(`/quests`)
+                        // : this.props.history.push(`/quests/${quest.id}`);
                       }}>
                       {quest.name}
                     </ListGroup.Item>

@@ -7,6 +7,7 @@ import ActionBar from "../actionbar/ActionBar";
 import AssigneesList from "../assignees/AssigneesList";
 
 export default class QuestDetail extends Component {
+  _isMounted = false;
   state = {
     creatorId: "",
     name: "",
@@ -25,10 +26,10 @@ export default class QuestDetail extends Component {
     loadingStatus: true
   };
   setInstructions = newInstructions => {
-    this.setState({ instructions: newInstructions });
+    this._isMounted && this.setState({ instructions: newInstructions });
   };
   setAssignees = newAssignees => {
-    this.setState({ assignees: newAssignees });
+    this._isMounted && this.setState({ assignees: newAssignees });
   };
   handleAcceptQuest = async () => {
     await APIManager.post(`assignees`, {
@@ -69,24 +70,43 @@ export default class QuestDetail extends Component {
     const assignees = await APIManager.get(
       `assignees/?questId=${this.props.questId}&_expand=character`
     );
-    this.setAssignees(assignees);
+    this._isMounted && this.setAssignees(assignees);
     await this.props.setUpdatedQuests();
   };
   async componentDidMount() {
+    this._isMounted = true;
+
     const quest = await APIManager.get(
       `quests/${this.props.questId}?_expand=difficulty`
     );
 
-    this.setState({
-      ...quest,
-      loadingStatus: false
-    });
-    console.log("questDetail", this.state);
+    this._isMounted &&
+      this.setState({
+        ...quest,
+        loadingStatus: false
+      });
+  }
+  async componentWillReceiveProps(newProps) {
+    this._isMounted = true;
+
+    const quest = await APIManager.get(
+      `quests/${newProps.questId}?_expand=difficulty`
+    );
+
+    this._isMounted &&
+      this.setState({
+        ...quest,
+        loadingStatus: false
+      });
   }
   componentWillUnmount() {
+    this._isMounted = false;
     console.log("questDetails unmounted");
   }
   render() {
+    console.log("questDetail state", this.state);
+    console.log("questDetail props", this.props);
+
     return (
       <>
         <Card className="quest-details-container">
@@ -101,8 +121,12 @@ export default class QuestDetail extends Component {
           <Card.Body className="quest-details-body">
             <h3>{this.state.name}</h3>
             <Card.Text>{this.state.description}</Card.Text>
-            <Card.Text>Created on {this.state.creationDate}</Card.Text>
-            <Card.Text>Finish by {this.state.completionDate}</Card.Text>
+            <Card.Text>
+              Created on {this.state.creationDate.split("T")[0]}
+            </Card.Text>
+            <Card.Text>
+              Finish by {this.state.completionDate.split("T")[0]}
+            </Card.Text>
             <Card.Text>Difficulty: {this.state.difficulty.type}</Card.Text>
             <AssigneesList
               questId={this.props.questId}
