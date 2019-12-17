@@ -3,12 +3,13 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 import APIManager from "../modules/APIManager";
 
 export default class AssigneeForm extends Component {
+  _isMounted = false;
   state = {
     eligibleCharacters: [],
     loadingStatus: true
   };
   async setEligibleCharacters() {
-    this.setState({ loadingStatus: true });
+    this._isMounted && this.setState({ loadingStatus: true });
     const characters = await APIManager.get("characters");
 
     const assignedCharacters = this.props.assignees.map(
@@ -22,25 +23,32 @@ export default class AssigneeForm extends Component {
           assignedCharacters.find(assigned => assigned.id === character.id)
         )
     );
-    this.setState({
-      eligibleCharacters: eligibleCharacters,
-      loadingStatus: false
-    });
+    this._isMounted &&
+      this.setState({
+        eligibleCharacters: eligibleCharacters,
+        loadingStatus: false
+      });
   }
   handleAssignCharacter = async id => {
-    this.setState({ loadingStatus: true });
+    this._isMounted && this.setState({ loadingStatus: true });
     console.log("handleAssignCharacter", id);
     await this.props.handleAssignQuest(id);
 
     await this.setEligibleCharacters();
-    this.setState({ loadingStatus: false });
+    this._isMounted && this.setState({ loadingStatus: false });
   };
   async componentDidMount() {
+    this._isMounted = true;
     await this.setEligibleCharacters();
     console.log("assigneeForm state", this.state);
     console.log("assigneeForm props", this.props);
   }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   render() {
+    console.log("assigneeForm state", this.state);
+    console.log("assigneeForm props", this.props);
     return (
       <DropdownButton
         disabled={this.state.eligibleCharacters.length === 0}

@@ -6,8 +6,15 @@ import "./ActionBar.css";
 import AssigneeForm from "../assignees/AssigneeForm";
 
 export default class ActionBar extends Component {
+  state = {
+    loadingStatus: true
+  };
+
+  componentWillMount() {
+    this.setState({ loadingStatus: false });
+  }
   render() {
-    console.log("actionBar", this.props);
+    console.log("actionBar props", this.props);
     return (
       <Card.Footer className="fixed-bottom actionbar-container">
         <Container>

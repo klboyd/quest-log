@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import ActionBar from "../actionbar/ActionBar";
 
 export default class QuestList extends Component {
+  componentWillUnmount() {
+    console.log("questList unmounted");
+  }
   render() {
     return (
       <>
