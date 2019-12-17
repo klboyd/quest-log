@@ -227,7 +227,7 @@ export default class QuestEditForm extends Component {
                   addInstruction={this.addInstruction}
                   removeInstruction={this.removeInstruction}
                 />
-                <Form.Check
+                {/* <Form.Check
                   disabled={this.state.loadingStatus}
                   inline
                   name="isStepsHidden"
@@ -236,7 +236,7 @@ export default class QuestEditForm extends Component {
                   checked={this.state.isStepsHidden}
                   onChange={this.handleCheckBox}
                 />
-                <Form.Label>Hide next steps</Form.Label>
+                <Form.Label>Hide next steps</Form.Label> */}
               </Form.Group>
               <hr />
               <Form.Group className="d-flex flex-column">
@@ -258,7 +258,7 @@ export default class QuestEditForm extends Component {
                 </ButtonGroup>
               </Form.Group>
               <hr />
-              <Form.Group>
+              {/* <Form.Group>
                 <Form.Label>Repeat</Form.Label>
                 <Form.Check
                   inline
@@ -292,7 +292,7 @@ export default class QuestEditForm extends Component {
                   Does this quest need to occur each day or once a week?
                 </Form.Text>
               </Form.Group>
-              <hr />
+              <hr /> */}
               <Form.Group>
                 {/* <Form.Label>Finish by</Form.Label> */}
                 <DayPicker

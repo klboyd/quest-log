@@ -45,26 +45,30 @@ export default class InstructionList extends Component {
       <>
         <h5>Steps:</h5>
         <ListGroup>
-          {this.props.instructions.map(instruction => (
-            <ListGroup.Item
-              key={instruction.id}
-              variant={instruction.isComplete ? "success" : null}>
-              <Form.Check
-                type="checkbox"
-                disabled={
-                  instruction.isComplete || this.props.isAssigned === undefined
-                }
-                defaultChecked={instruction.isComplete}
-                inline
-                onChange={() => {
-                  this.completeInstruction(instruction.id);
-                }}
-              />
-              <span className={instruction.isComplete ? "text-muted" : null}>
-                {instruction.step.name}
-              </span>
-            </ListGroup.Item>
-          ))}
+          {this.props.instructions.length > 0
+            ? this.props.instructions.map(instruction => (
+                <ListGroup.Item
+                  key={instruction.id}
+                  variant={instruction.isComplete ? "success" : null}>
+                  <Form.Check
+                    type="checkbox"
+                    disabled={
+                      instruction.isComplete ||
+                      this.props.isAssigned === undefined
+                    }
+                    defaultChecked={instruction.isComplete}
+                    inline
+                    onChange={() => {
+                      this.completeInstruction(instruction.id);
+                    }}
+                  />
+                  <span
+                    className={instruction.isComplete ? "text-muted" : null}>
+                    {instruction.step.name}
+                  </span>
+                </ListGroup.Item>
+              ))
+            : null}
         </ListGroup>
       </>
     );
