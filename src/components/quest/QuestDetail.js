@@ -83,6 +83,9 @@ export default class QuestDetail extends Component {
     });
     console.log("questDetail", this.state);
   }
+  componentWillUnmount() {
+    console.log("questDetails unmounted");
+  }
   render() {
     return (
       <>

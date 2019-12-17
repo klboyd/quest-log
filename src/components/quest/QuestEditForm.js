@@ -103,10 +103,11 @@ export default class QuestEditForm extends Component {
     const oldInstructions = await APIManager.get(
       `instructions?questId=${this.props.questId}`
     );
+    console.log("starting delete instructions", oldInstructions);
     for (const instruction of oldInstructions) {
       await APIManager.delete(`instructions/${instruction.id}`);
     }
-    console.log("oldInstructions", oldInstructions);
+    console.log("completed delete instructions");
   };
   addNewInstructions = async () => {
     console.log("starting addNewInstructions");

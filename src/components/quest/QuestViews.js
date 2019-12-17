@@ -24,9 +24,11 @@ export default class Quests extends Component {
     loadingStatus: true
   };
   async getAssignedQuests() {
+    this.setState({ loadingStatus: true });
     const assignedQuests = await APIManager.get(
       `assignees?characterId=${localStorage["characterId"]}&_expand=quest`
     );
+    this.setState({ loadingStatus: false });
     return assignedQuests.map(user => user.quest);
   }
   async getAllQuests() {
@@ -46,7 +48,6 @@ export default class Quests extends Component {
       quests: await this.getAllQuests(),
       loadingStatus: false
     });
-    console.log("questViews", this.state);
   }
   handleCompleteQuest = async (questId, instructions) => {
     if (instructions.find(step => !step.isComplete)) {
@@ -66,6 +67,8 @@ export default class Quests extends Component {
     }
   };
   render() {
+    console.log("questViews state", this.state);
+    console.log("questViews props", this.props);
     return (
       <Container style={styles.questContainer}>
         <Row className="quest-container">
@@ -82,7 +85,7 @@ export default class Quests extends Component {
                     path="/quests"
                     render={props => {
                       return (
-                        <QuestList quests={this.state.quests} {...this.props} />
+                        <QuestList quests={this.state.quests} {...props} />
                       );
                     }}
                   />
@@ -111,6 +114,7 @@ export default class Quests extends Component {
                   />
 
                   <Route
+                    exact
                     path="/quests/new"
                     render={props => (
                       <QuestForm
