@@ -93,9 +93,29 @@ export default class QuestDetail extends Component {
       `quests/${newProps.questId}?_expand=difficulty`
     );
 
+    const assignees = await APIManager.get(
+      `assignees/?questId=${newProps.questId}&_expand=character`
+    );
+
+    const steps = await APIManager.get(
+      `instructions?questId=${this.props.questId}&_expand=step`
+    );
+
+    const orderedSteps = [steps.find(step => step.isFirstStep)];
+    if (orderedSteps[0] !== undefined) {
+      for (
+        let i = 1, nextStep = orderedSteps[i - 1].nextInstructionId;
+        i < steps.length && nextStep !== null;
+        nextStep = orderedSteps[i].nextInstructionId, i++
+      ) {
+        orderedSteps.push(steps.find(step => nextStep === step.id));
+      }
+    }
     this._isMounted &&
       this.setState({
         ...quest,
+        assignees: assignees,
+        instructions: orderedSteps,
         loadingStatus: false
       });
   }

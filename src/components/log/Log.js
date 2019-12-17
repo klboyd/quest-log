@@ -10,9 +10,10 @@ export default class Log extends Component {
     this.setState({
       loadingStatus: false
     });
-    console.log("log", this.state);
   }
   render() {
+    console.log("log state", this.state);
+    console.log("log props", this.props);
     return (
       <Card className="log-display">
         <Card.Header>Quest Log</Card.Header>

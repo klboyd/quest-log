@@ -10,7 +10,7 @@ export default class ActionBar extends Component {
     loadingStatus: true
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({ loadingStatus: false });
   }
   render() {
