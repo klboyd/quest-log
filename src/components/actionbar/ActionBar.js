@@ -38,11 +38,13 @@ export default class ActionBar extends Component {
               ) : null}
             </Col>
             <Col lg={2}>
-              <Route exact path="/quests/:questId(\d+)">
-                <Link to={`/quests/${this.props.questId}/edit`}>
-                  <Button>Edit</Button>
-                </Link>
-              </Route>{" "}
+              {!this.props.isQuestComplete ? (
+                <Route exact path="/quests/:questId(\d+)">
+                  <Link to={`/quests/${this.props.questId}/edit`}>
+                    <Button>Edit</Button>
+                  </Link>
+                </Route>
+              ) : null}
             </Col>
             <Col lg={2}></Col>
             <Col lg={2}>
