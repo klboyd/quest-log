@@ -6,8 +6,12 @@
   cursor: pointer;
 }
 
+.log-body {
+  overflow: scroll;
+}
+
 .log-item:hover {
-  background-color: pink;
+  background-color: rgb(158, 207, 250);
 }
 
 .accordion-header {

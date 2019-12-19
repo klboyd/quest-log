@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./ActionBar.css";
 import AssigneeForm from "../assignees/AssigneeForm";
 
-export default class ActionBar extends Component {
+class ActionBar extends Component {
   state = {
     loadingStatus: true
   };
@@ -19,12 +19,24 @@ export default class ActionBar extends Component {
       <Card.Footer className="fixed-bottom actionbar-container">
         <Container>
           <Row lg={12}>
-            <Col lg={2}>
+            <Col className="action-bar-spot" lg={2}>
+              <Route path="/quests/(.*)">
+                <Link
+                  to={
+                    this.props.location.pathname.match(/^\/quests\/\d+\/edit$/)
+                      ? `/quests/${this.props.questId}`
+                      : `/quests`
+                  }>
+                  <Button>Back</Button>
+                </Link>
+              </Route>
+            </Col>
+            <Col className="action-bar-spot" lg={2}>
               {this.props.isCreator ? (
                 <Button onClick={this.props.handleRemoveQuest}>Remove</Button>
               ) : null}
             </Col>
-            <Col lg={2}>
+            <Col className="action-bar-spot" lg={2}>
               {this.props.isAssigned &&
               !this.props.isComplete &&
               this.props.instructions.find(
@@ -37,7 +49,7 @@ export default class ActionBar extends Component {
                 </Route>
               ) : null}
             </Col>
-            <Col lg={2}>
+            <Col className="action-bar-spot" lg={2}>
               {!this.props.isQuestComplete ? (
                 <Route exact path="/quests/:questId(\d+)">
                   <Link to={`/quests/${this.props.questId}/edit`}>
@@ -46,8 +58,7 @@ export default class ActionBar extends Component {
                 </Route>
               ) : null}
             </Col>
-            <Col lg={2}></Col>
-            <Col lg={2}>
+            <Col className="action-bar-spot" lg={2}>
               {!this.props.isQuestComplete ? (
                 <Route exact path="/quests/:questId(\d+)">
                   <AssigneeForm
@@ -59,7 +70,7 @@ export default class ActionBar extends Component {
                 </Route>
               ) : null}
             </Col>
-            <Col lg={2}>
+            <Col className="action-bar-spot" lg={2}>
               <Route exact path="/quests">
                 <Link to={"/quests/new"}>
                   <Button>New</Button>
@@ -107,3 +118,5 @@ export default class ActionBar extends Component {
     );
   }
 }
+
+export default withRouter(ActionBar);

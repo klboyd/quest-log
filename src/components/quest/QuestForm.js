@@ -166,14 +166,7 @@ export default class QuestForm extends Component {
     return (
       <>
         <Card className="quest-form-container">
-          <Card.Header>
-            <span>
-              <Link to={"/quests"}>
-                <Button>{"<"}</Button>
-              </Link>
-            </span>
-            Quest Creation
-          </Card.Header>
+          <Card.Header>Quest Creation</Card.Header>
           <Card.Body className="quest-form-body">
             <Form>
               <Form.Group>

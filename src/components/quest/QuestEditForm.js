@@ -182,14 +182,7 @@ export default class QuestEditForm extends Component {
     return (
       <>
         <Card className="quest-form-container">
-          <Card.Header>
-            <span>
-              <Link to={"/quests"}>
-                <Button>{"<"}</Button>
-              </Link>
-            </span>
-            Quest Edit
-          </Card.Header>
+          <Card.Header>Quest Edit</Card.Header>
           <Card.Body className="quest-form-body">
             <Form>
               <Form.Group>
@@ -318,7 +311,10 @@ export default class QuestEditForm extends Component {
             </Form>
           </Card.Body>
         </Card>
-        <ActionBar handleEditSaveForm={this.handleEditSaveForm} />
+        <ActionBar
+          questId={this.props.questId}
+          handleEditSaveForm={this.handleEditSaveForm}
+        />
       </>
     );
   }

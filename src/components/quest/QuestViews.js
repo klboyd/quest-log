@@ -13,7 +13,13 @@ import QuestEditForm from "./QuestEditForm";
 const styles = {
   questContainer: {
     // margin: 0,
-    height: window.innerHeight - 56
+    maxHeight: window.innerHeight - 56
+  },
+  logSidebar: {
+    maxHeight: "inherit"
+  },
+  questDetails: {
+    maxHeight: "inherit"
   }
 };
 
@@ -70,14 +76,14 @@ export default class Quests extends Component {
     console.log("questViews state", this.state);
     console.log("questViews props", this.props);
     return (
-      <Container style={styles.questContainer}>
-        <Row className="quest-container">
-          <Col className="log-sidebar" lg={4}>
+      <Container>
+        <Row style={styles.questContainer} className="quest-container">
+          <Col style={styles.logSidebar} className="log-sidebar" lg={4}>
             <Character {...this.props} />
             <Log quests={this.state.assignedQuests} {...this.props} />
           </Col>
-          <Col className="quest-display" lg={8}>
-            <Card style={{ height: "100%", padding: 0 }}>
+          <Col style={styles.questDetails} className="quest-display" lg={8}>
+            <Card style={{ height: "100%", padding: 0, border: 0 }}>
               {
                 <>
                   <Route

@@ -1,8 +1,8 @@
 .quest-container {
   padding: 0;
   margin: 0;
-  height: 100%;
-  background-color: olivedrab
+  height: 100vh;
+  background-color: transparent;
 }
 
 .log-sidebar {
@@ -11,25 +11,52 @@
   background-color: steelblue;
   margin: 0;
   padding: 0;
-  min-height: 100%;
+  min-height: 50%;
+  /* max-height: 100vh; */
 }
 
 .log-sidebar>* {
   flex: 0 0 50%;
+  overflow: scroll;
 }
 
 .quest-display {
   padding: 0;
   margin: 0;
+  /* overflow: scroll; */
 }
 
 .quest-list-container, .quest-details-container, .quest-form-container {
   height: 100%;
-  overflow: hidden;
 }
 
 .quest-details-body, .quest-list-body, .quest-form-body {
   height: 100%;
+  overflow: scroll;
+}
+
+.quest-list-body {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between
+}
+
+.quest-card-link {
+  text-decoration: none;
+  color: black;
+  flex: 0 1 45%;
+  margin: 3px;
+  height: 100px;
+  background-color: grey;
+}
+
+.quest-card-link>* {
+  height: 100%;
+}
+
+.quest-card-link:hover {
+  text-decoration: none;
+  color: black;
 }
 
 .quest-card-header {
@@ -50,4 +77,48 @@ hr {
   width: 96%;
   color: #FFFF00;
   height: 1px;
+}
+
+.card {
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
+.card-header {
+  /* background-color: darkgrey; */
+  /* color: rgb(161, 150, 150); */
+  /* background-image: linear-gradient(darkgrey, grey); */
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  text-align: center;
+}
+
+.btn, .btn:hover {
+  background-color: black;
+  border: 0;
+}
+
+.accordion-header {
+  /* background-color: grey; */
+  border: 1px solid black;
+  max-height: 3em;
+}
+
+.collapse, .collapsing {
+  border: 1px solid black;
+}
+
+.log-item {
+  text-align: left;
+  padding: 6px;
+  /* background-color: blue */
+  border: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+body {
+  background-color: #343a40;
+  /* color: black */
 }

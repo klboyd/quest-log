@@ -20,6 +20,7 @@ export default class CharacterEditForm extends Component {
     this.setState(stateToChange);
   };
   render() {
+    console.log("characterEditForm", this.props);
     return (
       <>
         <Form.Control
@@ -35,16 +36,26 @@ export default class CharacterEditForm extends Component {
           rows="6"
           onChange={this.handleFieldChange}
         />
-        <Button
-          type="primary"
-          onClick={() => {
-            this.props.confirmNewDetails({
-              name: this.state.newName,
-              description: this.state.newDescription
-            });
-          }}>
-          Accept
-        </Button>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            className="character-edit-accept"
+            type="primary"
+            onClick={() => {
+              this.props.confirmNewDetails({
+                name: this.state.newName,
+                description: this.state.newDescription
+              });
+            }}>
+            Accept
+          </Button>
+          <Button
+            variant="danger"
+            disabled={this.state.loadingStatus}
+            className="character-edit-button"
+            onClick={this.props.switchEditMode}>
+            {"x"}
+          </Button>
+        </div>
       </>
     );
   }
