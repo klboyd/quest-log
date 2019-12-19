@@ -17,7 +17,13 @@ export default class NavigationBar extends Component {
             <Nav.Link href="/quests">Quests</Nav.Link>
           ) : null}
         </Col>
-        <Col lg={6}></Col>
+        <Col lg={2}>
+          {this.props.isLoggedIn ? (
+            <Nav.Link href="/guild">Guild</Nav.Link>
+          ) : null}
+        </Col>
+        <Col lg={4}></Col>
+
         <Col lg={2}>
           {this.props.isLoggedIn ? (
             <Nav.Link onClick={this.handleLogout} href="/login">

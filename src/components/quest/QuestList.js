@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Container } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import QuestCard from "./QuestCard";
 import { Link } from "react-router-dom";
 import ActionBar from "../actionbar/ActionBar";

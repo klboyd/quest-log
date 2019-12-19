@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Card, Button, Form, ButtonGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import ActionBar from "../actionbar/ActionBar";
 import DayPicker from "react-day-picker";
 import APIManager from "../modules/APIManager";
