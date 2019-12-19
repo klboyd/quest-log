@@ -48,9 +48,15 @@ export default class InstructionList extends Component {
           {this.props.instructions.length > 0
             ? this.props.instructions.map(instruction => (
                 <ListGroup.Item
+                  className="instruction-list-item"
                   key={instruction.id}
                   variant={instruction.isComplete ? "success" : null}>
+                  <span
+                    className={instruction.isComplete ? "text-muted" : null}>
+                    {instruction.step.name}
+                  </span>
                   <Form.Check
+                    className="pull-right"
                     type="checkbox"
                     disabled={
                       instruction.isComplete ||
@@ -62,10 +68,6 @@ export default class InstructionList extends Component {
                       this.completeInstruction(instruction.id);
                     }}
                   />
-                  <span
-                    className={instruction.isComplete ? "text-muted" : null}>
-                    {instruction.step.name}
-                  </span>
                 </ListGroup.Item>
               ))
             : null}

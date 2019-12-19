@@ -51,6 +51,11 @@ export default class Character extends Component {
     });
     await this.getCharacterDetails();
   };
+  switchEditMode = () => {
+    this.setState({
+      isEditMode: !this.state.isEditMode
+    });
+  };
   async componentDidMount() {
     await this.getCharacterDetails();
     console.log("character", this.state);
@@ -61,34 +66,33 @@ export default class Character extends Component {
         <Card.Header className="character-sheet-header">
           <Card.Text>Character Sheet</Card.Text>
         </Card.Header>
-        <Card.Body>
-          <Button
-            variant={this.state.isEditMode ? "danger" : "primary"}
-            disabled={this.state.loadingStatus}
-            className="character-edit-button"
-            onClick={() => {
-              this.setState({
-                isEditMode: !this.state.isEditMode
-              });
-            }}>
-            {this.state.isEditMode ? "x" : "✎"}
-          </Button>
+        <Card.Body className="character-sheet-body">
           {this.state.isEditMode ? (
             <CharacterEditForm
+              descHeight={this.refs["char-description"]}
+              isEditMode={this.state.isEditMode}
+              switchEditMode={this.switchEditMode}
               name={this.state.name}
               description={this.state.description}
               confirmNewDetails={this.confirmNewDetails}
             />
           ) : (
             <>
-              <Card.Text className="char-sheet-name">
-                {this.state.name}
-              </Card.Text>
-              <Card.Text className="char-sheet-desc">
+              <div className="char-sheet-name">{this.state.name}</div>
+              <div className="char-sheet-desc" ref="char-description">
                 {this.state.description}
-              </Card.Text>
+              </div>
             </>
           )}
+          {!this.state.isEditMode ? (
+            <Button
+              variant="primary"
+              disabled={this.state.loadingStatus}
+              className="character-edit-button"
+              onClick={this.switchEditMode}>
+              {"✎"}
+            </Button>
+          ) : null}
           <Card.Text className="char-sheet-health">
             Health: {this.state.health}
           </Card.Text>

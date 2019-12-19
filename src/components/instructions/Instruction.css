@@ -1,0 +1,12 @@
+.instruction-input {
+  width: 100%
+}
+
+.typeahead-input {
+  width: 90%
+}
+
+.instruction-list-item {
+  display: flex;
+  justify-content: space-between;
+}

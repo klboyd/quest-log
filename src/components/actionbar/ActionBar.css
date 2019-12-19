@@ -4,3 +4,15 @@
   height: 50;
   margin-top: -50;
 }
+
+.action-bar-spot {
+  border: 1px solid white;
+  height: 60px;
+  /* box-shadow:  */
+}
+
+.action-bar-spot * {
+  /* font-size: .8em;
+  width: 90%;
+  height: 90%; */
+}

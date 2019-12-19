@@ -124,8 +124,9 @@ export default class InstructionForm extends Component {
             </ListGroup.Item>
           ))}
         </ListGroup>
-        <InputGroup>
+        <InputGroup className="instruction-input">
           <Typeahead
+            className="typeahead-input"
             ref="typeahead-steps"
             id="name"
             labelKey="name"

@@ -57,9 +57,13 @@ export default class QuestDetail extends Component {
     await this.props.setUpdatedQuests();
   };
   handleRemoveQuest = async () => {
-    await APIManager.delete(`quests/${this.props.questId}`);
-    await this.props.setUpdatedQuests();
-    this.props.history.push("/quests");
+    const response = window.confirm("Get rid of the Quest?");
+
+    if (response) {
+      await APIManager.delete(`quests/${this.props.questId}`);
+      await this.props.setUpdatedQuests();
+      this.props.history.push("/quests");
+    }
   };
   handleAbandonQuest = async () => {
     const assignee = this.state.assignees.find(
@@ -130,14 +134,7 @@ export default class QuestDetail extends Component {
     return (
       <>
         <Card className="quest-details-container">
-          <Card.Header className="quest-card-header">
-            <span>
-              <Link to={"/quests"}>
-                <Button>{"<"}</Button>
-              </Link>
-            </span>
-            Quest Details
-          </Card.Header>
+          <Card.Header className="quest-card-header">Quest Details</Card.Header>
           <Card.Body className="quest-details-body">
             <h3>{this.state.name}</h3>
             <Card.Text>{this.state.description}</Card.Text>

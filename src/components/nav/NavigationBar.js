@@ -8,7 +8,7 @@ export default class NavigationBar extends Component {
   };
   render() {
     return (
-      <Navbar as={Row} bg="dark" variant="dark">
+      <Navbar className="sticky-top" as={Row} bg="dark" variant="dark">
         <Col lg={2}>
           <Navbar.Brand href="/">Logo</Navbar.Brand>
         </Col>
