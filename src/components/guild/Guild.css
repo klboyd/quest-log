@@ -1,0 +1,45 @@
+.guild-container {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  background-color: transparent;
+}
+
+.guild-display {
+  padding: 0;
+  margin: 0;
+  /* overflow: scroll; */
+}
+
+.guild-roster {
+  display: flex;
+  flex-flow: column wrap;
+  background-color: steelblue;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* max-height: 100vh; */
+}
+
+.character-details {
+  padding: 0;
+  margin: 0;
+  /* overflow: scroll; */
+}
+
+.character-details-container {
+  height: 100%;
+}
+
+.character-details-body {
+  height: 100%;
+  overflow: scroll;
+}
+
+.character-item {
+  cursor: pointer;
+}
+
+.character-item:hover {
+  background-color: rgb(158, 207, 250);
+}

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import APIManager from "../modules/APIManager";
-import { Link } from "react-router-dom";
 import InstructionList from "../instructions/InstructionList";
 import ActionBar from "../actionbar/ActionBar";
 import AssigneesList from "../assignees/AssigneesList";
