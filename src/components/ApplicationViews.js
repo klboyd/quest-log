@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import CharacterForm from "./characters/CharacterForm";
 import QuestViews from "./quest/QuestViews";
 import Login from "./auth/Login";
-import GuildRoster from "./guild/GuildRoster";
+import GuildViews from "./guild/GuildViews";
 
 export default class ApplicationViews extends Component {
   render() {
@@ -58,20 +58,7 @@ export default class ApplicationViews extends Component {
             )
           }
         />
-        <Route
-          exact
-          path="/guild"
-          render={props => <GuildRoster {...props} />}
-        />
-        <Route
-          path="/guild/:characterId(\d+)"
-          render={props => (
-            <GuildRoster
-              {...props}
-              characterId={parseInt(props.match.params.characterId)}
-            />
-          )}
-        />
+        <Route path="/guild" render={props => <GuildViews {...props} />} />
       </>
     );
   }

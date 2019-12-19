@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ListGroup } from "react-bootstrap";
 import APIManager from "../modules/APIManager";
+import { Link } from "react-router-dom";
 
 export default class AssigneesList extends Component {
   state = {
@@ -22,7 +23,10 @@ export default class AssigneesList extends Component {
         <ListGroup horizontal>
           {this.props.assignees.length > 0 ? (
             this.props.assignees.map(assignee => (
-              <ListGroup.Item key={assignee.id}>
+              <ListGroup.Item
+                as={Link}
+                to={`/guild/${assignee.characterId}`}
+                key={assignee.id}>
                 {Number(assignee.characterId) ===
                 Number(localStorage["characterId"]) ? (
                   <span>You</span>

@@ -21,14 +21,9 @@ class ActionBar extends Component {
           <Row lg={12}>
             <Col className="action-bar-spot" lg={2}>
               <Route path="/quests/(.*)">
-                <Link
-                  to={
-                    this.props.location.pathname.match(/^\/quests\/\d+\/edit$/)
-                      ? `/quests/${this.props.questId}`
-                      : `/quests`
-                  }>
-                  <Button>Back</Button>
-                </Link>
+                <Button onClick={() => this.props.history.goBack()}>
+                  Back
+                </Button>
               </Route>
             </Col>
             <Col className="action-bar-spot" lg={2}>

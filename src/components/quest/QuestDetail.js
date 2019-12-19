@@ -89,7 +89,7 @@ export default class QuestDetail extends Component {
         loadingStatus: false
       });
   }
-  async componentWillReceiveProps(newProps) {
+  async UNSAFE_componentWillReceiveProps(newProps) {
     this._isMounted = true;
 
     const quest = await APIManager.get(
