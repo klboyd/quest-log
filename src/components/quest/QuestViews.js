@@ -7,8 +7,9 @@ import QuestList from "./QuestList";
 import QuestDetail from "./QuestDetail";
 import { Route } from "react-router-dom";
 import QuestForm from "./QuestForm";
-import APIManager from "../modules/APIManager";
+import APIManager from "../../modules/APIManager";
 import QuestEditForm from "./QuestEditForm";
+import HealthManager from "../../modules/HealthManager";
 
 const styles = {
   questContainer: {
@@ -27,7 +28,46 @@ export default class Quests extends Component {
   state = {
     quests: [],
     assignedQuests: [],
+    character: {},
+    isEditMode: false,
     loadingStatus: true
+  };
+
+  getCharacterDetails = async () => {
+    const results = await APIManager.get(
+      `users/${localStorage["userId"]}?_expand=character`
+    );
+    console.log("CHARACTER", results);
+    if (results.character && results.character.health > 0) {
+      localStorage.setItem("characterId", results.character.id);
+      this.setState({
+        character: results.character,
+        isEditMode: false
+      });
+    } else {
+      this.props.history.push("character/new");
+    }
+  };
+  confirmNewDetails = async newDetails => {
+    this.setState({ loadingStatus: true });
+    await APIManager.update(`characters`, {
+      id: localStorage["characterId"],
+      name: newDetails.name,
+      description: newDetails.description,
+      level: this.state.character.level,
+      health: this.state.character.health,
+      experience: this.state.character.experience,
+      questsComplete: this.state.character.questsComplete,
+      questsFailed: this.state.character.questsFailed,
+      questsAbandoned: this.state.character.questsAbandoned,
+      creationDate: this.state.character.creationDate
+    });
+    await this.getCharacterDetails();
+  };
+  switchEditMode = () => {
+    this.setState({
+      isEditMode: !this.props.isEditMode
+    });
   };
   async getAssignedQuests() {
     this.setState({ loadingStatus: true });
@@ -49,12 +89,17 @@ export default class Quests extends Component {
     });
   };
   async componentDidMount() {
+    await this.getCharacterDetails();
     this.setState({
       assignedQuests: await this.getAssignedQuests(),
       quests: await this.getAllQuests(),
       loadingStatus: false
     });
   }
+  healthAbandon = async () => {
+    await HealthManager.onAbandon(localStorage["characterId"]);
+    await this.getCharacterDetails();
+  };
   handleCompleteQuest = async (questId, instructions) => {
     if (instructions.find(step => !step.isComplete)) {
       window.alert("Please complete all tasks first");
@@ -79,7 +124,13 @@ export default class Quests extends Component {
       <Container>
         <Row style={styles.questContainer} className="quest-container">
           <Col style={styles.logSidebar} className="log-sidebar" lg={4}>
-            <Character {...this.props} />
+            <Character
+              confirmNewDetails={this.confirmNewDetails}
+              switchEditMode={this.switchEditMode}
+              character={this.state.character}
+              isEditMode={this.state.isEditMode}
+              {...this.props}
+            />
             <Log quests={this.state.assignedQuests} {...this.props} />
           </Col>
           <Col style={styles.questDetails} className="quest-display" lg={8}>
@@ -100,6 +151,7 @@ export default class Quests extends Component {
                     path="/quests/:questId(\d+)"
                     render={props => (
                       <QuestDetail
+                        healthAbandon={this.healthAbandon}
                         handleCompleteQuest={this.handleCompleteQuest}
                         setUpdatedQuests={this.setUpdatedQuests}
                         questId={parseInt(props.match.params.questId)}

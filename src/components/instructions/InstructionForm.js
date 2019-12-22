@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button, InputGroup, ListGroup } from "react-bootstrap";
-import APIManager from "../modules/APIManager";
+import APIManager from "../../modules/APIManager";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "./Instruction.css";
 

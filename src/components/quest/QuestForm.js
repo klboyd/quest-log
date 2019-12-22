@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, Card, Button, ButtonGroup } from "react-bootstrap";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import APIManager from "../modules/APIManager";
+import APIManager from "../../modules/APIManager";
 import InstructionForm from "../instructions/InstructionForm";
 import ActionBar from "../actionbar/ActionBar";
 
@@ -56,7 +56,10 @@ export default class QuestForm extends Component {
   };
   removeInstruction = id => {
     this.setState({ loadingStatus: true });
-    if (this.state.instructions[id].isFirstStep) {
+    if (
+      this.state.instructions[id].isFirstStep &&
+      this.state.instructions.length > 1
+    ) {
       const instructions = this.state.instructions.filter(
         (step, index) => id !== index
       );

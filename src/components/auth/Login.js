@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button, Col } from "react-bootstrap";
-import APIManager from "../modules/APIManager";
+import APIManager from "../../modules/APIManager";
 
 export default class Login extends Component {
   state = {

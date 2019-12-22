@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ListGroup } from "react-bootstrap";
-import APIManager from "../modules/APIManager";
+import APIManager from "../../modules/APIManager";
 import { Link } from "react-router-dom";
 
 export default class AssigneesList extends Component {

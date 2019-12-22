@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
-import APIManager from "../modules/APIManager";
+import APIManager from "../../modules/APIManager";
 
 export default class AssigneeForm extends Component {
   _isMounted = false;
