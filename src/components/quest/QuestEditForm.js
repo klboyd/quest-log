@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card, Button, Form, ButtonGroup } from "react-bootstrap";
 import ActionBar from "../actionbar/ActionBar";
 import DayPicker from "react-day-picker";
-import APIManager from "../modules/APIManager";
+import APIManager from "../../modules/APIManager";
 import InstructionEditForm from "../instructions/InstructionEditForm";
 
 export default class QuestEditForm extends Component {

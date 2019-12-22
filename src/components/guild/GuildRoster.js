@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, ListGroup } from "react-bootstrap";
-import APIManager from "../modules/APIManager";
+import APIManager from "../../modules/APIManager";
 import "./Guild.css";
 
 export default class GuildRoster extends Component {

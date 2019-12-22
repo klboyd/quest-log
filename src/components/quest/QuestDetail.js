@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Card } from "react-bootstrap";
-import APIManager from "../modules/APIManager";
+import APIManager from "../../modules/APIManager";
 import InstructionList from "../instructions/InstructionList";
 import ActionBar from "../actionbar/ActionBar";
 import AssigneesList from "../assignees/AssigneesList";
+import HealthManager from "../../modules/HealthManager";
 
 export default class QuestDetail extends Component {
   _isMounted = false;
@@ -73,6 +74,8 @@ export default class QuestDetail extends Component {
     const assignees = await APIManager.get(
       `assignees/?questId=${this.props.questId}&_expand=character`
     );
+    this.props.healthAbandon();
+
     this._isMounted && this.setAssignees(assignees);
     await this.props.setUpdatedQuests();
   };

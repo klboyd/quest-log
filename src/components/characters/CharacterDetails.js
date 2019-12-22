@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Card, ListGroup } from "react-bootstrap";
-import APIManager from "../modules/APIManager";
+import { Card, ListGroup, Button } from "react-bootstrap";
+import APIManager from "../../modules/APIManager";
 import { Link } from "react-router-dom";
+import HealthManager from "../../modules/HealthManager";
 
 export default class CharacterDetails extends Component {
   _isMounted = false;
@@ -55,6 +56,17 @@ export default class CharacterDetails extends Component {
           <Card.Text>{this.state.description}</Card.Text>
           <Card.Title>Health:</Card.Title>
           <Card.Text>{this.state.health}</Card.Text>
+          {/* <Button
+            onClick={() => HealthManager.onComplete(this.props.characterId)}>
+            Cheat: Health - Complete Quest
+          </Button>
+          <Button
+            onClick={() => HealthManager.onAbandon(this.props.characterId)}>
+            Cheat: Health - Abandon Quest
+          </Button>
+          <Button onClick={() => HealthManager.onFail(this.props.characterId)}>
+            Cheat: Health - Fail Quest
+          </Button> */}
           <Card.Title>Quests:</Card.Title>
           <Card.Text>Active:</Card.Text>
           <ListGroup>

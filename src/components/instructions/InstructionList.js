@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ListGroup, Form } from "react-bootstrap";
-import APIManager from "../modules/APIManager";
+import APIManager from "../../modules/APIManager";
 import "./Instruction.css";
 
 export default class InstructionList extends Component {
