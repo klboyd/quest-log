@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Card, ListGroup } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { Route } from "react-router-dom";
 import "./Guild.css";
 import CharacterDetails from "../characters/CharacterDetails";

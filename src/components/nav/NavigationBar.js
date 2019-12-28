@@ -13,12 +13,12 @@ export default class NavigationBar extends Component {
           <Navbar.Brand href="/">Logo</Navbar.Brand>
         </Col>
         <Col lg={2}>
-          {this.props.isLoggedIn ? (
+          {this.props.isLoggedIn && localStorage["characterId"] ? (
             <Nav.Link href="/quests">Quests</Nav.Link>
           ) : null}
         </Col>
         <Col lg={2}>
-          {this.props.isLoggedIn ? (
+          {this.props.isLoggedIn && localStorage["characterId"] ? (
             <Nav.Link href="/guild">Guild</Nav.Link>
           ) : null}
         </Col>

@@ -23,7 +23,7 @@
       "name": "Kendork the Foolhardy",
       "description": "This Bard has a habit of getting in over his head. Although, through sheer dumb luck, he always ends up unscathed. Unfortunately, he learns nothing in the process and continues his reckless behavior.",
       "level": 1,
-      "health": 100,
+      "health": 10,
       "experience": 0,
       "questsComplete": 0,
       "questsFailed": 0,

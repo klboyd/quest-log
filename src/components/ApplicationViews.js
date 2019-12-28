@@ -4,6 +4,7 @@ import CharacterForm from "./characters/CharacterForm";
 import QuestViews from "./quest/QuestViews";
 import Login from "./auth/Login";
 import GuildViews from "./guild/GuildViews";
+import GameOver from "./characters/GameOver";
 
 export default class ApplicationViews extends Component {
   render() {
@@ -53,6 +54,17 @@ export default class ApplicationViews extends Component {
           render={props =>
             this.props.isLoggedIn ? (
               <CharacterForm {...props} />
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
+        />
+        <Route
+          exact
+          path="/character/gameover"
+          render={props =>
+            this.props.isLoggedIn ? (
+              <GameOver {...props} />
             ) : (
               <Redirect to="/login" />
             )
