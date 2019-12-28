@@ -68,7 +68,9 @@
   text-align: center; */
 }
 
-.quest-card {}
+.quest-card {
+  border-radius: 5px;
+}
 
 hr {
   border: 1;

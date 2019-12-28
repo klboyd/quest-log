@@ -1,7 +1,15 @@
 .card {
-  border-radius: 0
+  /* border-radius: 0 */
 }
 
 .card.header {
   color: red
+}
+
+.character-writing {
+  font-family: 'Mansalva', cursive;
+}
+
+.character-writing-title {
+  font-family: 'Permanent Marker', cursive;
 }

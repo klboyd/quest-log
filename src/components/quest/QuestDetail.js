@@ -4,7 +4,6 @@ import APIManager from "../../modules/APIManager";
 import InstructionList from "../instructions/InstructionList";
 import ActionBar from "../actionbar/ActionBar";
 import AssigneesList from "../assignees/AssigneesList";
-import HealthManager from "../../modules/HealthManager";
 
 export default class QuestDetail extends Component {
   _isMounted = false;

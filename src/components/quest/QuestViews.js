@@ -25,6 +25,7 @@ const styles = {
 };
 
 export default class Quests extends Component {
+  _isMounted = false;
   state = {
     quests: [],
     assignedQuests: [],
@@ -40,16 +41,25 @@ export default class Quests extends Component {
     console.log("CHARACTER", results);
     if (results.character && results.character.health > 0) {
       localStorage.setItem("characterId", results.character.id);
-      this.setState({
-        character: results.character,
-        isEditMode: false
-      });
+      this._isMounted &&
+        this.setState({
+          character: results.character,
+          isEditMode: false
+        });
+    } else if (results.character && results.character.health <= 0) {
+      this._isMounted &&
+        this.setState({
+          character: results.character,
+          loadingStatus: false
+        });
+      localStorage.removeItem("characterId");
+      this.props.history.push("/character/gameover");
     } else {
-      this.props.history.push("character/new");
+      this.props.history.push("/character/new");
     }
   };
   confirmNewDetails = async newDetails => {
-    this.setState({ loadingStatus: true });
+    this._isMounted && this.setState({ loadingStatus: true });
     await APIManager.update(`characters`, {
       id: localStorage["characterId"],
       name: newDetails.name,
@@ -65,37 +75,31 @@ export default class Quests extends Component {
     await this.getCharacterDetails();
   };
   switchEditMode = () => {
-    this.setState({
-      isEditMode: !this.props.isEditMode
-    });
+    this._isMounted &&
+      this.setState({
+        isEditMode: !this.state.isEditMode
+      });
   };
   async getAssignedQuests() {
-    this.setState({ loadingStatus: true });
+    this._isMounted && this.setState({ loadingStatus: true });
     const assignedQuests = await APIManager.get(
       `assignees?characterId=${localStorage["characterId"]}&_expand=quest`
     );
-    this.setState({ loadingStatus: false });
+    this._isMounted && this.setState({ loadingStatus: false });
     return assignedQuests.map(user => user.quest);
   }
   async getAllQuests() {
     return await APIManager.get(`quests?_embed=assignees`);
   }
   setUpdatedQuests = async () => {
-    this.setState({ loadingStatus: true });
-    this.setState({
-      assignedQuests: await this.getAssignedQuests(),
-      quests: await this.getAllQuests(),
-      loadingStatus: false
-    });
+    this._isMounted && this.setState({ loadingStatus: true });
+    this._isMounted &&
+      this.setState({
+        assignedQuests: await this.getAssignedQuests(),
+        quests: await this.getAllQuests(),
+        loadingStatus: false
+      });
   };
-  async componentDidMount() {
-    await this.getCharacterDetails();
-    this.setState({
-      assignedQuests: await this.getAssignedQuests(),
-      quests: await this.getAllQuests(),
-      loadingStatus: false
-    });
-  }
   healthAbandon = async () => {
     await HealthManager.onAbandon(localStorage["characterId"]);
     await this.getCharacterDetails();
@@ -104,19 +108,36 @@ export default class Quests extends Component {
     if (instructions.find(step => !step.isComplete)) {
       window.alert("Please complete all tasks first");
     } else {
-      this.setState({ loadingStatus: true });
+      this._isMounted && this.setState({ loadingStatus: true });
       await APIManager.patch(`quests`, {
         id: questId,
         isComplete: true
       });
+      this._isMounted &&
+        this.setState({
+          assignedQuests: await this.getAssignedQuests(),
+          quests: await this.getAllQuests(),
+          loadingStatus: false
+        });
+      await HealthManager.onComplete(localStorage["characterId"]);
+      await this.getCharacterDetails();
+
+      this.props.history.push(`/quests`);
+    }
+  };
+  async componentDidMount() {
+    this._isMounted = true;
+    await this.getCharacterDetails();
+    this._isMounted &&
       this.setState({
         assignedQuests: await this.getAssignedQuests(),
         quests: await this.getAllQuests(),
         loadingStatus: false
       });
-      this.props.history.push(`/quests`);
-    }
-  };
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   render() {
     console.log("questViews state", this.state);
     console.log("questViews props", this.props);

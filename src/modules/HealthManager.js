@@ -1,11 +1,11 @@
 import APIManager from "./APIManager";
 
-const MAX_HEALTH = 100;
+const MAX_HEALTH = 10;
 const DEAD = 0;
 
-const COMPLETE = 5;
-const ABANDON = -5;
-const FAIL = -10;
+const COMPLETE = 1;
+const ABANDON = -2;
+const FAIL = -3;
 
 export default {
   async onComplete(id) {

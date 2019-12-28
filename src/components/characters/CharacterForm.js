@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import APIManager from "../../modules/APIManager";
 
 export default class CharacterForm extends Component {
+  _isMounted = false;
   state = {
     name: "",
     description: "",
@@ -14,20 +15,16 @@ export default class CharacterForm extends Component {
     questsAbandoned: 0,
     loadingStatus: true
   };
-  componentDidMount() {
-    this.setState({
-      loadingStatus: false
-    });
-  }
   handleFieldChange = evt => {
     const stateToChange = {};
     stateToChange[evt.target.id] = evt.target.value;
-    this.setState(stateToChange);
+    this._isMounted && this.setState(stateToChange);
   };
   handleSubmit = async () => {
-    this.setState({
-      loadingStatus: true
-    });
+    this._isMounted &&
+      this.setState({
+        loadingStatus: true
+      });
     const newCharacter = await APIManager.post("characters", {
       name: this.state.name,
       description: this.state.description,
@@ -45,10 +42,20 @@ export default class CharacterForm extends Component {
     });
     this.props.history.push("/quests");
   };
+  componentDidMount() {
+    this._isMounted = true;
+    this._isMounted &&
+      this.setState({
+        loadingStatus: false
+      });
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   render() {
     return (
       <>
-        <h2>Create your new character</h2>
+        <h2 style={{ textAlign: "center" }}>Create your new character</h2>
         <Form>
           <Form.Group>
             <Form.Label>Name:</Form.Label>

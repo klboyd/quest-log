@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Card, ListGroup, Button } from "react-bootstrap";
+import { Card, ListGroup } from "react-bootstrap";
 import APIManager from "../../modules/APIManager";
 import { Link } from "react-router-dom";
-import HealthManager from "../../modules/HealthManager";
 
 export default class CharacterDetails extends Component {
   _isMounted = false;
@@ -50,10 +49,19 @@ export default class CharacterDetails extends Component {
       <>
         <Card.Header>Character Details</Card.Header>
         <Card.Body className="character-details-body">
-          <Card.Title style={{ textAlign: "center" }}>
-            {this.state.name}
+          <Card.Title style={{ textAlign: "center", fontSize: "1.3em" }}>
+            <span
+              style={{ fontSize: "1.3em" }}
+              className="character-writing-title">
+              {this.state.name}
+            </span>
           </Card.Title>
-          <Card.Text>{this.state.description}</Card.Text>
+          <Card.Text>
+            {" "}
+            <span style={{ fontSize: "1.3em" }} className="character-writing">
+              {this.state.description}
+            </span>
+          </Card.Text>
           <Card.Title>Health:</Card.Title>
           <Card.Text>{this.state.health}</Card.Text>
           {/* <Button
@@ -74,6 +82,7 @@ export default class CharacterDetails extends Component {
               .filter(assignedQuest => !assignedQuest.quest.isComplete)
               .map(assignedQuest => (
                 <ListGroup.Item
+                  style={{ textDecoration: "none", color: "black" }}
                   as={Link}
                   to={`/quests/${assignedQuest.quest.id}`}
                   key={assignedQuest.quest.id}>
@@ -87,6 +96,7 @@ export default class CharacterDetails extends Component {
               .filter(assignedQuest => assignedQuest.quest.isComplete)
               .map(assignedQuest => (
                 <ListGroup.Item
+                  style={{ textDecoration: "none", color: "black" }}
                   as={Link}
                   to={`/quests/${assignedQuest.quest.id}`}
                   key={assignedQuest.quest.id}>

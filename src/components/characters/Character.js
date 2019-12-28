@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Card, Button } from "react-bootstrap";
 import "./Character.css";
-import APIManager from "../../modules/APIManager";
 import CharacterEditForm from "./CharacterEditForm";
 
 export default class Character extends Component {
@@ -31,9 +30,20 @@ export default class Character extends Component {
             />
           ) : (
             <>
-              <div className="char-sheet-name">{this.props.character.name}</div>
+              <div className="char-sheet-name">
+                <span style={{ marginRight: "5px" }}>Name: </span>
+                <span
+                  inline
+                  className="character-writing-title"
+                  style={{ fontSize: "1.3em" }}>
+                  {this.props.character.name}
+                </span>
+              </div>
               <div className="char-sheet-desc" ref="char-description">
-                {this.props.character.description}
+                <span style={{ marginRight: "5px" }}>Description: </span>
+                <span className="character-writing">
+                  {this.props.character.description}
+                </span>
               </div>
             </>
           )}
