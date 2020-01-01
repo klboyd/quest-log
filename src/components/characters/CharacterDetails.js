@@ -62,8 +62,10 @@ export default class CharacterDetails extends Component {
               {this.state.description}
             </span>
           </Card.Text>
-          <Card.Title>Health:</Card.Title>
-          <Card.Text>{this.state.health}</Card.Text>
+          <Card.Title style={{ textAlign: "left" }}>
+            Health: <span>{this.state.health}</span>
+          </Card.Title>
+
           {/* <Button
             onClick={() => HealthManager.onComplete(this.props.characterId)}>
             Cheat: Health - Complete Quest
@@ -75,14 +77,14 @@ export default class CharacterDetails extends Component {
           <Button onClick={() => HealthManager.onFail(this.props.characterId)}>
             Cheat: Health - Fail Quest
           </Button> */}
-          <Card.Title>Quests:</Card.Title>
+          <Card.Title>Quests</Card.Title>
           <Card.Text>Active:</Card.Text>
           <ListGroup>
             {this.state.assigned
               .filter(assignedQuest => !assignedQuest.quest.isComplete)
               .map(assignedQuest => (
                 <ListGroup.Item
-                  style={{ textDecoration: "none", color: "black" }}
+                  className="character-detail-quests"
                   as={Link}
                   to={`/quests/${assignedQuest.quest.id}`}
                   key={assignedQuest.quest.id}>
@@ -96,7 +98,7 @@ export default class CharacterDetails extends Component {
               .filter(assignedQuest => assignedQuest.quest.isComplete)
               .map(assignedQuest => (
                 <ListGroup.Item
-                  style={{ textDecoration: "none", color: "black" }}
+                  className="text-muted character-detail-quests"
                   as={Link}
                   to={`/quests/${assignedQuest.quest.id}`}
                   key={assignedQuest.quest.id}>

@@ -36,7 +36,7 @@ export default class Login extends Component {
     return (
       <Form onSubmit={this.handleLogin}>
         <Form.Group as={Col} sm={4}>
-          <Form.Label>Email</Form.Label>
+          <Form.Label style={{ color: "white" }}>Email</Form.Label>
           <Form.Control
             required
             id="email"
@@ -45,7 +45,7 @@ export default class Login extends Component {
             placeholder="Email"></Form.Control>
         </Form.Group>
         <Form.Group as={Col} sm={4}>
-          <Form.Label>Password</Form.Label>
+          <Form.Label style={{ color: "white" }}>Password</Form.Label>
           <Form.Control
             required
             id="password"
@@ -53,7 +53,7 @@ export default class Login extends Component {
             type="password"
             placeholder="Password"></Form.Control>
         </Form.Group>
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="dark">
           Log in
         </Button>
       </Form>

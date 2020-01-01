@@ -4,6 +4,7 @@
 
 .log-item {
   cursor: pointer;
+  height: 100%;
 }
 
 .log-body {
@@ -11,7 +12,8 @@
 }
 
 .log-item:hover {
-  background-color: rgb(158, 207, 250);
+  /* background-color: rgb(158, 207, 250); */
+  background-color: #c3e6cb;
 }
 
 .accordion-header {

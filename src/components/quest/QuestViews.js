@@ -89,7 +89,7 @@ export default class Quests extends Component {
     return assignedQuests.map(user => user.quest);
   }
   async getAllQuests() {
-    return await APIManager.get(`quests?_embed=assignees`);
+    return await APIManager.get(`quests?_embed=assignees&_expand=difficulty`);
   }
   setUpdatedQuests = async () => {
     this._isMounted && this.setState({ loadingStatus: true });

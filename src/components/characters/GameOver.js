@@ -4,29 +4,43 @@ import { Button } from "react-bootstrap";
 export default class GameOver extends Component {
   state = {
     loadingStatus: true,
-    color: "transparent"
+    color: "transparent",
+    visibility: "hidden"
   };
   componentDidMount() {
     setTimeout(() => {
-      this.setState({ color: "darkred" });
+      this.setState({ color: "red" });
     }, 2000);
-    this.setState({ loadingStatus: false });
+    setTimeout(() => {
+      this.setState({ loadingStatus: false });
+    }, 4000);
   }
   render() {
     return (
       <>
         <div
           style={{
-            fontSize: "15rem",
-            color: this.state.color,
-            textAlign: "center",
-            transition: "color 2s ease"
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
           }}>
-          YOU DIED
+          <div
+            style={{
+              fontSize: "15rem",
+              color: this.state.color,
+              textAlign: "center",
+              transition: "color 2s ease"
+            }}>
+            YOU DIED
+          </div>
+          <Button
+            className="new-game-button"
+            hidden={this.state.loadingStatus}
+            style={{ width: "200px" }}
+            onClick={() => this.props.history.push("/character/new")}>
+            NEW GAME
+          </Button>
         </div>
-        <Button onClick={() => this.props.history.push("/character/new")}>
-          New Game
-        </Button>
       </>
     );
   }

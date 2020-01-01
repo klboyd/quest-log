@@ -16,7 +16,7 @@ export default class Log extends Component {
     console.log("log props", this.props);
     return (
       <Card className="log-display">
-        <Card.Header>Quest Log</Card.Header>
+        <Card.Header>Log</Card.Header>
         <Card.Body className="log-body">
           <Accordion defaultActiveKey="0">
             <Accordion.Toggle
@@ -38,11 +38,15 @@ export default class Log extends Component {
                 {/* {this.props.quests.length === 0 ? ( */}
                 {this.props.quests
                   .filter(quest => !quest.isComplete && quest.recurInDays === 0)
+                  .sort((a, b) => {
+                    console.log(a.completionDate, b.completionDate);
+                    return a.completionDate - b.completionDate;
+                  })
                   .map(
                     quest => (
                       <ListGroup.Item
                         className="log-item"
-                        as={Card.Header}
+                        // as={Card.Text}
                         key={quest.id}
                         onClick={() => {
                           this.props.history.push(`/quests/${quest.id}`);
@@ -74,7 +78,7 @@ export default class Log extends Component {
                   .map(quest => (
                     <ListGroup.Item
                       className="log-item text-muted"
-                      as={Card.Header}
+                      // as={Card.Text}
                       key={quest.id}
                       onClick={() => {
                         this.props.history.push(`/quests/${quest.id}`);

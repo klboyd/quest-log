@@ -33,7 +33,7 @@ export default class Character extends Component {
               <div className="char-sheet-name">
                 <span style={{ marginRight: "5px" }}>Name: </span>
                 <span
-                  inline
+                  // inline
                   className="character-writing-title"
                   style={{ fontSize: "1.3em" }}>
                   {this.props.character.name}
@@ -41,7 +41,9 @@ export default class Character extends Component {
               </div>
               <div className="char-sheet-desc" ref="char-description">
                 <span style={{ marginRight: "5px" }}>Description: </span>
-                <span className="character-writing">
+                <span
+                  className="character-writing"
+                  style={{ fontSize: "1.1em" }}>
                   {this.props.character.description}
                 </span>
               </div>

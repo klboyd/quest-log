@@ -179,9 +179,9 @@ export default class QuestForm extends Component {
                   placeholder="Slay the dragon!"
                   onChange={this.handleFieldChange}
                 />
-                <Form.Text className="text-muted">
+                {/* <Form.Text className="text-muted">
                   What will the quest name be?
-                </Form.Text>
+                </Form.Text> */}
               </Form.Group>
               <hr />
               <Form.Group>
@@ -193,7 +193,7 @@ export default class QuestForm extends Component {
                   onChange={this.handleFieldChange}
                   placeholder="Here's what's happening. . ."
                 />
-                <Form.Text className="text-muted">What's going down?</Form.Text>
+                {/* <Form.Text className="text-muted">What's going down?</Form.Text> */}
               </Form.Group>
               <hr />
               <Form.Group>
@@ -220,6 +220,8 @@ export default class QuestForm extends Component {
                 <ButtonGroup>
                   {this.state.difficulties.map(difficulty => (
                     <Button
+                      className={`difficulty-button difficulty-${difficulty.type.toLowerCase()}`}
+                      active={this.state.difficultyId === difficulty.id}
                       type="button"
                       key={difficulty.id}
                       id="difficultyId"

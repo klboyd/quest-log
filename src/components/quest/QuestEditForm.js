@@ -193,9 +193,9 @@ export default class QuestEditForm extends Component {
                   defaultValue={this.state.name}
                   onChange={this.handleFieldChange}
                 />
-                <Form.Text className="text-muted">
+                {/* <Form.Text className="text-muted">
                   What will the quest name be?
-                </Form.Text>
+                </Form.Text> */}
               </Form.Group>
               <hr />
               <Form.Group>
@@ -208,7 +208,7 @@ export default class QuestEditForm extends Component {
                   onChange={this.handleFieldChange}
                   placeholder="Here's what's happening. . ."
                 />
-                <Form.Text className="text-muted">What's going down?</Form.Text>
+                {/* <Form.Text className="text-muted">What's going down?</Form.Text> */}
               </Form.Group>
               <hr />
               <Form.Group>
@@ -233,9 +233,11 @@ export default class QuestEditForm extends Component {
               <hr />
               <Form.Group className="d-flex flex-column">
                 <Form.Label>Difficulty</Form.Label>
-                <ButtonGroup>
+                <ButtonGroup toggle>
                   {this.state.difficulties.map(difficulty => (
                     <Button
+                      className={`difficulty-button difficulty-${difficulty.type.toLowerCase()}`}
+                      active={this.state.difficultyId === difficulty.id}
                       type="button"
                       key={difficulty.id}
                       id="difficultyId"

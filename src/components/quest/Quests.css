@@ -38,16 +38,32 @@
 .quest-list-body {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between
+  justify-content: space-between;
+  align-content: flex-start;
+}
+
+.assignee-quest-item {
+  text-decoration: none;
+  color: black;
+  border: 1px solid black;
+}
+
+.assignee-quest-item:hover {
+  background-color: grey;
+  text-decoration: none;
+  color: white;
+}
+
+.quest-card-item {
+  flex: 0 0 45%;
+  margin: 3px;
+  min-height: 100px;
+  max-height: 200px;
 }
 
 .quest-card-link {
   text-decoration: none;
   color: black;
-  flex: 0 1 45%;
-  margin: 3px;
-  height: 100px;
-  background-color: grey;
 }
 
 .quest-card-link>* {
@@ -68,10 +84,6 @@
   text-align: center; */
 }
 
-.quest-card {
-  border-radius: 5px;
-}
-
 hr {
   border: 1;
   clear: both;
@@ -84,6 +96,9 @@ hr {
 .card {
   box-sizing: border-box;
   border: 1px solid black;
+  background-color: white;
+  background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
 
 .card-header {
@@ -94,11 +109,30 @@ hr {
   margin: 0;
   border-radius: 0;
   text-align: center;
+  border-bottom: 1px solid black;
+  font-size: 1.3em;
 }
 
-.btn, .btn:hover {
-  background-color: black;
-  border: 0;
+.card-title {
+  text-align: center;
+}
+
+.quest-card {
+  border-radius: 5px;
+  background-color: lightgrey
+}
+
+.quest-card:hover {
+  border-radius: 5px;
+  background-color: #c3e6cb;
+  background-image: url();
+  color: black;
+}
+
+.btn {
+  background-color: ghostwhite;
+  border: 1px solid black;
+  color: black;
 }
 
 .accordion-header {
@@ -113,8 +147,7 @@ hr {
 
 .log-item {
   text-align: left;
-  padding: 6px;
-  /* background-color: blue */
+  /* padding: 6px; */
   border: 0;
   margin-left: 10px;
   margin-right: 10px;
@@ -123,4 +156,68 @@ hr {
 body {
   background-color: #343a40;
   /* color: black */
+}
+
+.difficulty-button {
+  /* color: white; */
+}
+
+.difficulty-button:hover {
+  background-color: grey;
+  color: white;
+  border: 1px solid black;
+}
+
+.difficulty-common.active {
+  background-color: rgba(0, 128, 0, 0.522) !important;
+}
+
+.difficulty-common:active {
+  background-color: rgba(0, 128, 0, .8) !important;
+  color: white !important;
+}
+
+.difficulty-rare.active {
+  background-color: rgba(0, 110, 255, 0.522) !important;
+}
+
+.difficulty-rare:active {
+  background-color: rgba(0, 110, 255, 0.8) !important;
+  color: white !important;
+}
+
+.difficulty-epic.active {
+  background-color: rgba(90, 0, 128, 0.522) !important;
+}
+
+.difficulty-epic:active {
+  background-color: rgba(90, 0, 128, 0.8) !important;
+  color: white !important;
+}
+
+.difficulty-common-list {
+  background-color: rgba(0, 128, 0, 0.3) !important;
+  background-image: url();
+}
+
+.difficulty-common-list:hover {
+  background-color: rgba(0, 128, 0, 0.522) !important;
+}
+
+.difficulty-rare-list {
+  background-color: rgba(0, 110, 255, 0.3) !important;
+  background-image: url();
+}
+
+.difficulty-rare-list:hover {
+  background-color: rgba(0, 110, 255, 0.522) !important;
+}
+
+.difficulty-epic-list {
+  background-color: rgba(90, 0, 128, 0.3) !important;
+  background-image: url();
+}
+
+.difficulty-epic-list:hover {
+  background-color: rgba(90, 0, 128, 0.522) !important;
 }
