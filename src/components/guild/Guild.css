@@ -22,6 +22,10 @@
   /* max-height: 100vh; */
 }
 
+.guild-roster>* {
+  /* font-size: 1.2em; */
+}
+
 .character-details {
   padding: 0;
   margin: 0;

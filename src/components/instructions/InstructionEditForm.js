@@ -179,6 +179,7 @@ export default class InstructionEditForm extends Component {
             onChange={this.handleTypeaheadSelection}></Typeahead>
           <InputGroup.Append>
             <Button
+              variant="dark"
               disabled={
                 !this.state.newName &&
                 Object.keys(this.state.typeaheadStep).length === 0

@@ -10,7 +10,7 @@ export default class NavigationBar extends Component {
     return (
       <Navbar className="sticky-top" as={Row} bg="dark" variant="dark">
         <Col lg={2}>
-          <Navbar.Brand href="/">Logo</Navbar.Brand>
+          <Navbar.Brand href="/">Quest Log</Navbar.Brand>
         </Col>
         <Col lg={2}>
           {this.props.isLoggedIn && localStorage["characterId"] ? (

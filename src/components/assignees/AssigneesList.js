@@ -24,6 +24,7 @@ export default class AssigneesList extends Component {
           {this.props.assignees.length > 0 ? (
             this.props.assignees.map(assignee => (
               <ListGroup.Item
+                className="assignee-quest-item"
                 as={Link}
                 to={`/guild/${assignee.characterId}`}
                 key={assignee.id}>
