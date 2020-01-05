@@ -13,18 +13,20 @@
 }
 
 .action-bar-spot .btn, .action-bar-spot .dropup {
+  font-family: "Marcellus";
   box-sizing: border-box;
   border: 3px solid black;
   border-radius: 1px;
   color: black;
   height: 100%;
   width: 100%;
-  background-color: ghostwhite;
   border: 0;
   padding: 0;
+  background-color: grey;
+  color: white;
 }
 
 .action-bar-spot .btn:hover, .action-bar-spot .dropup:hover {
-  background-color: grey;
-  color: white;
+  background-color: ghostwhite;
+  color: black;
 }

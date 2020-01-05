@@ -29,7 +29,8 @@ export default class GameOver extends Component {
               fontSize: "15rem",
               color: this.state.color,
               textAlign: "center",
-              transition: "color 2s ease"
+              transition: "color 2s ease",
+              fontFamily: "Marcellus"
             }}>
             YOU DIED
           </div>

@@ -34,7 +34,14 @@ export default class Login extends Component {
   render() {
     console.log("login", this.state);
     return (
-      <Form onSubmit={this.handleLogin}>
+      <Form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+        onSubmit={this.handleLogin}>
         <Form.Group as={Col} sm={4}>
           <Form.Label style={{ color: "white" }}>Email</Form.Label>
           <Form.Control

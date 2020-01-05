@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import APIManager from "../../modules/APIManager";
 
 export default class CharacterForm extends Component {
@@ -8,7 +8,7 @@ export default class CharacterForm extends Component {
     name: "",
     description: "",
     level: 1,
-    health: 100,
+    health: 10,
     experience: 0,
     questsComplete: 0,
     questsFailed: 0,
@@ -54,9 +54,11 @@ export default class CharacterForm extends Component {
   }
   render() {
     return (
-      <>
-        <h2 style={{ textAlign: "center" }}>Create your new character</h2>
-        <Form>
+      <Container>
+        <h2 style={{ color: "white", marginTop: "20px", textAlign: "center" }}>
+          Create your new character
+        </h2>
+        <Form style={{ color: "white" }}>
           <Form.Group>
             <Form.Label>Name:</Form.Label>
             <Form.Control
@@ -79,7 +81,7 @@ export default class CharacterForm extends Component {
 
           <Button onClick={this.handleSubmit}>Submit</Button>
         </Form>
-      </>
+      </Container>
     );
   }
 }
