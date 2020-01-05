@@ -63,7 +63,14 @@ export default class CharacterDetails extends Component {
             </span>
           </Card.Text>
           <Card.Title style={{ textAlign: "left" }}>
-            Health: <span>{this.state.health}</span>
+            Health:{" "}
+            {this.state.health > 0 ? (
+              <span>{this.state.health}</span>
+            ) : (
+              <span style={{ color: "darkred", fontWeight: "bolder" }}>
+                DEAD
+              </span>
+            )}
           </Card.Title>
 
           {/* <Button

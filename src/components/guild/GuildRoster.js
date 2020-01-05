@@ -30,14 +30,14 @@ export default class GuildRoster extends Component {
                   // background: `linear-gradient(to right, green 0%, yellowgreen ${character.health -
                   //   0.5}%, orange ${character.health}%, red ${character.health +
                   //   0.5}%, darkred 100%`,
-                  background: `linear-gradient(${Math.floor(
-                    Math.random() * 8 + 86
-                  )}deg, darkgrey 0%, lightgrey ${character.health * 10 -
+                  background: `linear-gradient(90deg, lightgrey 0%, lightgrey ${character.health *
+                    10 -
                     1}%, lightgrey ${character.health * 10 -
                     0.5}%, grey ${character.health *
-                    10}%, lightgrey ${character.health * 10 +
-                    0.5}%, lightgrey ${character.health * 10 + 1}%, white 100%`,
-                  width: "100%"
+                    10}%, white ${character.health * 10 +
+                    0.5}%, white ${character.health * 10 + 1}%, white 100%`,
+                  width: "100%",
+                  fontFamily: "Arial"
                 }}
                 className="character-item character-writing-title"
                 onClick={() => {
