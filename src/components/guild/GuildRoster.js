@@ -37,7 +37,7 @@ export default class GuildRoster extends Component {
                     10}%, white ${character.health * 10 +
                     0.5}%, white ${character.health * 10 + 1}%, white 100%`,
                   width: "100%",
-                  fontFamily: "Arial"
+                  fontFamily: "Marcellus"
                 }}
                 className="character-item character-writing-title"
                 onClick={() => {
