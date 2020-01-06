@@ -271,16 +271,16 @@ export default class QuestForm extends Component {
                 </Form.Text>
               </Form.Group>
               <hr /> */}
-              <Form.Group>
-                {/* <Form.Label>Finish by</Form.Label> */}
+              <Form.Label>Completion Date</Form.Label>
+              <Form.Group style={{ display: "flex", justifyContent: "center" }}>
                 <DayPicker
                   selectedDays={this.state.completionDate}
                   id="completionDate"
                   onDayClick={this.handleDayPickerClick}
                 />
-                <Form.Text className="text-muted">
+                {/* <Form.Text className="text-muted">
                   When does this need to be finished?
-                </Form.Text>
+                </Form.Text> */}
               </Form.Group>
               <hr />
               <Form.Group>

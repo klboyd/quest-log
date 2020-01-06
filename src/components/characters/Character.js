@@ -58,7 +58,9 @@ export default class Character extends Component {
               {"✎"}
             </Button>
           ) : null}
-          <Card.Text className="char-sheet-health">
+          <Card.Text
+            className="char-sheet-health"
+            style={{ fontSize: "1.2em" }}>
             Health: {this.props.character.health}
           </Card.Text>
         </Card.Body>
