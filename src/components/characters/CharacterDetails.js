@@ -8,6 +8,8 @@ export default class CharacterDetails extends Component {
   state = {
     character: {},
     assigned: [],
+    hasActiveQuests: false,
+    hasCompletedQuests: false,
     loadingStatus: true
   };
   async getCharacterDetails(newProps = null) {
@@ -22,11 +24,14 @@ export default class CharacterDetails extends Component {
         newProps ? newProps.characterId : this.props.characterId
       }&_expand=quest`
     );
-    console.log(assigned);
     this._isMounted &&
       this.setState({
         ...character,
         assigned: assigned,
+        hasActiveQuests:
+          assigned.filter(assigned => !assigned.quest.isComplete).length > 0,
+        hasCompletedQuests:
+          assigned.filter(assigned => assigned.quest.isComplete).length > 0,
         loadingStatus: false
       });
   }
@@ -56,7 +61,7 @@ export default class CharacterDetails extends Component {
               {this.state.name}
             </span>
           </Card.Title>
-          <Card.Text>
+          <Card.Text style={{ textAlign: "center" }}>
             {" "}
             <span style={{ fontSize: "1.3em" }} className="character-writing">
               {this.state.description}
@@ -67,7 +72,12 @@ export default class CharacterDetails extends Component {
             {this.state.health > 0 ? (
               <span>{this.state.health}</span>
             ) : (
-              <span style={{ color: "darkred", fontWeight: "bolder" }}>
+              <span
+                style={{
+                  color: "darkred",
+                  fontWeight: "bolder",
+                  fontFamily: "Marcellus SC"
+                }}>
                 DEAD
               </span>
             )}
@@ -84,35 +94,47 @@ export default class CharacterDetails extends Component {
           <Button onClick={() => HealthManager.onFail(this.props.characterId)}>
             Cheat: Health - Fail Quest
           </Button> */}
-          <Card.Title>Quests</Card.Title>
-          <Card.Text>Active:</Card.Text>
-          <ListGroup>
-            {this.state.assigned
-              .filter(assignedQuest => !assignedQuest.quest.isComplete)
-              .map(assignedQuest => (
-                <ListGroup.Item
-                  className="character-detail-quests"
-                  as={Link}
-                  to={`/quests/${assignedQuest.quest.id}`}
-                  key={assignedQuest.quest.id}>
-                  {assignedQuest.quest.name}
-                </ListGroup.Item>
-              ))}
-          </ListGroup>
-          <Card.Text>Complete:</Card.Text>
-          <ListGroup>
-            {this.state.assigned
-              .filter(assignedQuest => assignedQuest.quest.isComplete)
-              .map(assignedQuest => (
-                <ListGroup.Item
-                  className="text-muted character-detail-quests"
-                  as={Link}
-                  to={`/quests/${assignedQuest.quest.id}`}
-                  key={assignedQuest.quest.id}>
-                  {assignedQuest.quest.name}
-                </ListGroup.Item>
-              ))}
-          </ListGroup>
+          {this.state.hasActiveQuests || this.state.hasCompletedQuests ? (
+            <Card.Title>Quests</Card.Title>
+          ) : null}
+          {this.state.hasActiveQuests ? (
+            <>
+              {" "}
+              <Card.Text>Active:</Card.Text>
+              <ListGroup>
+                {this.state.assigned
+                  .filter(assignedQuest => !assignedQuest.quest.isComplete)
+                  .map(assignedQuest => (
+                    <ListGroup.Item
+                      className="character-detail-quests"
+                      as={Link}
+                      to={`/quests/${assignedQuest.quest.id}`}
+                      key={assignedQuest.quest.id}>
+                      {assignedQuest.quest.name}
+                    </ListGroup.Item>
+                  ))}
+              </ListGroup>{" "}
+            </>
+          ) : null}
+          {this.state.hasCompletedQuests ? (
+            <>
+              {" "}
+              <Card.Text>Complete:</Card.Text>
+              <ListGroup>
+                {this.state.assigned
+                  .filter(assignedQuest => assignedQuest.quest.isComplete)
+                  .map(assignedQuest => (
+                    <ListGroup.Item
+                      className="text-muted character-detail-quests"
+                      as={Link}
+                      to={`/quests/${assignedQuest.quest.id}`}
+                      key={assignedQuest.quest.id}>
+                      {assignedQuest.quest.name}
+                    </ListGroup.Item>
+                  ))}
+              </ListGroup>{" "}
+            </>
+          ) : null}
         </Card.Body>
       </>
     );

@@ -39,13 +39,15 @@ export default class Log extends Component {
                 {this.props.quests
                   .filter(quest => !quest.isComplete && quest.recurInDays === 0)
                   .sort((a, b) => {
-                    console.log(a.completionDate, b.completionDate);
-                    return a.completionDate - b.completionDate;
+                    return (
+                      new Date(a.completionDate) - new Date(b.completionDate)
+                    );
                   })
                   .map(
                     quest => (
                       <ListGroup.Item
-                        className="log-item"
+                        style={{ border: "1px solid black", borderRadius: "0" }}
+                        className={`log-item difficulty-${quest.difficulty.type.toLowerCase()}-list`}
                         // as={Card.Text}
                         key={quest.id}
                         onClick={() => {
@@ -77,6 +79,7 @@ export default class Log extends Component {
                   .filter(quest => quest.isComplete)
                   .map(quest => (
                     <ListGroup.Item
+                      style={{ border: "1px solid black", borderRadius: "0" }}
                       className="log-item text-muted"
                       // as={Card.Text}
                       key={quest.id}

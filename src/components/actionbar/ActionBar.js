@@ -18,7 +18,7 @@ class ActionBar extends Component {
     return (
       <Card.Footer className="fixed-bottom actionbar-container">
         <Container>
-          <Row lg={12}>
+          <Row lg={12} style={{ border: "0" }}>
             <Col className="action-bar-spot" lg={2}>
               <Route path="/quests/(.*)">
                 <Button onClick={() => this.props.history.goBack()}>

@@ -4,7 +4,7 @@
 
 .card-header {
   color: black;
-  font-family: 'Marcellus', cursive;
+  font-family: 'Marcellus SC', cursive;
 }
 
 .character-writing {
@@ -14,7 +14,7 @@
 
 .character-writing-title {
   /* font-family: 'Permanent Marker', cursive; */
-  font-family: 'Marcellus', cursive;
+  font-family: 'Marcellus SC', cursive;
   font-weight: bolder;
   font-variant: small-caps;
   font-size: 1.2em;
@@ -25,5 +25,5 @@ body {
 }
 
 .btn {
-  font-family: 'Marcellus', cursive;
+  font-family: 'Marcellus SC', cursive;
 }

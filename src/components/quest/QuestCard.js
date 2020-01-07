@@ -13,7 +13,7 @@ export default class QuestList extends Component {
             borderRadius: "0",
             marginBottom: "0",
             backgroundColor: "rgba(0,0,0,.03)",
-            fontFamily: "Marcellus"
+            fontFamily: "Marcellus SC"
           }}>
           ~ {this.props.quest.name} ~
         </Card.Title>
