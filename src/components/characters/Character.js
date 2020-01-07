@@ -3,6 +3,7 @@ import { Card, Button } from "react-bootstrap";
 import "./Character.css";
 import CharacterEditForm from "./CharacterEditForm";
 
+const heartIcon = require("../../assets/icons8-heart-64.png");
 export default class Character extends Component {
   state = {
     loadingStatus: true
@@ -16,7 +17,7 @@ export default class Character extends Component {
     return (
       <Card className="char-sheet-container">
         <Card.Header className="character-sheet-header">
-          <Card.Text>Character Sheet</Card.Text>
+          Character Sheet
         </Card.Header>
         <Card.Body className="character-sheet-body">
           {this.props.isEditMode ? (
@@ -52,9 +53,11 @@ export default class Character extends Component {
           {!this.props.isEditMode ? (
             <Button
               variant="primary"
+              size="sm"
               disabled={this.state.loadingStatus}
               className="character-edit-button"
-              onClick={this.props.switchEditMode}>
+              onClick={this.props.switchEditMode}
+              style={{ fontSize: "1.4em", margin: "0" }}>
               {"✎"}
             </Button>
           ) : null}

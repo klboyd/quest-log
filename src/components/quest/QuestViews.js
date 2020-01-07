@@ -14,7 +14,7 @@ import HealthManager from "../../modules/HealthManager";
 const styles = {
   questContainer: {
     // margin: 0,
-    maxHeight: window.innerHeight - 56
+    maxHeight: window.innerHeight - 62.2
   },
   logSidebar: {
     maxHeight: "inherit"
@@ -80,23 +80,30 @@ export default class Quests extends Component {
         isEditMode: !this.state.isEditMode
       });
   };
-  async getAssignedQuests() {
-    this._isMounted && this.setState({ loadingStatus: true });
-    const assignedQuests = await APIManager.get(
-      `assignees?characterId=${localStorage["characterId"]}&_expand=quest`
-    );
-    this._isMounted && this.setState({ loadingStatus: false });
-    return assignedQuests.map(user => user.quest);
-  }
+  // async getAssignedQuests() {
+  //   this._isMounted && this.setState({ loadingStatus: true });
+  //   const assignedQuests = await APIManager.get(
+  //     `assignees?characterId=${localStorage["characterId"]}&_expand=quest`
+  //   );
+  //   this._isMounted && this.setState({ loadingStatus: false });
+  //   return assignedQuests.map(user => user.quest);
+  // }
   async getAllQuests() {
     return await APIManager.get(`quests?_embed=assignees&_expand=difficulty`);
   }
   setUpdatedQuests = async () => {
     this._isMounted && this.setState({ loadingStatus: true });
+    const quests = await this.getAllQuests();
+    const assignedQuests = quests.filter(quest =>
+      quest.assignees.find(
+        assignee =>
+          Number(assignee.characterId) === Number(localStorage["characterId"])
+      )
+    );
     this._isMounted &&
       this.setState({
-        assignedQuests: await this.getAssignedQuests(),
-        quests: await this.getAllQuests(),
+        quests: quests,
+        assignedQuests: assignedQuests,
         loadingStatus: false
       });
   };
@@ -113,10 +120,17 @@ export default class Quests extends Component {
         id: questId,
         isComplete: true
       });
+      const quests = await this.getAllQuests();
+      const assignedQuests = quests.filter(quest =>
+        quest.assignees.find(
+          assignee =>
+            Number(assignee.characterId) === Number(localStorage["characterId"])
+        )
+      );
       this._isMounted &&
         this.setState({
-          assignedQuests: await this.getAssignedQuests(),
-          quests: await this.getAllQuests(),
+          quests: quests,
+          assignedQuests: assignedQuests,
           loadingStatus: false
         });
       await HealthManager.onComplete(localStorage["characterId"]);
@@ -128,10 +142,17 @@ export default class Quests extends Component {
   async componentDidMount() {
     this._isMounted = true;
     await this.getCharacterDetails();
+    const quests = await this.getAllQuests();
+    const assignedQuests = quests.filter(quest =>
+      quest.assignees.find(
+        assignee =>
+          Number(assignee.characterId) === Number(localStorage["characterId"])
+      )
+    );
     this._isMounted &&
       this.setState({
-        assignedQuests: await this.getAssignedQuests(),
-        quests: await this.getAllQuests(),
+        quests: quests,
+        assignedQuests: assignedQuests,
         loadingStatus: false
       });
   }

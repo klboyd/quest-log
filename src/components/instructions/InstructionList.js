@@ -44,10 +44,19 @@ export default class InstructionList extends Component {
     return (
       <>
         <h5>Steps:</h5>
-        <ListGroup>
+        <ListGroup
+          style={{
+            borderTop: "1px solid black",
+            borderLeft: "1px solid black",
+            borderRight: "1px solid black"
+          }}>
           {this.props.instructions.length > 0
             ? this.props.instructions.map(instruction => (
                 <ListGroup.Item
+                  style={{
+                    borderBottom: "1px solid black",
+                    borderRadius: "0"
+                  }}
                   className="instruction-list-item"
                   key={instruction.id}
                   variant={instruction.isComplete ? "success" : null}>

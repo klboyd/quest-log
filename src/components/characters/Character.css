@@ -10,6 +10,7 @@
 .character-sheet-body {
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 }
 
 .character-edit-button {

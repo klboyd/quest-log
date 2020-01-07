@@ -11,7 +11,7 @@ export default class NavigationBar extends Component {
       <Container>
         <Navbar
           style={{
-            fontFamily: "Marcellus",
+            fontFamily: "Marcellus SC",
             fontSize: "1.3em",
             backgroundColor: "grey"
           }}
@@ -21,18 +21,24 @@ export default class NavigationBar extends Component {
           // variant="dark"
         >
           <Col lg={2}>
-            <Navbar.Brand href="/">Quest Log</Navbar.Brand>
+            <Navbar.Brand style={{ textShadow: "1px 1px darkgrey" }} href="/">
+              Quest Log
+            </Navbar.Brand>
           </Col>
           <Col lg={2}>
             {this.props.isLoggedIn && localStorage["characterId"] ? (
-              <Nav.Link style={{ color: "white" }} href="/quests">
+              <Nav.Link
+                style={{ color: "white", textShadow: "1px 1px black" }}
+                href="/quests">
                 Quests
               </Nav.Link>
             ) : null}
           </Col>
           <Col lg={2}>
             {this.props.isLoggedIn && localStorage["characterId"] ? (
-              <Nav.Link style={{ color: "white" }} href="/guild">
+              <Nav.Link
+                style={{ color: "white", textShadow: "1px 1px black" }}
+                href="/guild">
                 Guild
               </Nav.Link>
             ) : null}
@@ -42,7 +48,11 @@ export default class NavigationBar extends Component {
           <Col lg={2}>
             {this.props.isLoggedIn ? (
               <Nav.Link
-                style={{ color: "white", textAlign: "right" }}
+                style={{
+                  color: "white",
+                  textAlign: "right",
+                  textShadow: "1px 1px black"
+                }}
                 onClick={this.handleLogout}
                 href="/login">
                 {/* <Button onClick={this.handleLogout} variant="outline-info"> */}

@@ -8,13 +8,13 @@ import GuildRoster from "./GuildRoster";
 const styles = {
   guildContainer: {
     // margin: 0,
-    height: window.innerHeight - 56
+    height: window.innerHeight - 62.2
   },
   guildViews: {
-    height: window.innerHeight - 56
+    height: window.innerHeight - 62.2
   },
   characterDetails: {
-    height: window.innerHeight - 56
+    height: window.innerHeight - 62.2
   }
 };
 

@@ -22,24 +22,29 @@ export default class GuildRoster extends Component {
       <>
         <Card.Header>Guild Roster</Card.Header>
         <Card.Body>
-          <ListGroup>
+          <ListGroup
+            style={{
+              // border: "1px solid black",
+              // boxSizing: "border-box",
+              borderRadius: "0"
+            }}>
             {this.state.characters.map(character => (
               <ListGroup.Item
                 key={character.id}
                 style={{
-                  // background: `linear-gradient(to right, green 0%, yellowgreen ${character.health -
-                  //   0.5}%, orange ${character.health}%, red ${character.health +
-                  //   0.5}%, darkred 100%`,
-                  background: `linear-gradient(90deg, lightgrey 0%, lightgrey ${character.health *
+                  background: `linear-gradient(90deg, rgba(0, 128, 0, 0.3) 0%, rgba(0, 128, 0, 0.3) ${character.health *
                     10 -
-                    1}%, lightgrey ${character.health * 10 -
-                    0.5}%, grey ${character.health *
+                    1}%, rgba(0, 128, 0, 0.3) ${character.health * 10 -
+                    0.5}%, forestgreen ${character.health *
                     10}%, white ${character.health * 10 +
                     0.5}%, white ${character.health * 10 + 1}%, white 100%`,
                   width: "100%",
-                  fontFamily: "Marcellus"
+                  fontFamily: "Marcellus SC",
+                  boxSizing: "border-box",
+                  border: ".5px solid black",
+                  borderRadius: "0"
                 }}
-                className="character-item character-writing-title"
+                className="character-item character-writing-title roster-list-item"
                 onClick={() => {
                   console.log("clicked roster character", character.id);
                   this.props.history.push(`/guild/${character.id}`);

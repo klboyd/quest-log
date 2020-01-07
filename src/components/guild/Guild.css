@@ -48,3 +48,7 @@
 .character-item:hover {
   background-color: rgb(158, 207, 250);
 }
+
+.roster-list-item:hover {
+  background-color: rgba(0, 128, 0, 0.522) !important;
+}

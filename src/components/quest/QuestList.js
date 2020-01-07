@@ -14,22 +14,26 @@ export default class QuestList extends Component {
     return (
       <>
         <Card className="quest-list-container">
-          <Card.Header className="quest-card-header">Quest List</Card.Header>
+          <Card.Header className="quest-card-header">Quests</Card.Header>
           <Card.Body className="quest-list-body">
-            {this.props.quests.map(quest => {
-              return (
-                !quest.isComplete && (
-                  <div key={quest.id} className={`quest-card-item`}>
-                    <Link
-                      className="quest-card-link"
-                      key={quest.id}
-                      to={`/quests/${quest.id}`}>
-                      <QuestCard quest={quest} />
-                    </Link>
-                  </div>
-                )
-              );
-            })}
+            {this.props.quests
+              .sort((a, b) => {
+                return new Date(a.completionDate) - new Date(b.completionDate);
+              })
+              .map(quest => {
+                return (
+                  !quest.isComplete && (
+                    <div key={quest.id} className={`quest-card-item`}>
+                      <Link
+                        className="quest-card-link"
+                        key={quest.id}
+                        to={`/quests/${quest.id}`}>
+                        <QuestCard quest={quest} />
+                      </Link>
+                    </div>
+                  )
+                );
+              })}
           </Card.Body>
         </Card>
         <ActionBar />
