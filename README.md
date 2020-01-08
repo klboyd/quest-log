@@ -21,7 +21,7 @@ Install all dependencies needed to run Quest Log. Run `npm install` inside the n
 
 Copy the `database.json.example` file to `database.json`.
 
-## Start the app
+# Start the app
 
 Inside the project root directory, run `json-server -p 5002 api/database.json` in your terminal.
 
