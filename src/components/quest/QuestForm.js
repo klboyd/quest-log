@@ -86,10 +86,10 @@ export default class QuestForm extends Component {
         }
       );
       switchedFirstStepInstructions[0].isFirstStep = true;
-      console.log(
-        "switchedFirstStepInstructions",
-        switchedFirstStepInstructions
-      );
+      // console.log(
+      //   "switchedFirstStepInstructions",
+      //   switchedFirstStepInstructions
+      // );
 
       this.setState({
         instructions: switchedFirstStepInstructions,
@@ -103,11 +103,11 @@ export default class QuestForm extends Component {
     }
   };
   addNewInstructions = async questId => {
-    console.log("starting addNewInstructions");
+    // console.log("starting addNewInstructions");
     const reversedInstructions = this.state.instructions.reverse();
     let nextId = null;
     for (const instruction of reversedInstructions) {
-      console.log("\n\n\nnextId", nextId);
+      // console.log("\n\n\nnextId", nextId);
       const response = await APIManager.post("instructions", {
         questId: questId,
         stepId: instruction.id,

@@ -15,7 +15,7 @@ class QuestLog extends Component {
     this.setLoggedInStatus();
   }
   render() {
-    console.log("questLog state", this.state);
+    // console.log("questLog state", this.state);
     return (
       <React.Fragment>
         <NavigationBar

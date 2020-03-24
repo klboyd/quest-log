@@ -31,7 +31,7 @@ export default class AssigneeForm extends Component {
   }
   handleAssignCharacter = async id => {
     this._isMounted && this.setState({ loadingStatus: true });
-    console.log("handleAssignCharacter", id);
+    // console.log("handleAssignCharacter", id);
     await this.props.handleAssignQuest(id);
 
     await this.setEligibleCharacters();
@@ -40,15 +40,15 @@ export default class AssigneeForm extends Component {
   async componentDidMount() {
     this._isMounted = true;
     await this.setEligibleCharacters();
-    console.log("assigneeForm state", this.state);
-    console.log("assigneeForm props", this.props);
+    // console.log("assigneeForm state", this.state);
+    // console.log("assigneeForm props", this.props);
   }
   componentWillUnmount() {
     this._isMounted = false;
   }
   render() {
-    console.log("assigneeForm state", this.state);
-    console.log("assigneeForm props", this.props);
+    // console.log("assigneeForm state", this.state);
+    // console.log("assigneeForm props", this.props);
     return (
       <DropdownButton
         disabled={this.state.eligibleCharacters.length === 0}

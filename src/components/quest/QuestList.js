@@ -7,10 +7,10 @@ import "./Quests.css";
 
 export default class QuestList extends Component {
   componentWillUnmount() {
-    console.log("questList unmounted");
+    // console.log("questList unmounted");
   }
   render() {
-    console.log("questList props", this.props);
+    // console.log("questList props", this.props);
     return (
       <>
         <Card className="quest-list-container">

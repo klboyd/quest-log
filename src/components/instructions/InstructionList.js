@@ -21,7 +21,7 @@ export default class InstructionList extends Component {
       `instructions?questId=${this.props.questId}&_expand=step`
     );
     const orderedSteps = [steps.find(step => step.isFirstStep)];
-    console.log("orderedSteps", orderedSteps[0]);
+    // console.log("orderedSteps", orderedSteps[0]);
     if (orderedSteps[0] !== undefined) {
       for (
         let i = 1, nextStep = orderedSteps[i - 1].nextInstructionId;
@@ -38,7 +38,7 @@ export default class InstructionList extends Component {
 
     await this.getOrderedSteps();
     this.setState({ loadingStatus: false });
-    console.log("instructionList", this.props);
+    // console.log("instructionList", this.props);
   }
   render() {
     return (

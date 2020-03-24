@@ -12,8 +12,8 @@ export default class Character extends Component {
     this.setState({ loadingStatus: false });
   }
   render() {
-    console.log("character state", this.state);
-    console.log("character props", this.props);
+    // console.log("character state", this.state);
+    // console.log("character props", this.props);
     return (
       <Card className="char-sheet-container">
         <Card.Header className="character-sheet-header">

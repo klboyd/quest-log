@@ -16,7 +16,7 @@ export default class AssigneesList extends Component {
     this.setState({ loadingStatus: false });
   }
   render() {
-    console.log("assigneeList", this.props);
+    // console.log("assigneeList", this.props);
     return (
       <>
         <h5>Assigned to:</h5>
