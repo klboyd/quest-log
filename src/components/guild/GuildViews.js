@@ -28,8 +28,8 @@ export default class GuildViews extends Component {
     });
   }
   render() {
-    console.log("guildViews state", this.state);
-    console.log("guildViews props", this.props);
+    // console.log("guildViews state", this.state);
+    // console.log("guildViews props", this.props);
     return (
       <Container>
         <Row style={styles.guildContainer} className="guild-container">

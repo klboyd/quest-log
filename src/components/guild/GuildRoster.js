@@ -46,7 +46,7 @@ export default class GuildRoster extends Component {
                 }}
                 className="character-item character-writing-title roster-list-item"
                 onClick={() => {
-                  console.log("clicked roster character", character.id);
+                  // console.log("clicked roster character", character.id);
                   this.props.history.push(`/guild/${character.id}`);
                 }}>
                 {character.name}

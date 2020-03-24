@@ -32,7 +32,7 @@ export default class Login extends Component {
     }
   };
   render() {
-    console.log("login", this.state);
+    // console.log("login", this.state);
     return (
       <Form
         style={{

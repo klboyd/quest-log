@@ -8,7 +8,7 @@ import GameOver from "./characters/GameOver";
 
 export default class ApplicationViews extends Component {
   render() {
-    console.log("applicationViews props", this.props);
+    // console.log("applicationViews props", this.props);
     return (
       <>
         <Route

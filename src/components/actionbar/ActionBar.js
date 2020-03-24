@@ -14,7 +14,7 @@ class ActionBar extends Component {
     this.setState({ loadingStatus: false });
   }
   render() {
-    console.log("actionBar props", this.props);
+    // console.log("actionBar props", this.props);
     return (
       <Card.Footer className="fixed-bottom actionbar-container">
         <Container>

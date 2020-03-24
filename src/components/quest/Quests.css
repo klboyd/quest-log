@@ -28,6 +28,7 @@
 
 .quest-list-container, .quest-details-container, .quest-form-container {
   height: 100%;
+  overflow: scroll;
 }
 
 .quest-details-body, .quest-list-body, .quest-form-body {

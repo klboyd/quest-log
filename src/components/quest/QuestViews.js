@@ -38,7 +38,7 @@ export default class Quests extends Component {
     const results = await APIManager.get(
       `users/${localStorage["userId"]}?_expand=character`
     );
-    console.log("CHARACTER", results);
+    // console.log("CHARACTER", results);
     if (results.character && results.character.health > 0) {
       localStorage.setItem("characterId", results.character.id);
       this._isMounted &&
@@ -160,8 +160,8 @@ export default class Quests extends Component {
     this._isMounted = false;
   }
   render() {
-    console.log("questViews state", this.state);
-    console.log("questViews props", this.props);
+    // console.log("questViews state", this.state);
+    // console.log("questViews props", this.props);
     return (
       <Container>
         <Row style={styles.questContainer} className="quest-container">

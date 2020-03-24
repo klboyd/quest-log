@@ -43,7 +43,7 @@ export default class QuestDetail extends Component {
     await this.props.setUpdatedQuests();
   };
   handleAssignQuest = async id => {
-    console.log("handleAssignQuest", id);
+    // console.log("handleAssignQuest", id);
     await APIManager.post("assignees", {
       characterId: Number(id),
       questId: Number(this.props.questId),
@@ -126,11 +126,11 @@ export default class QuestDetail extends Component {
   }
   componentWillUnmount() {
     this._isMounted = false;
-    console.log("questDetails unmounted");
+    // console.log("questDetails unmounted");
   }
   render() {
-    console.log("questDetail state", this.state);
-    console.log("questDetail props", this.props);
+    // console.log("questDetail state", this.state);
+    // console.log("questDetail props", this.props);
 
     return (
       <>

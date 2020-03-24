@@ -15,7 +15,7 @@ export default class GameOver extends Component {
     const assignee = await APIManager.get(
       `assignees/?characterId=${user.characterId}&_expand=quest`
     );
-    console.log("assignee info", assignee);
+    // console.log("assignee info", assignee);
     for (const item of assignee) {
       if (!item.quest.isComplete) {
         await APIManager.delete(`assignees/${item.id}`);

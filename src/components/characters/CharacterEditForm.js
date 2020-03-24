@@ -20,7 +20,7 @@ export default class CharacterEditForm extends Component {
     this.setState(stateToChange);
   };
   render() {
-    console.log("characterEditForm", this.props);
+    // console.log("characterEditForm", this.props);
     return (
       <>
         <Form.Control

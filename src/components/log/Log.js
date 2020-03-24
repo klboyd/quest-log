@@ -12,8 +12,8 @@ export default class Log extends Component {
     });
   }
   render() {
-    console.log("log state", this.state);
-    console.log("log props", this.props);
+    // console.log("log state", this.state);
+    // console.log("log props", this.props);
     return (
       <Card className="log-display">
         <Card.Header>Log</Card.Header>

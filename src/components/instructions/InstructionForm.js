@@ -25,7 +25,7 @@ export default class InstructionForm extends Component {
   handleTypeaheadSelection = step => {
     const stateToChange = {};
     if (step[0]) {
-      console.log(step[0]);
+      // console.log(step[0]);
       stateToChange["newName"] = "";
       stateToChange["typeaheadStep"] = step[0];
       this.setState(stateToChange);
@@ -63,22 +63,22 @@ export default class InstructionForm extends Component {
     this.refs["typeahead-steps"].getInstance().clear();
   };
   onDragStart = (evt, index) => {
-    console.log("onDragStart:", index);
+    // console.log("onDragStart:", index);
     evt.dataTransfer.setData("index", index);
   };
   onDragOver = evt => {
     evt.preventDefault();
-    // console.log(evt.target ? evt.target : null);
+    // // console.log(evt.target ? evt.target : null);
   };
   onDrop = (evt, position) => {
     this.setState({ loadingStatus: true });
     const index = evt.dataTransfer.getData("index");
-    console.log("onDrop index", index);
-    console.log("onDrop position", position);
+    // console.log("onDrop index", index);
+    // console.log("onDrop position", position);
     if (index !== position) {
       const rearrangedSteps = this.props.instructions;
       rearrangedSteps.splice(position, 0, rearrangedSteps.splice(index, 1)[0]);
-      console.log(rearrangedSteps);
+      // console.log(rearrangedSteps);
       this.props.setInstructions(rearrangedSteps);
     }
     this.setState({ loadingStatus: false });
@@ -91,7 +91,7 @@ export default class InstructionForm extends Component {
     });
   }
   render() {
-    console.log("instructionForm", this.props);
+    // console.log("instructionForm", this.props);
     return (
       <Form.Group>
         <Form.Label>Steps</Form.Label>

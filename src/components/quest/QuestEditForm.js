@@ -81,17 +81,17 @@ export default class QuestEditForm extends Component {
         }
       );
       switchedFirstStepInstructions[0].isFirstStep = true;
-      console.log(
-        "switchedFirstStepInstructions",
-        switchedFirstStepInstructions
-      );
+      // console.log(
+      //   "switchedFirstStepInstructions",
+      //   switchedFirstStepInstructions
+      // );
 
       this.setState({
         instructions: switchedFirstStepInstructions,
         loadingStatus: false
       });
     } else {
-      console.log("editedInstructions", editedInstructions);
+      // console.log("editedInstructions", editedInstructions);
       this.setState({
         instructions: editedInstructions,
         loadingStatus: false
@@ -102,18 +102,18 @@ export default class QuestEditForm extends Component {
     const oldInstructions = await APIManager.get(
       `instructions?questId=${this.props.questId}`
     );
-    console.log("starting delete instructions", oldInstructions);
+    // console.log("starting delete instructions", oldInstructions);
     for (const instruction of oldInstructions) {
       await APIManager.delete(`instructions/${instruction.id}`);
     }
-    console.log("completed delete instructions");
+    // console.log("completed delete instructions");
   };
   addNewInstructions = async () => {
-    console.log("starting addNewInstructions");
+    // console.log("starting addNewInstructions");
     const reversedInstructions = this.state.instructions.reverse();
     let nextId = null;
     for (const instruction of reversedInstructions) {
-      console.log("\n\n\nnextId", nextId);
+      // console.log("\n\n\nnextId", nextId);
       const response = await APIManager.post("instructions", {
         questId: this.props.questId,
         stepId: instruction.id,
@@ -176,8 +176,8 @@ export default class QuestEditForm extends Component {
     });
   }
   render() {
-    console.log("questEditForm state", this.state);
-    console.log("questEditForm props", this.props);
+    // console.log("questEditForm state", this.state);
+    // console.log("questEditForm props", this.props);
     return (
       <>
         <Card className="quest-form-container">

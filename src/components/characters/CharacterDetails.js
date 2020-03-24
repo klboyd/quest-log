@@ -48,8 +48,8 @@ export default class CharacterDetails extends Component {
     await this.getCharacterDetails();
   }
   render() {
-    console.log("characterDetails state", this.state);
-    console.log("characterDetails props", this.props);
+    // console.log("characterDetails state", this.state);
+    // console.log("characterDetails props", this.props);
     return (
       <>
         <Card.Header>Character Details</Card.Header>
